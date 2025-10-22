@@ -1,0 +1,10 @@
+server:
+  addr: ":8080"
+  cors: ["*"]
+providers:
+  default: "openai"
+  openai:
+    type: "openai"
+    base_url: "https://api.openai.com"
+    api_key: "${OPENAI_API_KEY}"
+    model: "gpt-4o-mini"
