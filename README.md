@@ -24,7 +24,7 @@ A lightweight chat system exposing an OpenAI-compatible API to orchestrate reaso
 
 Features
 
-API: /api/v1/chat/completions
+API: Plug in your own API
 
 Pluggable backends (OpenAI, local LLMs, hosted models)
 
