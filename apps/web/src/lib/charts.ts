@@ -1,0 +1,1 @@
+export function extractChartBlocks(text:string){ const blocks:{type:'echarts'|'mermaid';code:string}[]=[]; const re=/```(echarts|mermaid)\s*([\s\S]*?)```/g; let m; while((m=re.exec(text))) blocks.push({type:m[1] as any, code:m[2].trim()}); return blocks;}

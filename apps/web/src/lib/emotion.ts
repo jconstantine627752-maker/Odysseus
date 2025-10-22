@@ -1,0 +1,1 @@
+export function inferEmotion(s:string):'neutral'|'happy'|'sad'|'surprised'|'thinking'{ const t=s.toLowerCase(); if(/\b(thank|great|awesome|love|glad)\b/.test(t)) return 'happy'; if(/\b(sad|unfortunately|sorry)\b/.test(t)) return 'sad'; if(/\b(wow|amazing|unbelievable)\b/.test(t)) return 'surprised'; if(/\b(think|consider|let me)\b/.test(t)) return 'thinking'; return 'neutral'; }
