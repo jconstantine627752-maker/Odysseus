@@ -1,0 +1,28 @@
+services:
+- type: web
+  name: lunar-api
+  env: docker
+  rootDir: apps/api
+  dockerfilePath: ./Dockerfile
+  envVars:
+  - key: OPENAI_API_KEY
+    sync: false
+
+- type: web
+  name: lunar-web
+  env: node
+  rootDir: apps/web
+  buildCommand: npm ci && npm run build
+  startCommand: npm run preview -- --host 0.0.0.0
+  envVars:
+  - key: VITE_API_BASE
+    fromService:
+      name: lunar-api
+      type: web
+      property: url
+
+- type: web
+  name: lunar-bot
+  env: docker
+  rootDir: apps/bot
+  dockerfilePath: ./Dockerfile
