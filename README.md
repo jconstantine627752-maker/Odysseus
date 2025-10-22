@@ -30,14 +30,14 @@ Pluggable backends (OpenAI, local LLMs, hosted models)
 
 Can call internal trade microservices (Solana / BNB)
 
-Optional frontend UI at http://localhost:5173
+Optional frontend UI at http://ur choice
 
 Quick Start
 
 cp .env.example .env
 docker compose up --build
-# Web UI: http://localhost:5173
-# API:    http://localhost:8080/health
+# Web UI:
+# API:  
 
 🪙 2. Odysseus Solana Bot
 
