@@ -52,11 +52,11 @@ graph TB
 - Options trading and complex derivatives strategies
 - Cross-chain portfolio rebalancing
 
-**Odin X402 Integration** – Next-gen blockchain protocol interface
-- Native X402 protocol integration with Chain ID 402
-- Cross-chain bridge operations to 15+ networks
-- Built-in MEV protection and oracle aggregation
-- Smart contract security analysis and liquidity monitoring
+**Odin X402 Integration** – Coinbase's HTTP 402 payment protocol
+- HTTP 402 "Payment Required" status code implementation
+- USDC micropayments on Ethereum, Polygon, Base, and Arbitrum
+- AI agent autonomous payment processing
+- Pay-per-use API billing and service monetization
 
 **Legacy Modules** – Battle-tested trading systems
 - Solana Bot for Pump.fun token strategies
@@ -65,39 +65,40 @@ graph TB
 
 ## What is X402 Integration?
 
-**X402** (Chain ID: 402) is a revolutionary blockchain protocol designed specifically for advanced DeFi operations. Unlike traditional blockchains, X402 provides native infrastructure for professional trading:
+**X402** is Coinbase's open-source payment protocol that uses the HTTP 402 "Payment Required" status code to enable programmatic payments. It allows AI agents and automated systems to pay for web services using stablecoins:
 
 ```mermaid
-graph LR
-    subgraph "X402 Protocol Features"
-        MEV[MEV Protection Layer<br/>Anti-Front-Running<br/>Fair Ordering]
-        BRIDGE[Universal Bridge Network<br/>15+ Chains<br/>Sub-second Transfers]
-        ORACLE[Integrated Oracle System<br/>Real-time Feeds<br/>Multi-source Data]
-        INTEL[Smart Contract Intelligence<br/>Security Assessment<br/>Risk Scoring]
-        INFRA[High-Performance Infrastructure<br/>1000+ TPS<br/>Gas Optimization]
+graph TD
+    subgraph "X402 Payment Flow"
+        CLIENT[AI Agent/Client<br/>Requests Service]
+        SERVER[Odin Server<br/>HTTP 402 Response]
+        PAYMENT[USDC Payment<br/>On-Chain Transaction]
+        VERIFY[Payment Verification<br/>Blockchain Proof]
+        SERVICE[Protected Service<br/>Data/API Access]
     end
     
-    MEV --> BRIDGE
-    BRIDGE --> ORACLE  
-    ORACLE --> INTEL
-    INTEL --> INFRA
+    CLIENT -->|1. GET /api/premium-data| SERVER
+    SERVER -->|2. 402 Payment Required| CLIENT
+    CLIENT -->|3. Send USDC Payment| PAYMENT
+    PAYMENT -->|4. Transaction Hash| VERIFY
+    VERIFY -->|5. Proof Valid| SERVICE
+    SERVICE -->|6. Service Delivered| CLIENT
     
-    style MEV fill:#ffebee
-    style BRIDGE fill:#e8f5e8
-    style ORACLE fill:#e3f2fd
-    style INTEL fill:#fff3e0
-    style INFRA fill:#f3e5f5
+    style CLIENT fill:#e1f5fe
+    style SERVER fill:#fff3e0
+    style PAYMENT fill:#e8f5e8
+    style VERIFY fill:#f3e5f5
 ```
 
-### MEV Protection Layer
-- Built-in protection against front-running and sandwich attacks
-- Fair ordering mechanisms for all transactions
-- Trader-first design philosophy
+### HTTP 402 Payment Required
+- Uses standard HTTP status code for payment requests
+- Seamless integration with existing web infrastructure
+- No complex payment processor integrations needed
 
-### Universal Bridge Network
-- Native bridges to 15+ major blockchains (Ethereum, Polygon, BSC, Arbitrum, etc.)
-- Sub-second cross-chain transfers with minimal fees
-- Automated liquidity routing across networks
+### USDC Stablecoin Payments
+- Direct payments on Ethereum, Polygon, Base, and Arbitrum networks
+- Automatic blockchain transaction verification
+- No intermediaries - payments go directly to recipients
 
 ### Integrated Oracle System
 - Decentralized price feeds with sub-second updates

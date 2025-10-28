@@ -7,9 +7,8 @@ import { x402Router } from './routes/x402';
 import { zeusRouter } from './routes/zeus';
 import { riskRouter } from './routes/risk';
 import { healthRouter } from './routes/health';
-import { demoRouter } from './routes/demo';
 import { OdinConfig } from './config/config';
-import { initializeX402Provider } from './providers/x402';
+import { paymentService } from './services/x402';
 // import { initializeRedis } from './utils/cache';
 // import { startBackgroundServices } from './services/background';
 
@@ -67,7 +66,6 @@ class OdinServer {
         this.app.use('/x402', x402Router);
         this.app.use('/zeus', zeusRouter);
         this.app.use('/risk', riskRouter);
-        this.app.use('/demo', demoRouter);
 
         // Demo UI route
         this.app.get('/', (req, res) => {
@@ -85,8 +83,7 @@ class OdinServer {
                     health: '/health',
                     x402: '/x402',
                     zeus: '/zeus',
-                    risk: '/risk',
-                    demo: '/demo'
+                    risk: '/risk'
                 }
             });
         });
@@ -118,9 +115,9 @@ class OdinServer {
             // await initializeRedis();
             logger.info('✓ Redis cache initialized (simulated)');
 
-            // Initialize X402 provider
-            await initializeX402Provider();
-            logger.info('✓ X402 provider initialized');
+            // Initialize X402 payment service
+            this.app.locals.paymentService = paymentService;
+            logger.info('✓ X402 payment service initialized');
 
             // Start background services (commented out for demo)
             // await startBackgroundServices();

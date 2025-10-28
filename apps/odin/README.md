@@ -4,41 +4,41 @@
 
 ```mermaid
 graph TD
-    subgraph "Odin X402 Architecture"
-        X402[X402 Protocol<br/>Chain ID: 402]
-        BRIDGE[Cross-Chain Bridge<br/>Multi-Network Support]
-        ORACLE[Oracle Aggregation<br/>Sub-second Updates]
-        MEV[MEV Protection<br/>Anti-Front-running]
-        ZEUS[Zeus Trading Engine<br/>Advanced Strategies]
+    subgraph "X402 Payment Flow"
+        CLIENT[AI Agent/Client<br/>Requests Resource]
+        SERVER[Odin Server<br/>HTTP 402 Response]
+        PAYMENT[USDC Payment<br/>On-Chain Transaction]
+        VERIFY[Payment Verification<br/>Blockchain Proof]
+        RESOURCE[Protected Resource<br/>API/Data Access]
     end
     
-    X402 --> BRIDGE
-    X402 --> ORACLE
-    X402 --> MEV
-    BRIDGE --> ZEUS
-    ORACLE --> ZEUS
-    MEV --> ZEUS
+    CLIENT -->|1. GET /api/premium-data| SERVER
+    SERVER -->|2. 402 Payment Required| CLIENT
+    CLIENT -->|3. Send USDC Payment| PAYMENT
+    PAYMENT -->|4. Transaction Hash| VERIFY
+    VERIFY -->|5. Proof Valid| RESOURCE
+    RESOURCE -->|6. Data Delivered| CLIENT
     
-    style X402 fill:#1e3a8a
-    style ZEUS fill:#dc2626
-    style MEV fill:#059669
-    style ORACLE fill:#ea580c
+    style CLIENT fill:#1e3a8a
+    style SERVER fill:#dc2626
+    style PAYMENT fill:#059669
+    style VERIFY fill:#ea580c
 ```
 
 ## What is X402 Integration?
 
-**X402** is a next-generation blockchain protocol (Chain ID: 402) designed for high-performance DeFi operations with built-in MEV protection and cross-chain interoperability. The Odin module provides comprehensive integration with the X402 ecosystem:
+**X402** is Coinbase's open-source, internet-native payment protocol that uses the dormant **HTTP 402 "Payment Required"** status code to enable programmatic and automatic payments. The Odin module provides comprehensive integration with the X402 payment protocol for AI agents and automated systems.
 
 ### X402 Protocol Features:
-- **Cross-Chain Bridge Network**: Native bridges to Ethereum, Polygon, BSC, Arbitrum, and more
-- **Built-in Oracle Aggregation**: Decentralized price feeds with sub-second updates  
-- **MEV Protection Layer**: Advanced protection against front-running and sandwich attacks
-- **Liquidity Mining Pools**: High-yield farming opportunities with X402 native tokens
-- **Smart Contract Auditing**: Automated security assessment for X402-deployed protocols
-- **Gas Optimization**: Intelligent transaction batching and gas price optimization
+- **HTTP 402 Payment Required**: Uses standard HTTP status code for payment requests
+- **Stablecoin Payments**: Direct USDC payments on Ethereum, Polygon, Base, and Arbitrum
+- **Machine-to-Machine Payments**: AI agents can autonomously pay for services
+- **Pay-per-Use Billing**: Micropayments for API calls, data access, and digital content
+- **Blockchain Verification**: On-chain transaction verification for payment proof
+- **No Intermediaries**: Direct payments to recipient wallets without third parties
 
 ### Why X402?
-X402 represents the evolution of DeFi infrastructure, combining the security of Ethereum with the speed of modern Layer-2 solutions while introducing novel MEV protection mechanisms that make it ideal for automated trading strategies.
+X402 enables a modern economy of machine-to-machine payments where AI agents can autonomously pay for web services using stablecoins directly within the web request flow, bypassing traditional payment processors and complex setups.
 
 ## Meet the Odysseus Ecosystem
 
@@ -84,62 +84,62 @@ Your conversational AI trading assistant that speaks to you in natural language,
 
 ```mermaid
 graph TD
-    subgraph "Core X402 Capabilities"
-        BRIDGE[Cross-Chain Bridge<br/>Multi-Network Transfers]
-        ORACLE[Oracle Integration<br/>Real-time Price Feeds]
-        MEV[MEV Protection<br/>Anti-Front-running]
-        ARB[Arbitrage Engine<br/>Cross-exchange Opportunities]
-        LIQ[Liquidity Analysis<br/>Deep Pool Scanning]
-        AUDIT[Smart Contract Auditing<br/>Security Assessment]
+    subgraph "X402 Use Cases"
+        API[API Services<br/>Pay per Request]
+        AI[AI Agent Payments<br/>Autonomous Access]
+        CONTENT[Digital Content<br/>Paywalls & Access]
+        MICRO[Microservices<br/>Usage-based Billing]
+        PROXY[Proxy Services<br/>API Aggregation]
     end
     
-    subgraph "Zeus Trading Strategies"
-        DELTA[Delta-Neutral<br/>Market-Neutral Positions]
-        YIELD[Yield Farming<br/>LP Optimization]
-        FLASH[Flash Loan Arbitrage<br/>Zero-Capital Trades]
-        OPTIONS[Options Strategies<br/>Automated Trading]
-        CROSS[Cross-Chain Arbitrage<br/>Price Differences]
-        PROTECTED[MEV-Protected Trading<br/>Front-run Protection]
+    subgraph "Payment Networks"
+        ETH[Ethereum<br/>USDC Payments]
+        POLY[Polygon<br/>Low Cost Transfers]
+        BASE[Base<br/>Fast Settlement]
+        ARB[Arbitrum<br/>L2 Efficiency]
     end
     
-    subgraph "Risk Management"
-        PORTFOLIO[Portfolio Diversification<br/>Risk Distribution]
-        STOPS[Stop-Loss & Take-Profit<br/>Order Management]
-        SLIPPAGE[Slippage Protection<br/>Dynamic Adjustment]
-        GAS[Gas Optimization<br/>Intelligent Pricing]
+    subgraph "Odin Services"
+        PREMIUM[Premium Data<br/>$0.10 per call]
+        ANALYSIS[AI Analysis<br/>$0.25 per request]
+        ALERTS[Price Alerts<br/>$0.05 per setup]
+        MEV[MEV Protection<br/>$0.15 per analysis]
     end
     
-    BRIDGE --> CROSS
-    ORACLE --> ARB
-    MEV --> PROTECTED
-    ARB --> FLASH
+    API --> PREMIUM
+    AI --> ANALYSIS
+    CONTENT --> ALERTS
+    MICRO --> MEV
     
-    style BRIDGE fill:#e1f5fe
-    style ZEUS fill:#fff3e0
-    style PROTECTED fill:#e8f5e8
+    ETH --> PREMIUM
+    BASE --> ANALYSIS
+    POLY --> ALERTS
+    ARB --> MEV
+    
+    style API fill:#e1f5fe
+    style AI fill:#fff3e0
+    style PREMIUM fill:#e8f5e8
 ```
 
-### Core X402 Capabilities
-- **Cross-Chain Bridge Operations** - Seamless asset transfers across multiple chains
-- **Oracle Integration** - Real-time price feeds and data aggregation
-- **MEV Protection** - Anti-front-running and sandwich attack mitigation
-- **Arbitrage Engine** - Cross-exchange and cross-chain arbitrage opportunities
-- **Liquidity Analysis** - Deep liquidity scanning and pool analysis
-- **Smart Contract Auditing** - Automated security assessment for X402 protocols
+### Core X402 Use Cases
+- **Pay-per-API-Call** - Premium market data at $0.10 per request
+- **AI Agent Services** - Automated market analysis at $0.25 per analysis
+- **Real-time Alerts** - Price monitoring setup at $0.05 per alert
+- **MEV Protection Analysis** - Transaction security at $0.15 per analysis
+- **Cross-chain Rate Data** - Bridge information at $0.02 per request
+- **Micropayment Processing** - Automatic USDC verification and settlement
 
-### Zeus Trading Strategies
-- **Delta-Neutral Strategies** - Market-neutral positions with X402 derivatives
-- **Yield Farming Optimization** - Automated LP position management
-- **Flash Loan Arbitrage** - Zero-capital arbitrage opportunities
-- **Options Strategies** - Automated options trading with X402 protocols
-- **Cross-Chain Arbitrage** - Exploit price differences across X402 bridges
-- **MEV-Protected Trading** - Advanced protection against front-running attacks
+### Supported Networks
+- **Ethereum** - High security, established ecosystem, higher fees
+- **Polygon** - Low cost transactions, fast confirmation times
+- **Base** - Coinbase L2, optimized for payments, recommended default
+- **Arbitrum** - Efficient L2 scaling, good for larger payments
 
-### Risk Management
-- **Portfolio Diversification** - Automated risk distribution across X402 assets
-- **Stop-Loss & Take-Profit** - Advanced order management
-- **Slippage Protection** - Dynamic slippage adjustment
-- **Gas Optimization** - Intelligent gas price management
+### Payment Features
+- **Automatic Verification** - On-chain transaction proof validation
+- **Flexible Expiration** - Configurable payment timeouts (default 10 minutes)
+- **Multi-Network Support** - Choose optimal network for your use case
+- **Direct Settlement** - Payments go directly to recipient wallet
 
 ## Quick Start
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Odysseus X402 Protocol Demo</title>
+    <title>Odin X402 Payment Protocol Demo</title>
     <style>
         * {
             margin: 0;
@@ -16,17 +16,17 @@
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: #e2e8f0;
             min-height: 100vh;
+            padding: 20px;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         .header h1 {
@@ -40,15 +40,84 @@
             font-size: 1.1rem;
         }
 
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
         }
 
-        .btn {
-            padding: 12px 24px;
+        .service-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            border-color: #60a5fa;
+            transform: translateY(-5px);
+        }
+
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .service-title {
+            color: #60a5fa;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .service-price {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .service-price.free {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+        }
+
+        .service-description {
+            color: #94a3b8;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .service-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .service-features li {
+            color: #e2e8f0;
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .service-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .try-button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
             border: none;
             border-radius: 8px;
             font-size: 1rem;
@@ -57,143 +126,91 @@
             font-weight: 600;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
-        }
-
-        .btn-tertiary {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-        }
-
-        .btn:hover {
+        .try-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
         }
 
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .card {
+        .response-area {
             background: rgba(30, 41, 59, 0.8);
             border: 1px solid #334155;
             border-radius: 12px;
-            padding: 20px;
-            backdrop-filter: blur(10px);
+            padding: 25px;
+            margin-top: 30px;
         }
 
-        .card h3 {
+        .response-title {
             color: #60a5fa;
-            margin-bottom: 15px;
             font-size: 1.2rem;
+            margin-bottom: 15px;
         }
 
-        .metric {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .metric-label {
-            color: #94a3b8;
-        }
-
-        .metric-value {
-            color: #e2e8f0;
-            font-weight: 600;
-        }
-
-        .metric-value.positive {
-            color: #10b981;
-        }
-
-        .metric-value.negative {
-            color: #ef4444;
-        }
-
-        .activity-feed {
-            height: 300px;
+        .response-content {
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 8px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            max-height: 400px;
             overflow-y: auto;
+        }
+
+        .payment-required {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .payment-details {
             background: rgba(15, 23, 42, 0.5);
             border-radius: 8px;
             padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 0.9rem;
         }
 
-        .activity-item {
-            padding: 10px;
-            border-left: 3px solid #3b82f6;
-            margin-bottom: 10px;
-            background: rgba(30, 41, 59, 0.3);
-            border-radius: 0 6px 6px 0;
+        .payment-field {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
         }
 
-        .activity-item.success {
-            border-left-color: #10b981;
+        .payment-label {
+            color: #94a3b8;
         }
 
-        .activity-item.failed {
-            border-left-color: #ef4444;
+        .payment-value {
+            color: #e2e8f0;
         }
 
-        .activity-item.bridge {
-            border-left-color: #8b5cf6;
-        }
-
-        .activity-timestamp {
+        .copy-button {
+            background: #374151;
+            color: #e2e8f0;
+            border: none;
+            padding: 2px 6px;
+            border-radius: 3px;
+            cursor: pointer;
             font-size: 0.8rem;
-            color: #64748b;
+            margin-left: 8px;
         }
 
-        .status-indicator {
+        .network-badge {
             display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 8px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 8px;
         }
 
-        .status-online {
-            background: #10b981;
-        }
-
-        .status-offline {
-            background: #ef4444;
-        }
-
-        .opportunities-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-        }
-
-        .opportunity-card {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid #10b981;
-            border-radius: 8px;
-            padding: 15px;
-        }
-
-        .profit-highlight {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #10b981;
-        }
+        .network-base { background: #0052ff; color: white; }
+        .network-ethereum { background: #627eea; color: white; }
+        .network-polygon { background: #8247e5; color: white; }
+        .network-arbitrum { background: #2d374b; color: white; }
 
         @keyframes pulse {
             0%, 100% { opacity: 1; }
@@ -203,293 +220,334 @@
         .loading {
             animation: pulse 2s infinite;
         }
+
+        .info-section {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-section h3 {
+            color: #60a5fa;
+            margin-bottom: 10px;
+        }
+
+        .info-section p {
+            color: #94a3b8;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔱 Odysseus X402 Protocol Demo</h1>
-            <p>Live simulation of X402 cross-chain trading and arbitrage</p>
+            <h1>🔱 Odin X402 Payment Protocol</h1>
+            <p>Coinbase's HTTP 402 Payment Required protocol for pay-per-use API services</p>
         </div>
 
-        <div class="controls">
-            <button id="startBtn" class="btn btn-primary">Start Demo</button>
-            <button id="stopBtn" class="btn btn-secondary" disabled>Stop Demo</button>
-            <button id="resetBtn" class="btn btn-tertiary">Reset</button>
+        <div class="info-section">
+            <h3>How X402 Works</h3>
+            <p>
+                X402 uses the HTTP 402 "Payment Required" status code to enable automatic payments. 
+                When you request a paid service, the server responds with payment details. 
+                Send USDC to the specified address, then retry your request with the transaction hash 
+                for automatic verification and service delivery.
+            </p>
         </div>
 
-        <div class="dashboard">
-            <div class="card">
-                <h3>📊 Portfolio Status</h3>
-                <div class="metric">
-                    <span class="metric-label">Status:</span>
-                    <span id="demoStatus" class="metric-value">
-                        <span class="status-indicator status-offline"></span>Offline
-                    </span>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-title">Premium Market Data</div>
+                    <div class="service-price">$0.10 USDC</div>
                 </div>
-                <div class="metric">
-                    <span class="metric-label">Total Value:</span>
-                    <span id="portfolioValue" class="metric-value">$100,000.00</span>
+                <div class="service-description">
+                    Access premium market data including institutional flow, MEV risk analysis, and advanced arbitrage opportunities.
                 </div>
-                <div class="metric">
-                    <span class="metric-label">Total Profit:</span>
-                    <span id="totalProfit" class="metric-value">$0.00</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">ROI:</span>
-                    <span id="roi" class="metric-value">0.00%</span>
-                </div>
+                <ul class="service-features">
+                    <li>Real-time BTC/ETH premium data</li>
+                    <li>Arbitrage opportunity detection</li>
+                    <li>Institutional flow analysis</li>
+                    <li>MEV risk assessment</li>
+                    <li>Sub-second data updates</li>
+                </ul>
+                <button class="try-button" onclick="tryService('/x402/premium-data')">
+                    Try Premium Data
+                </button>
             </div>
 
-            <div class="card">
-                <h3>⚡ Trading Metrics</h3>
-                <div class="metric">
-                    <span class="metric-label">Total Trades:</span>
-                    <span id="totalTrades" class="metric-value">0</span>
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-title">AI Market Analysis</div>
+                    <div class="service-price">$0.25 USDC</div>
                 </div>
-                <div class="metric">
-                    <span class="metric-label">Successful:</span>
-                    <span id="successfulTrades" class="metric-value">0</span>
+                <div class="service-description">
+                    Get AI-powered market analysis with price predictions, risk factors, and trading recommendations.
                 </div>
-                <div class="metric">
-                    <span class="metric-label">Success Rate:</span>
-                    <span id="successRate" class="metric-value">0%</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">Active Opportunities:</span>
-                    <span id="activeOpportunities" class="metric-value">0</span>
-                </div>
+                <ul class="service-features">
+                    <li>AI-generated price targets</li>
+                    <li>Risk factor analysis</li>
+                    <li>Technical indicator insights</li>
+                    <li>On-chain metrics evaluation</li>
+                    <li>87.3% accuracy over 30 days</li>
+                </ul>
+                <button class="try-button" onclick="tryServiceWithBody('/x402/ai-analysis', {symbol: 'ETH', timeframe: '1h', analysisType: 'technical'})">
+                    Get AI Analysis
+                </button>
             </div>
 
-            <div class="card">
-                <h3>🌉 Cross-Chain Bridges</h3>
-                <div class="metric">
-                    <span class="metric-label">Available Routes:</span>
-                    <span id="availableBridges" class="metric-value">0</span>
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-title">Real-time Price Alerts</div>
+                    <div class="service-price">$0.05 USDC</div>
                 </div>
-                <div class="metric">
-                    <span class="metric-label">Ethereum ↔ Polygon:</span>
-                    <span class="metric-value positive">Online</span>
+                <div class="service-description">
+                    Set up real-time price alerts with sub-second latency and multi-exchange monitoring.
                 </div>
-                <div class="metric">
-                    <span class="metric-label">Arbitrum ↔ Optimism:</span>
-                    <span class="metric-value positive">Online</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">BSC ↔ X402:</span>
-                    <span class="metric-value positive">Online</span>
-                </div>
+                <ul class="service-features">
+                    <li>Sub-second alert latency</li>
+                    <li>Multi-exchange monitoring</li>
+                    <li>Volume spike detection</li>
+                    <li>MEV protection alerts</li>
+                    <li>Multiple delivery methods</li>
+                </ul>
+                <button class="try-button" onclick="tryService('/x402/realtime-alerts/ETH?threshold=2700&direction=above')">
+                    Setup Alert
+                </button>
             </div>
 
-            <div class="card">
-                <h3>🎯 Recent Opportunities</h3>
-                <div id="opportunitiesContainer" class="opportunities-grid">
-                    <p style="color: #64748b; text-align: center;">No active opportunities</p>
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-title">MEV Protection Analysis</div>
+                    <div class="service-price">$0.15 USDC</div>
                 </div>
+                <div class="service-description">
+                    Analyze transactions for MEV risks and get protection strategies to prevent front-running attacks.
+                </div>
+                <ul class="service-features">
+                    <li>Front-running risk detection</li>
+                    <li>Sandwich attack analysis</li>
+                    <li>Gas optimization suggestions</li>
+                    <li>Protection strategy recommendations</li>
+                    <li>Network condition monitoring</li>
+                </ul>
+                <button class="try-button" onclick="tryService('/x402/mev-protection/0x1234567890abcdef1234567890abcdef12345678')">
+                    Analyze Transaction
+                </button>
+            </div>
+
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-title">Cross-Chain Bridge Rates</div>
+                    <div class="service-price">$0.02 USDC</div>
+                </div>
+                <div class="service-description">
+                    Get real-time cross-chain bridge rates, fees, and estimated transfer times across major networks.
+                </div>
+                <ul class="service-features">
+                    <li>Multi-network bridge rates</li>
+                    <li>Real-time fee calculations</li>
+                    <li>Transfer time estimates</li>
+                    <li>Bridge provider comparisons</li>
+                    <li>Network congestion data</li>
+                </ul>
+                <button class="try-button" onclick="tryService('/x402/cross-chain-rates')">
+                    Get Bridge Rates
+                </button>
+            </div>
+
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-title">X402 Protocol Info</div>
+                    <div class="service-price free">FREE</div>
+                </div>
+                <div class="service-description">
+                    Learn about the X402 payment protocol implementation and supported features.
+                </div>
+                <ul class="service-features">
+                    <li>Protocol documentation</li>
+                    <li>Supported networks</li>
+                    <li>Payment features</li>
+                    <li>Integration examples</li>
+                    <li>Technical specifications</li>
+                </ul>
+                <button class="try-button" onclick="tryService('/x402/info')">
+                    View Protocol Info
+                </button>
             </div>
         </div>
 
-        <div class="card">
-            <h3>📈 Live Activity Feed</h3>
-            <div id="activityFeed" class="activity-feed">
-                <p style="color: #64748b; text-align: center;">Demo not started. Click "Start Demo" to begin simulation.</p>
-            </div>
+        <div class="response-area" id="responseArea" style="display: none;">
+            <div class="response-title">API Response</div>
+            <div class="response-content" id="responseContent"></div>
         </div>
     </div>
 
     <script>
-        class X402Demo {
-            constructor() {
-                this.isRunning = false;
-                this.updateInterval = null;
-                this.initializeEventListeners();
-            }
-
-            initializeEventListeners() {
-                document.getElementById('startBtn').addEventListener('click', () => this.startDemo());
-                document.getElementById('stopBtn').addEventListener('click', () => this.stopDemo());
-                document.getElementById('resetBtn').addEventListener('click', () => this.resetDemo());
-            }
-
-            async startDemo() {
-                try {
-                    const response = await fetch('/demo/start', { method: 'POST' });
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        this.isRunning = true;
-                        this.updateUI();
-                        this.startPeriodicUpdates();
-                        this.addActivityItem('✅ X402 Demo Started', 'success');
-                    }
-                } catch (error) {
-                    console.error('Failed to start demo:', error);
-                    this.addActivityItem('❌ Failed to start demo', 'failed');
-                }
-            }
-
-            async stopDemo() {
-                try {
-                    const response = await fetch('/demo/stop', { method: 'POST' });
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        this.isRunning = false;
-                        this.updateUI();
-                        this.stopPeriodicUpdates();
-                        this.addActivityItem('⏹️ X402 Demo Stopped', 'failed');
-                    }
-                } catch (error) {
-                    console.error('Failed to stop demo:', error);
-                }
-            }
-
-            async resetDemo() {
-                try {
-                    const response = await fetch('/demo/reset', { method: 'POST' });
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        this.isRunning = false;
-                        this.updateUI();
-                        this.stopPeriodicUpdates();
-                        this.clearActivityFeed();
-                        this.addActivityItem('🔄 Demo Reset', 'success');
-                        this.resetMetrics();
-                    }
-                } catch (error) {
-                    console.error('Failed to reset demo:', error);
-                }
-            }
-
-            updateUI() {
-                const startBtn = document.getElementById('startBtn');
-                const stopBtn = document.getElementById('stopBtn');
-                const statusEl = document.getElementById('demoStatus');
-
-                startBtn.disabled = this.isRunning;
-                stopBtn.disabled = !this.isRunning;
-
-                if (this.isRunning) {
-                    statusEl.innerHTML = '<span class="status-indicator status-online"></span>Online';
+        async function tryService(endpoint, method = 'GET') {
+            try {
+                showResponse('Loading...', true);
+                
+                const response = await fetch(endpoint, { method });
+                
+                if (response.status === 402) {
+                    const paymentData = await response.json();
+                    showPaymentRequired(paymentData, endpoint, method);
+                } else if (response.ok) {
+                    const data = await response.json();
+                    showResponse(JSON.stringify(data, null, 2));
                 } else {
-                    statusEl.innerHTML = '<span class="status-indicator status-offline"></span>Offline';
+                    const error = await response.json();
+                    showResponse(`Error (${response.status}): ${error.error || 'Unknown error'}`);
                 }
-            }
-
-            startPeriodicUpdates() {
-                this.updateInterval = setInterval(() => {
-                    this.fetchAndUpdateStatus();
-                }, 2000); // Update every 2 seconds
-            }
-
-            stopPeriodicUpdates() {
-                if (this.updateInterval) {
-                    clearInterval(this.updateInterval);
-                    this.updateInterval = null;
-                }
-            }
-
-            async fetchAndUpdateStatus() {
-                try {
-                    const [statusResponse, opportunitiesResponse] = await Promise.all([
-                        fetch('/demo/status'),
-                        fetch('/demo/opportunities')
-                    ]);
-
-                    const status = await statusResponse.json();
-                    const opportunities = await opportunitiesResponse.json();
-
-                    if (status.success) {
-                        this.updateMetrics(status.data);
-                    }
-
-                    if (opportunities.success) {
-                        this.updateOpportunities(opportunities.data.opportunities);
-                    }
-                } catch (error) {
-                    console.error('Failed to fetch status:', error);
-                }
-            }
-
-            updateMetrics(data) {
-                const roi = ((data.portfolioValue - 100000) / 100000) * 100;
-                const successRate = data.totalTrades > 0 ? (data.successfulTrades / data.totalTrades * 100) : 0;
-
-                document.getElementById('portfolioValue').textContent = `$${data.portfolioValue.toLocaleString()}`;
-                document.getElementById('totalProfit').textContent = `$${data.totalProfit.toLocaleString()}`;
-                document.getElementById('totalProfit').className = `metric-value ${data.totalProfit >= 0 ? 'positive' : 'negative'}`;
-                document.getElementById('roi').textContent = `${roi.toFixed(2)}%`;
-                document.getElementById('roi').className = `metric-value ${roi >= 0 ? 'positive' : 'negative'}`;
-                document.getElementById('totalTrades').textContent = data.totalTrades;
-                document.getElementById('successfulTrades').textContent = data.successfulTrades;
-                document.getElementById('successRate').textContent = `${successRate.toFixed(1)}%`;
-                document.getElementById('activeOpportunities').textContent = data.activeOpportunities;
-                document.getElementById('availableBridges').textContent = data.availableBridges;
-            }
-
-            updateOpportunities(opportunities) {
-                const container = document.getElementById('opportunitiesContainer');
-                
-                if (opportunities.length === 0) {
-                    container.innerHTML = '<p style="color: #64748b; text-align: center;">No active opportunities</p>';
-                    return;
-                }
-
-                container.innerHTML = opportunities.slice(0, 4).map(opp => `
-                    <div class="opportunity-card">
-                        <div style="font-weight: bold; margin-bottom: 8px;">${opp.tokenA}</div>
-                        <div style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 5px;">
-                            ${opp.exchangeA} → ${opp.exchangeB}
-                        </div>
-                        <div class="profit-highlight">+${opp.profitPct.toFixed(2)}%</div>
-                        <div style="font-size: 0.8rem; color: #64748b;">
-                            $${opp.profitUSD.toFixed(0)} profit
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            addActivityItem(message, type = 'info') {
-                const feed = document.getElementById('activityFeed');
-                const timestamp = new Date().toLocaleTimeString();
-                
-                const item = document.createElement('div');
-                item.className = `activity-item ${type}`;
-                item.innerHTML = `
-                    <div>${message}</div>
-                    <div class="activity-timestamp">${timestamp}</div>
-                `;
-                
-                feed.insertBefore(item, feed.firstChild);
-                
-                // Keep only last 20 items
-                while (feed.children.length > 20) {
-                    feed.removeChild(feed.lastChild);
-                }
-            }
-
-            clearActivityFeed() {
-                document.getElementById('activityFeed').innerHTML = '';
-            }
-
-            resetMetrics() {
-                document.getElementById('portfolioValue').textContent = '$100,000';
-                document.getElementById('totalProfit').textContent = '$0.00';
-                document.getElementById('totalProfit').className = 'metric-value';
-                document.getElementById('roi').textContent = '0.00%';
-                document.getElementById('roi').className = 'metric-value';
-                document.getElementById('totalTrades').textContent = '0';
-                document.getElementById('successfulTrades').textContent = '0';
-                document.getElementById('successRate').textContent = '0%';
-                document.getElementById('activeOpportunities').textContent = '0';
+            } catch (error) {
+                showResponse(`Network Error: ${error.message}`);
             }
         }
 
-        // Initialize the demo when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            new X402Demo();
-        });
+        async function tryServiceWithBody(endpoint, body) {
+            try {
+                showResponse('Loading...', true);
+                
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                });
+                
+                if (response.status === 402) {
+                    const paymentData = await response.json();
+                    showPaymentRequired(paymentData, endpoint, 'POST', body);
+                } else if (response.ok) {
+                    const data = await response.json();
+                    showResponse(JSON.stringify(data, null, 2));
+                } else {
+                    const error = await response.json();
+                    showResponse(`Error (${response.status}): ${error.error || 'Unknown error'}`);
+                }
+            } catch (error) {
+                showResponse(`Network Error: ${error.message}`);
+            }
+        }
+
+        function showPaymentRequired(paymentData, originalEndpoint, method = 'GET', body = null) {
+            const { paymentRequest } = paymentData;
+            
+            const paymentHtml = `
+                <div class="payment-required">
+                    <h3 style="color: #ef4444; margin-bottom: 15px;">💳 Payment Required (HTTP 402)</h3>
+                    <p style="color: #94a3b8; margin-bottom: 15px;">${paymentRequest.description}</p>
+                    
+                    <div class="payment-details">
+                        <div class="payment-field">
+                            <span class="payment-label">Payment ID:</span>
+                            <span class="payment-value">${paymentRequest.paymentId}
+                                <button class="copy-button" onclick="copyToClipboard('${paymentRequest.paymentId}')">Copy</button>
+                            </span>
+                        </div>
+                        <div class="payment-field">
+                            <span class="payment-label">Amount:</span>
+                            <span class="payment-value">${paymentRequest.amount} USDC</span>
+                        </div>
+                        <div class="payment-field">
+                            <span class="payment-label">Network:</span>
+                            <span class="payment-value">${paymentRequest.network}
+                                <span class="network-badge network-${paymentRequest.network}">${paymentRequest.network.toUpperCase()}</span>
+                            </span>
+                        </div>
+                        <div class="payment-field">
+                            <span class="payment-label">Recipient:</span>
+                            <span class="payment-value">${paymentRequest.recipient}
+                                <button class="copy-button" onclick="copyToClipboard('${paymentRequest.recipient}')">Copy</button>
+                            </span>
+                        </div>
+                        <div class="payment-field">
+                            <span class="payment-label">Expires:</span>
+                            <span class="payment-value">${new Date(paymentRequest.expiresAt).toLocaleString()}</span>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; border-radius: 8px; padding: 15px; margin: 15px 0;">
+                        <h4 style="color: #60a5fa; margin-bottom: 10px;">Payment Instructions:</h4>
+                        <ol style="color: #94a3b8; padding-left: 20px;">
+                            <li>Send <strong>${paymentRequest.amount} USDC</strong> to address above</li>
+                            <li>Copy your transaction hash</li>
+                            <li>Click "Verify Payment" below and paste the hash</li>
+                            <li>Service will be delivered automatically</li>
+                        </ol>
+                    </div>
+                    
+                    <button onclick="verifyPayment('${paymentRequest.paymentId}', '${paymentRequest.network}', '${originalEndpoint}', '${method}', ${body ? `'${JSON.stringify(body).replace(/'/g, "\\'")}'` : 'null'})" 
+                            style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                        🔍 Verify Payment
+                    </button>
+                </div>
+            `;
+            
+            showResponse(paymentHtml, false, true);
+        }
+
+        async function verifyPayment(paymentId, network, originalEndpoint, method, bodyStr) {
+            const txHash = prompt('Enter your transaction hash:');
+            if (!txHash) return;
+            
+            try {
+                showResponse('Verifying payment...', true);
+                
+                const headers = {
+                    'x-payment-id': paymentId,
+                    'x-payment-proof': JSON.stringify({
+                        transactionHash: txHash,
+                        network: network
+                    })
+                };
+
+                let options = { method, headers };
+                
+                if (bodyStr && bodyStr !== 'null') {
+                    headers['Content-Type'] = 'application/json';
+                    options.body = bodyStr;
+                }
+                
+                const response = await fetch(originalEndpoint, options);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    showResponse(`✅ Payment Verified! Service delivered:\n\n${JSON.stringify(data, null, 2)}`);
+                } else {
+                    const error = await response.json();
+                    showResponse(`❌ Payment verification failed: ${error.error}`);
+                }
+            } catch (error) {
+                showResponse(`Error verifying payment: ${error.message}`);
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Could show a toast notification here
+                console.log('Copied to clipboard:', text);
+            });
+        }
+
+        function showResponse(content, loading = false, isHtml = false) {
+            const responseArea = document.getElementById('responseArea');
+            const responseContent = document.getElementById('responseContent');
+            
+            if (isHtml) {
+                responseContent.innerHTML = content;
+            } else {
+                responseContent.textContent = content;
+            }
+            
+            responseContent.className = loading ? 'response-content loading' : 'response-content';
+            responseArea.style.display = 'block';
+            responseArea.scrollIntoView({ behavior: 'smooth' });
+        }
     </script>
 </body>
 </html>
