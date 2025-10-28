@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Odin Zeus Trading Engine Demo</title>
+    <title>Odin X402 Payment Protocol Demo</title>
     <style>
         * {
             margin: 0;
@@ -156,7 +156,61 @@
             overflow-y: auto;
         }
 
+        .payment-required {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
 
+        .payment-details {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .payment-field {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .payment-label {
+            color: #94a3b8;
+        }
+
+        .payment-value {
+            color: #e2e8f0;
+        }
+
+        .copy-button {
+            background: #374151;
+            color: #e2e8f0;
+            border: none;
+            padding: 2px 6px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-left: 8px;
+        }
+
+        .network-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .network-base { background: #0052ff; color: white; }
+        .network-ethereum { background: #627eea; color: white; }
+        .network-polygon { background: #8247e5; color: white; }
+        .network-arbitrum { background: #2d374b; color: white; }
 
         @keyframes pulse {
             0%, 100% { opacity: 1; }
@@ -189,137 +243,138 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>⚡ Odin Zeus Trading Engine</h1>
-            <p>Advanced AI-powered trading strategies with arbitrage, flash loans, and portfolio management</p>
+            <h1>🔱 Odin X402 Payment Protocol</h1>
+            <p>Coinbase's HTTP 402 Payment Required protocol for pay-per-use API services</p>
         </div>
 
         <div class="info-section">
-            <h3>Zeus Trading Engine Features</h3>
+            <h3>How X402 Works</h3>
             <p>
-                Zeus is the core trading engine that powers advanced strategies including arbitrage detection,
-                flash loan execution, options trading, and automated portfolio management. 
-                Each API endpoint provides real-time access to institutional-grade trading capabilities.
+                X402 uses the HTTP 402 "Payment Required" status code to enable automatic payments. 
+                When you request a paid service, the server responds with payment details. 
+                Send USDC to the specified address, then retry your request with the transaction hash 
+                for automatic verification and service delivery.
             </p>
         </div>
 
         <div class="services-grid">
             <div class="service-card">
                 <div class="service-header">
-                    <div class="service-title">Arbitrage Opportunities</div>
-                    <div class="service-price free">FREE</div>
+                    <div class="service-title">Premium Market Data</div>
+                    <div class="service-price">$0.10 USDC</div>
                 </div>
                 <div class="service-description">
-                    Discover real-time arbitrage opportunities across multiple DEXs with profit calculations and risk analysis.
+                    Access premium market data including institutional flow, MEV risk analysis, and advanced arbitrage opportunities.
                 </div>
                 <ul class="service-features">
-                    <li>Multi-DEX opportunity scanning</li>
-                    <li>Real-time profit calculations</li>
-                    <li>Risk assessment metrics</li>
-                    <li>Gas cost optimization</li>
-                    <li>Chain-specific opportunities</li>
+                    <li>Real-time BTC/ETH premium data</li>
+                    <li>Arbitrage opportunity detection</li>
+                    <li>Institutional flow analysis</li>
+                    <li>MEV risk assessment</li>
+                    <li>Sub-second data updates</li>
                 </ul>
-                <button class="try-button" onclick="tryService('/zeus/opportunities?minProfit=50&chains=1,137')">
-                    Find Opportunities
+                <button class="try-button" onclick="tryService('/x402/premium-data')">
+                    Try Premium Data
                 </button>
             </div>
 
             <div class="service-card">
                 <div class="service-header">
-                    <div class="service-title">Portfolio Management</div>
-                    <div class="service-price free">FREE</div>
+                    <div class="service-title">AI Market Analysis</div>
+                    <div class="service-price">$0.25 USDC</div>
                 </div>
                 <div class="service-description">
-                    Advanced portfolio management with automated rebalancing, performance tracking, and risk metrics.
+                    Get AI-powered market analysis with price predictions, risk factors, and trading recommendations.
                 </div>
                 <ul class="service-features">
-                    <li>Real-time portfolio tracking</li>
-                    <li>Automated rebalancing</li>
-                    <li>Performance analytics</li>
-                    <li>Risk exposure monitoring</li>
-                    <li>Asset allocation optimization</li>
+                    <li>AI-generated price targets</li>
+                    <li>Risk factor analysis</li>
+                    <li>Technical indicator insights</li>
+                    <li>On-chain metrics evaluation</li>
+                    <li>87.3% accuracy over 30 days</li>
                 </ul>
-                <button class="try-button" onclick="tryService('/zeus/portfolio')">
-                    View Portfolio
+                <button class="try-button" onclick="tryServiceWithBody('/x402/ai-analysis', {symbol: 'ETH', timeframe: '1h', analysisType: 'technical'})">
+                    Get AI Analysis
                 </button>
             </div>
 
             <div class="service-card">
                 <div class="service-header">
-                    <div class="service-title">Flash Loan Opportunities</div>
-                    <div class="service-price free">FREE</div>
+                    <div class="service-title">Real-time Price Alerts</div>
+                    <div class="service-price">$0.05 USDC</div>
                 </div>
                 <div class="service-description">
-                    Discover flash loan arbitrage opportunities with automatic execution and profit optimization.
+                    Set up real-time price alerts with sub-second latency and multi-exchange monitoring.
                 </div>
                 <ul class="service-features">
-                    <li>Cross-protocol arbitrage</li>
-                    <li>Flash loan optimization</li>
-                    <li>Profit/loss simulation</li>
-                    <li>Gas cost calculations</li>
-                    <li>Multi-token support</li>
+                    <li>Sub-second alert latency</li>
+                    <li>Multi-exchange monitoring</li>
+                    <li>Volume spike detection</li>
+                    <li>MEV protection alerts</li>
+                    <li>Multiple delivery methods</li>
                 </ul>
-                <button class="try-button" onclick="tryService('/zeus/flash-loan/opportunities?token=USDC&minProfit=100')">
-                    Find Flash Loans
+                <button class="try-button" onclick="tryService('/x402/realtime-alerts/ETH?threshold=2700&direction=above')">
+                    Setup Alert
                 </button>
             </div>
 
             <div class="service-card">
                 <div class="service-header">
-                    <div class="service-title">Options Trading</div>
-                    <div class="service-price free">FREE</div>
+                    <div class="service-title">MEV Protection Analysis</div>
+                    <div class="service-price">$0.15 USDC</div>
                 </div>
                 <div class="service-description">
-                    Access options chains, execute complex strategies, and manage options positions with advanced analytics.
+                    Analyze transactions for MEV risks and get protection strategies to prevent front-running attacks.
                 </div>
                 <ul class="service-features">
-                    <li>Real-time options chains</li>
-                    <li>Strategy backtesting</li>
-                    <li>Greeks calculations</li>
-                    <li>Multi-leg strategies</li>
-                    <li>Position management</li>
+                    <li>Front-running risk detection</li>
+                    <li>Sandwich attack analysis</li>
+                    <li>Gas optimization suggestions</li>
+                    <li>Protection strategy recommendations</li>
+                    <li>Network condition monitoring</li>
                 </ul>
-                <button class="try-button" onclick="tryService('/zeus/options/chains?underlying=ETH')">
-                    View Options Chains
+                <button class="try-button" onclick="tryService('/x402/mev-protection/0x1234567890abcdef1234567890abcdef12345678')">
+                    Analyze Transaction
                 </button>
             </div>
 
             <div class="service-card">
                 <div class="service-header">
-                    <div class="service-title">Risk Management</div>
-                    <div class="service-price free">FREE</div>
+                    <div class="service-title">Cross-Chain Bridge Rates</div>
+                    <div class="service-price">$0.02 USDC</div>
                 </div>
                 <div class="service-description">
-                    Advanced risk assessment tools with stop-loss management, drawdown analysis, and portfolio exposure monitoring.
+                    Get real-time cross-chain bridge rates, fees, and estimated transfer times across major networks.
                 </div>
                 <ul class="service-features">
-                    <li>Portfolio risk metrics</li>
-                    <li>Stop-loss automation</li>
-                    <li>Drawdown analysis</li>
-                    <li>Value at Risk (VaR)</li>
-                    <li>Risk limit monitoring</li>
+                    <li>Multi-network bridge rates</li>
+                    <li>Real-time fee calculations</li>
+                    <li>Transfer time estimates</li>
+                    <li>Bridge provider comparisons</li>
+                    <li>Network congestion data</li>
                 </ul>
-                <button class="try-button" onclick="tryService('/risk/portfolio/exposure')">
-                    View Risk Metrics
+                <button class="try-button" onclick="tryService('/x402/cross-chain-rates')">
+                    Get Bridge Rates
                 </button>
             </div>
 
             <div class="service-card">
                 <div class="service-header">
-                    <div class="service-title">Trading Orders</div>
+                    <div class="service-title">X402 Protocol Info</div>
                     <div class="service-price free">FREE</div>
                 </div>
                 <div class="service-description">
-                    View active orders, order history, and execute manual trades with advanced order types.
+                    Learn about the X402 payment protocol implementation and supported features.
                 </div>
                 <ul class="service-features">
-                    <li>Active order monitoring</li>
-                    <li>Order history tracking</li>
-                    <li>Manual trade execution</li>
-                    <li>Advanced order types</li>
-                    <li>Order cancellation</li>
+                    <li>Protocol documentation</li>
+                    <li>Supported networks</li>
+                    <li>Payment features</li>
+                    <li>Integration examples</li>
+                    <li>Technical specifications</li>
                 </ul>
-                <button class="try-button" onclick="tryService('/zeus/orders')">
-                    View Orders
+                <button class="try-button" onclick="tryService('/x402/info')">
+                    View Protocol Info
                 </button>
             </div>
         </div>
@@ -337,7 +392,10 @@
                 
                 const response = await fetch(endpoint, { method });
                 
-                if (response.ok) {
+                if (response.status === 402) {
+                    const paymentData = await response.json();
+                    showPaymentRequired(paymentData, endpoint, method);
+                } else if (response.ok) {
                     const data = await response.json();
                     showResponse(JSON.stringify(data, null, 2));
                 } else {
@@ -361,7 +419,10 @@
                     body: JSON.stringify(body)
                 });
                 
-                if (response.ok) {
+                if (response.status === 402) {
+                    const paymentData = await response.json();
+                    showPaymentRequired(paymentData, endpoint, 'POST', body);
+                } else if (response.ok) {
                     const data = await response.json();
                     showResponse(JSON.stringify(data, null, 2));
                 } else {
@@ -373,7 +434,105 @@
             }
         }
 
+        function showPaymentRequired(paymentData, originalEndpoint, method = 'GET', body = null) {
+            const { paymentRequest } = paymentData;
+            
+            const paymentHtml = `
+                <div class="payment-required">
+                    <h3 style="color: #ef4444; margin-bottom: 15px;">💳 Payment Required (HTTP 402)</h3>
+                    <p style="color: #94a3b8; margin-bottom: 15px;">${paymentRequest.description}</p>
+                    
+                    <div class="payment-details">
+                        <div class="payment-field">
+                            <span class="payment-label">Payment ID:</span>
+                            <span class="payment-value">${paymentRequest.paymentId}
+                                <button class="copy-button" onclick="copyToClipboard('${paymentRequest.paymentId}')">Copy</button>
+                            </span>
+                        </div>
+                        <div class="payment-field">
+                            <span class="payment-label">Amount:</span>
+                            <span class="payment-value">${paymentRequest.amount} USDC</span>
+                        </div>
+                        <div class="payment-field">
+                            <span class="payment-label">Network:</span>
+                            <span class="payment-value">${paymentRequest.network}
+                                <span class="network-badge network-${paymentRequest.network}">${paymentRequest.network.toUpperCase()}</span>
+                            </span>
+                        </div>
+                        <div class="payment-field">
+                            <span class="payment-label">Recipient:</span>
+                            <span class="payment-value">${paymentRequest.recipient}
+                                <button class="copy-button" onclick="copyToClipboard('${paymentRequest.recipient}')">Copy</button>
+                            </span>
+                        </div>
+                        <div class="payment-field">
+                            <span class="payment-label">Expires:</span>
+                            <span class="payment-value">${new Date(paymentRequest.expiresAt).toLocaleString()}</span>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; border-radius: 8px; padding: 15px; margin: 15px 0;">
+                        <h4 style="color: #60a5fa; margin-bottom: 10px;">Payment Instructions:</h4>
+                        <ol style="color: #94a3b8; padding-left: 20px;">
+                            <li>Send <strong>${paymentRequest.amount} USDC</strong> to address above</li>
+                            <li>Copy your transaction hash</li>
+                            <li>Click "Verify Payment" below and paste the hash</li>
+                            <li>Service will be delivered automatically</li>
+                        </ol>
+                    </div>
+                    
+                    <button onclick="verifyPayment('${paymentRequest.paymentId}', '${paymentRequest.network}', '${originalEndpoint}', '${method}', ${body ? `'${JSON.stringify(body).replace(/'/g, "\\'")}'` : 'null'})" 
+                            style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                        🔍 Verify Payment
+                    </button>
+                </div>
+            `;
+            
+            showResponse(paymentHtml, false, true);
+        }
 
+        async function verifyPayment(paymentId, network, originalEndpoint, method, bodyStr) {
+            const txHash = prompt('Enter your transaction hash:');
+            if (!txHash) return;
+            
+            try {
+                showResponse('Verifying payment...', true);
+                
+                const headers = {
+                    'x-payment-id': paymentId,
+                    'x-payment-proof': JSON.stringify({
+                        transactionHash: txHash,
+                        network: network
+                    })
+                };
+
+                let options = { method, headers };
+                
+                if (bodyStr && bodyStr !== 'null') {
+                    headers['Content-Type'] = 'application/json';
+                    options.body = bodyStr;
+                }
+                
+                const response = await fetch(originalEndpoint, options);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    showResponse(`✅ Payment Verified! Service delivered:\n\n${JSON.stringify(data, null, 2)}`);
+                } else {
+                    const error = await response.json();
+                    showResponse(`❌ Payment verification failed: ${error.error}`);
+                }
+            } catch (error) {
+                showResponse(`Error verifying payment: ${error.message}`);
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Could show a toast notification here
+                console.log('Copied to clipboard:', text);
+            });
+        }
 
         function showResponse(content, loading = false, isHtml = false) {
             const responseArea = document.getElementById('responseArea');
