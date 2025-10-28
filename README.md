@@ -11,10 +11,10 @@ Odysseus is a comprehensive AI trading platform that integrates Coinbase's X402 
 ```mermaid
 graph TB
     subgraph "Odysseus Ecosystem"
-        BOT[🤖 Odysseus Bot<br/>AI Trading Assistant<br/>Natural Language Interface]
-        ZEUS[⚡ Zeus Engine<br/>Advanced Trading Strategies<br/>DeFi Execution Layer]
-        ODIN[🔱 Odin Module<br/>X402 Payment Protocol<br/>HTTP 402 Implementation]
-        LEGACY[📊 Legacy Modules<br/>Solana & BNB Trading<br/>Battle-tested Systems]
+        BOT[Odysseus Bot<br/>AI Trading Assistant<br/>Natural Language Interface]
+        ZEUS[Zeus Engine<br/>Advanced Trading Strategies<br/>DeFi Execution Layer]
+        ODIN[Odin Module<br/>X402 Payment Protocol<br/>HTTP 402 Implementation]
+        LEGACY[Legacy Modules<br/>Solana & BNB Trading<br/>Battle-tested Systems]
     end
     
     subgraph "Payment Networks"
@@ -30,7 +30,7 @@ graph TB
         ALERTS[Price Alerts<br/>MEV Protection]
     end
     
-    USER[👤 User] --> BOT
+    USER[User] --> BOT
     BOT --> ZEUS
     ZEUS --> ODIN
     ODIN --> API
@@ -87,7 +87,7 @@ sequenceDiagram
 
 ## Platform Components
 
-### 🔱 Odin X402 Payment Module
+### Odin X402 Payment Module
 
 The core X402 protocol implementation providing HTTP 402 payment functionality.
 
@@ -135,7 +135,7 @@ graph TD
 
 **Live Demo**: http://localhost:9999 (when running)
 
-### ⚡ Zeus Trading Engine
+### Zeus Trading Engine
 
 Advanced DeFi trading strategies and execution layer.
 
@@ -166,7 +166,7 @@ graph LR
     style PORT fill:#f3e5f5
 ```
 
-### 🤖 Odysseus AI Bot
+### Odysseus AI Bot
 
 Natural language interface for complex trading operations.
 
@@ -209,7 +209,7 @@ graph TD
     style EXEC fill:#fff3e0
 ```
 
-### 📊 Legacy Trading Modules
+### Legacy Trading Modules
 
 Battle-tested trading systems for specific chains.
 
@@ -258,7 +258,7 @@ flowchart TD
     style TRADING fill:#fff3e0
 ```
 
-### 🚀 Full Platform Deployment
+### Full Platform Deployment
 
 ```bash
 # Clone the repository
@@ -279,7 +279,7 @@ docker-compose up --build
 # Legacy Solana: http://localhost:8000
 ```
 
-### 🔱 Odin X402 Module Only
+### Odin X402 Module Only
 
 Perfect for testing the X402 payment protocol:
 
@@ -300,7 +300,7 @@ npm run build && npm start
 # Open demo at: http://localhost:9999
 ```
 
-### 📋 Environment Configuration
+### Environment Configuration
 
 #### For X402 Payment Protocol:
 ```env
@@ -333,7 +333,7 @@ RUGCHECK_API_KEY=your_api_key
 
 ## X402 Use Cases & Demo
 
-### 🎯 Available Services
+### Available Services
 
 | Service | Price | Description |
 |---------|-------|-------------|
@@ -343,7 +343,7 @@ RUGCHECK_API_KEY=your_api_key
 | **MEV Protection** | $0.15 USDC | Transaction analysis and protection strategies |
 | **Bridge Rates** | $0.02 USDC | Cross-chain transfer costs and time estimates |
 
-### 💡 How to Test X402
+### How to Test X402
 
 1. **Start Odin server**: `cd apps/odin && npm start`
 2. **Open demo UI**: http://localhost:9999
@@ -353,7 +353,7 @@ RUGCHECK_API_KEY=your_api_key
 6. **Verify payment**: Paste transaction hash
 7. **Receive service**: Data delivered automatically
 
-### 🔧 Integration Examples
+### Integration Examples
 
 #### Python Client
 ```python
@@ -419,7 +419,7 @@ async function getPremiumData() {
 
 ## Architecture Deep Dive
 
-### 🏗️ System Architecture
+### System Architecture
 
 ```mermaid
 graph TB
@@ -467,7 +467,7 @@ graph TB
     style BLOCKCHAIN fill:#fff3e0
 ```
 
-### 🔐 Security Features
+### Security Features
 
 ```mermaid
 graph LR
@@ -495,7 +495,7 @@ graph LR
 
 ## Development & Deployment
 
-### 🐳 Docker Deployment
+### Docker Deployment
 
 The platform includes comprehensive Docker support:
 
@@ -510,7 +510,7 @@ services:
   redis:            # Caching Layer
 ```
 
-### 🧪 Testing
+### Testing
 
 ```bash
 # Test X402 payment protocol
@@ -524,7 +524,7 @@ python -m pytest tests/
 ./test-integration.sh
 ```
 
-### 📊 Monitoring
+### Monitoring
 
 Built-in monitoring for all components:
 
@@ -542,7 +542,7 @@ We welcome contributions to the Odysseus platform:
 3. **Make your changes** and add tests
 4. **Submit a pull request** with detailed description
 
-### 🎯 Areas for Contribution
+### Areas for Contribution
 
 - **New X402 Services**: Add more pay-per-use API endpoints
 - **Trading Strategies**: Implement new Zeus trading algorithms
@@ -558,4 +558,4 @@ The Odysseus platform is open-source software that enables the future of AI-driv
 
 ---
 
-**🚀 Ready to start?** Choose your deployment option above and join the future of AI trading with X402 payments!
+**Ready to start?** Choose your deployment option above and join the future of AI trading with X402 payments!
