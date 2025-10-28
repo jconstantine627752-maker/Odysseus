@@ -1,458 +1,561 @@
-# Odysseus Collective
+# Odysseus Trading Platform
 
-**Next-Generation AI & X402 Blockchain Trading Platform**
-*Combining Odysseus AI Bot, Zeus Trading Engine, and Odin X402 Protocol Integration*
+**AI-Powered Trading with X402 Payment Protocol Integration**
 
-## Overview
+*Combining Odysseus AI Bot, Zeus Trading Engine, and Odin X402 Payment Protocol*
 
-Odysseus is a comprehensive trading platform that bridges conversational AI with advanced DeFi protocols. The platform integrates with the revolutionary **X402 blockchain** to provide MEV-protected trading, cross-chain arbitrage, and institutional-grade portfolio management through natural language interactions.
+## Platform Overview
 
-### Platform Architecture
+Odysseus is a comprehensive AI trading platform that integrates Coinbase's X402 payment protocol for next-generation machine-to-machine payments. The platform enables AI agents to autonomously pay for premium trading services using USDC micropayments across multiple blockchain networks.
 
 ```mermaid
 graph TB
     subgraph "Odysseus Ecosystem"
-        OB[Odysseus Bot<br/>AI Trading Assistant]
-        ZE[Zeus Trading Engine<br/>DeFi Execution Layer]
-        OD[Odin X402 Integration<br/>Blockchain Protocol Interface]
-        LM[Legacy Modules<br/>Solana & BNB Trading]
+        BOT[🤖 Odysseus Bot<br/>AI Trading Assistant<br/>Natural Language Interface]
+        ZEUS[⚡ Zeus Engine<br/>Advanced Trading Strategies<br/>DeFi Execution Layer]
+        ODIN[🔱 Odin Module<br/>X402 Payment Protocol<br/>HTTP 402 Implementation]
+        LEGACY[📊 Legacy Modules<br/>Solana & BNB Trading<br/>Battle-tested Systems]
     end
     
-    subgraph "External Services"
-        X402[X402 Blockchain<br/>Chain ID: 402]
-        CHAINS[Multi-Chain Networks<br/>ETH, POLY, BSC, ARB]
-        ORACLES[Oracle Networks<br/>Price Feeds]
+    subgraph "Payment Networks"
+        ETH[Ethereum<br/>USDC Payments]
+        POLY[Polygon<br/>Low-cost Transfers]
+        BASE[Base<br/>Coinbase L2]
+        ARB[Arbitrum<br/>Fast Settlement]
     end
     
-    USER[User] --> OB
-    OB --> ZE
-    ZE --> OD
-    OD --> X402
-    OD --> CHAINS
-    OD --> ORACLES
-    ZE --> LM
+    subgraph "Services"
+        API[Premium APIs<br/>$0.02-$0.25 per call]
+        DATA[Market Data<br/>AI Analysis]
+        ALERTS[Price Alerts<br/>MEV Protection]
+    end
     
-    style OB fill:#e1f5fe
-    style ZE fill:#fff3e0
-    style OD fill:#f3e5f5
-    style X402 fill:#e8f5e8
+    USER[👤 User] --> BOT
+    BOT --> ZEUS
+    ZEUS --> ODIN
+    ODIN --> API
+    API --> DATA
+    API --> ALERTS
+    
+    ODIN --> ETH
+    ODIN --> POLY
+    ODIN --> BASE
+    ODIN --> ARB
+    
+    BOT --> LEGACY
+    
+    style BOT fill:#e1f5fe
+    style ZEUS fill:#fff3e0
+    style ODIN fill:#e8f5e8
+    style API fill:#f3e5f5
 ```
 
-### Platform Components:
+## What is X402?
 
-**Odysseus Bot** – Your AI trading assistant with natural language interface
-- OpenAI-compatible chat API for complex strategy discussions
-- Intelligent trade execution based on market analysis
-- Real-time portfolio monitoring and risk alerts
-- Multi-chain strategy coordination
+**X402** is Coinbase's open-source payment protocol that uses the HTTP 402 "Payment Required" status code to enable programmatic payments. It allows AI agents and users to pay for web services using stablecoins directly within the web request flow.
 
-**Zeus Trading Engine** – High-performance DeFi execution layer  
-- Advanced arbitrage detection and execution
-- Flash loan strategies with zero capital requirements
-- Options trading and complex derivatives strategies
-- Cross-chain portfolio rebalancing
+### How X402 Works
 
-**Odin X402 Integration** – Coinbase's HTTP 402 payment protocol
-- HTTP 402 "Payment Required" status code implementation
-- USDC micropayments on Ethereum, Polygon, Base, and Arbitrum
-- AI agent autonomous payment processing
-- Pay-per-use API billing and service monetization
+```mermaid
+sequenceDiagram
+    participant Client as AI Agent/Client
+    participant Server as Odin X402 Server
+    participant Blockchain as USDC Contract
+    participant Verifier as Payment Verifier
+    
+    Client->>Server: GET /x402/premium-data
+    Server->>Client: 402 Payment Required<br/>+ Payment Details
+    
+    Note over Client: User sends USDC<br/>to specified address
+    Client->>Blockchain: Transfer USDC
+    Blockchain->>Client: Transaction Hash
+    
+    Client->>Server: Retry Request<br/>+ Transaction Hash
+    Server->>Verifier: Verify Payment
+    Verifier->>Blockchain: Check Transaction
+    Blockchain->>Verifier: Transaction Details
+    Verifier->>Server: Payment Confirmed
+    Server->>Client: 200 OK + Data
+```
 
-**Legacy Modules** – Battle-tested trading systems
-- Solana Bot for Pump.fun token strategies
-- BNB Chain microservice for BSC trading
-- Unified Docker deployment across all environments
+### Key Features
+- **AI-friendly**: Designed for autonomous AI agents to handle payments without human intervention
+- **Programmatic**: Allows for pay-per-use billing and micropayments for services
+- **Instant**: Processes payments directly on-chain within the HTTP flow
+- **Decentralized**: Funds go directly to the recipient's web3 wallet
+- **Open-source**: The protocol is open and can be built upon by anyone
 
-## What is X402 Integration?
+## Platform Components
 
-**X402** is Coinbase's open-source payment protocol that uses the HTTP 402 "Payment Required" status code to enable programmatic payments. It allows AI agents and automated systems to pay for web services using stablecoins:
+### 🔱 Odin X402 Payment Module
+
+The core X402 protocol implementation providing HTTP 402 payment functionality.
 
 ```mermaid
 graph TD
-    subgraph "X402 Payment Flow"
-        CLIENT[AI Agent/Client<br/>Requests Service]
-        SERVER[Odin Server<br/>HTTP 402 Response]
-        PAYMENT[USDC Payment<br/>On-Chain Transaction]
-        VERIFY[Payment Verification<br/>Blockchain Proof]
-        SERVICE[Protected Service<br/>Data/API Access]
+    subgraph "Odin X402 Services"
+        PREMIUM[Premium Market Data<br/>$0.10 USDC<br/>Real-time BTC/ETH data]
+        AI[AI Market Analysis<br/>$0.25 USDC<br/>Price predictions & insights]
+        ALERTS[Price Alerts<br/>$0.05 USDC<br/>Real-time notifications]
+        MEV[MEV Protection<br/>$0.15 USDC<br/>Transaction analysis]
+        BRIDGE[Bridge Rates<br/>$0.02 USDC<br/>Cross-chain information]
     end
     
-    CLIENT -->|1. GET /api/premium-data| SERVER
-    SERVER -->|2. 402 Payment Required| CLIENT
-    CLIENT -->|3. Send USDC Payment| PAYMENT
-    PAYMENT -->|4. Transaction Hash| VERIFY
-    VERIFY -->|5. Proof Valid| SERVICE
-    SERVICE -->|6. Service Delivered| CLIENT
-    
-    style CLIENT fill:#e1f5fe
-    style SERVER fill:#fff3e0
-    style PAYMENT fill:#e8f5e8
-    style VERIFY fill:#f3e5f5
-```
-
-### HTTP 402 Payment Required
-- Uses standard HTTP status code for payment requests
-- Seamless integration with existing web infrastructure
-- No complex payment processor integrations needed
-
-### USDC Stablecoin Payments
-- Direct payments on Ethereum, Polygon, Base, and Arbitrum networks
-- Automatic blockchain transaction verification
-- No intermediaries - payments go directly to recipients
-
-### Integrated Oracle System
-- Decentralized price feeds with sub-second updates
-- Multi-source price aggregation for maximum accuracy
-- Built-in volatility and liquidity metrics
-
-### Smart Contract Intelligence
-- Automated security assessment for new protocols
-- Real-time liquidity analysis across all X402 DeFi protocols
-- Risk scoring and safety recommendations
-
-### High-Performance Infrastructure
-- 1000+ TPS with deterministic finality
-- Intelligent gas optimization and transaction batching
-- Purpose-built for algorithmic trading strategies
-
-**Why X402 Matters**: Traditional blockchains were built for general use. X402 is purpose-built for DeFi, providing the infrastructure that professional traders and institutions need to compete in modern markets.
-
-## Getting Started
-
-```mermaid
-flowchart TD
-    A[Choose Deployment Option] --> B{Full Platform or Single Module?}
-    B -->|Full Platform| C[Docker Compose Deployment]
-    B -->|Single Module| D[Odin X402 Only]
-    
-    C --> C1[Clone Repository]
-    C1 --> C2[Configure Environment]
-    C2 --> C3[Run docker-compose up --build]
-    C3 --> C4[Access Services<br/>Bot: :3000<br/>Zeus: :9999<br/>Solana: :8000]
-    
-    D --> D1[Navigate to apps/odin]
-    D1 --> D2[Install Dependencies]
-    D2 --> D3[Configure .env File]
-    D3 --> D4[Run npm start]
-    D4 --> D5[Test with ./test-odin.sh]
-    
-    style C fill:#e8f5e8
-    style D fill:#fff3e0
-```
-
-### Quick Start - Full Platform
-```bash
-# Clone and start the entire Odysseus ecosystem
-git clone <repository>
-cd Odysseus
-cp .env.example .env
-docker-compose up --build
-
-# Access points:
-# Odysseus Bot UI: http://localhost:3000
-# Zeus Trading API: http://localhost:9999
-# Legacy Solana Bot: http://localhost:8000
-```
-
-### Odin X402 Module Only
-```bash
-cd apps/odin
-npm install
-cp .env.example .env
-# Edit .env with your X402 RPC endpoint and API keys
-npm start
-
-# Test X402 integration:
-./test-odin.sh
-```
-
----
-
-## 1. Odysseus AI Bot
-
-Your conversational AI trading assistant that makes complex DeFi strategies accessible through natural language.
-
-```mermaid
-graph TD
-    subgraph "Odysseus AI Bot Architecture"
-        UI[Web UI Interface]
-        API[OpenAI-Compatible API]
-        NLP[Natural Language Processing]
-        STRAT[Strategy Coordination]
-        RISK[Risk Management]
-        EXEC[Execution Engine]
+    subgraph "Payment Processing"
+        HTTP402[HTTP 402 Response]
+        VERIFY[USDC Verification]
+        DELIVERY[Service Delivery]
     end
     
-    subgraph "Backend Integrations"
-        OPENAI[OpenAI GPT]
-        LOCAL[Local LLMs]
-        HOSTED[Hosted Models]
+    subgraph "Supported Networks"
+        N1[Ethereum<br/>High Security]
+        N2[Polygon<br/>Low Cost]
+        N3[Base<br/>Coinbase L2]
+        N4[Arbitrum<br/>Fast L2]
     end
     
-    subgraph "Trading Systems"
-        ZEUS[Zeus Trading Engine]
-        ODIN[Odin X402 Module]
-        LEGACY[Legacy Modules]
-    end
+    PREMIUM --> HTTP402
+    AI --> HTTP402
+    ALERTS --> HTTP402
+    MEV --> HTTP402
+    BRIDGE --> HTTP402
     
-    USER[User Input<br/>"Buy $1000 X402"] --> UI
-    UI --> API
-    API --> NLP
-    NLP --> STRAT
-    STRAT --> RISK
-    RISK --> EXEC
+    HTTP402 --> VERIFY
+    VERIFY --> DELIVERY
     
-    API --> OPENAI
-    API --> LOCAL
-    API --> HOSTED
+    VERIFY --> N1
+    VERIFY --> N2
+    VERIFY --> N3
+    VERIFY --> N4
     
-    EXEC --> ZEUS
-    EXEC --> ODIN
-    EXEC --> LEGACY
-    
-    style UI fill:#e1f5fe
-    style EXEC fill:#fff3e0
+    style PREMIUM fill:#e8f5e8
+    style AI fill:#fff3e0
+    style VERIFY fill:#e1f5fe
 ```
 
-### Features
-- **Natural Language Trading**: "Buy $1000 of X402 when it breaks resistance"
-- **Intelligent Strategy Coordination**: Manages Zeus trading engine and Odin X402 integration
-- **Real-time Market Analysis**: Continuous monitoring with AI-powered insights
-- **Risk Management Conversations**: "What's my portfolio risk if X402 drops 20%?"
-- **Cross-chain Coordination**: Seamlessly manage positions across multiple networks
+**Live Demo**: http://localhost:9999 (when running)
 
-### API Integration
-- OpenAI-compatible chat API for easy integration
-- Pluggable backends (OpenAI, local LLMs, hosted models)
-- Direct integration with Zeus trading engine and Odin X402 module
-- RESTful endpoints for programmatic access
+### ⚡ Zeus Trading Engine
 
-### Quick Start
-```bash
-cp .env.example .env
-docker compose up --build
-# Odysseus Bot UI: http://localhost:3000
-# Chat API: http://localhost:8080/v1/chat/completions
-```
-
----
-
-## 2. Legacy Trading Modules
+Advanced DeFi trading strategies and execution layer.
 
 ```mermaid
 graph LR
-    subgraph "Legacy Trading Pipeline"
-        DISCOVER[Token Discovery<br/>PumpPortal & Bitquery]
-        ANALYZE[Analysis Pipeline<br/>RugCheck & Liquidity Gates]
-        SIMULATE[Simulation<br/>Jupiter Buy/Sell Test]
-        EXECUTE[Live Execution<br/>Safety-Gated Trading]
+    subgraph "Zeus Trading Strategies"
+        ARB[Arbitrage Detection<br/>Cross-exchange Opportunities]
+        FLASH[Flash Loan Trading<br/>Zero-capital Strategies]
+        OPT[Options Trading<br/>Automated Derivatives]
+        PORT[Portfolio Management<br/>Risk-adjusted Positions]
     end
     
-    subgraph "Data Sources"
-        PP[PumpPortal API]
-        BQ[Bitquery GraphQL]
-        RC[RugCheck API]
-        JUP[Jupiter Aggregator]
+    subgraph "Risk Management"
+        STOP[Stop Loss Orders]
+        SIZE[Position Sizing]
+        SLIP[Slippage Protection]
+        GAS[Gas Optimization]
     end
     
-    DISCOVER --> ANALYZE
-    ANALYZE --> SIMULATE
-    SIMULATE --> EXECUTE
+    ARB --> STOP
+    FLASH --> SIZE
+    OPT --> SLIP
+    PORT --> GAS
     
-    PP --> DISCOVER
-    BQ --> DISCOVER
-    RC --> ANALYZE
-    JUP --> SIMULATE
-    JUP --> EXECUTE
-    
-    style DISCOVER fill:#e8f5e8
-    style ANALYZE fill:#fff3e0
-    style SIMULATE fill:#e3f2fd
-    style EXECUTE fill:#ffebee
+    style ARB fill:#e8f5e8
+    style FLASH fill:#fff3e0
+    style OPT fill:#e1f5fe
+    style PORT fill:#f3e5f5
 ```
 
-### Solana Bot - Pump.fun Strategy Engine
+### 🤖 Odysseus AI Bot
 
-A deterministic, safety-gated trading framework for Pump.fun tokens.
-LLM sentiment is optional — all executions follow strict, rule-based checks.
+Natural language interface for complex trading operations.
 
- Pipeline
+```mermaid
+graph TD
+    subgraph "AI Bot Capabilities"
+        NL[Natural Language<br/>Processing]
+        STRAT[Strategy Planning<br/>& Coordination]
+        RISK[Risk Assessment<br/>& Management]
+        EXEC[Trade Execution<br/>& Monitoring]
+    end
+    
+    subgraph "User Interactions"
+        CHAT["Buy $1000 X402<br/>when it breaks $50"]
+        RISK_Q["What's my portfolio<br/>risk if ETH drops 20%?"]
+        STATUS["Show my current<br/>positions and P&L"]
+    end
+    
+    subgraph "Backend Integration"
+        OPENAI[OpenAI GPT]
+        LOCAL[Local LLMs]
+        ZEUS_INT[Zeus Integration]
+        ODIN_INT[Odin Integration]
+    end
+    
+    CHAT --> NL
+    RISK_Q --> NL
+    STATUS --> NL
+    
+    NL --> STRAT
+    STRAT --> RISK
+    RISK --> EXEC
+    
+    EXEC --> OPENAI
+    EXEC --> LOCAL
+    EXEC --> ZEUS_INT
+    EXEC --> ODIN_INT
+    
+    style NL fill:#e1f5fe
+    style EXEC fill:#fff3e0
+```
 
-Discover new tokens from PumpPortal or Bitquery
+### 📊 Legacy Trading Modules
 
-Apply RugCheck + liquidity + top-holder gates
+Battle-tested trading systems for specific chains.
 
-Simulate buy→sell via Jupiter
+```mermaid
+graph LR
+    subgraph "Solana Module"
+        PUMP[Pump.fun Trading<br/>Token Discovery]
+        RUG[RugCheck Analysis<br/>Safety Gates]
+        JUP[Jupiter Integration<br/>DEX Aggregation]
+    end
+    
+    subgraph "BNB Module"
+        PANCAKE[PancakeSwap<br/>Trading]
+        QUOTE[Price Quotes<br/>& Routing]
+        SWAP[Token Swaps<br/>& Execution]
+    end
+    
+    PUMP --> RUG
+    RUG --> JUP
+    
+    PANCAKE --> QUOTE
+    QUOTE --> SWAP
+    
+    style PUMP fill:#e8f5e8
+    style PANCAKE fill:#fff3e0
+```
 
-Execute live trade only if all gates pass
+## Getting Started
 
- Setup
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+### Quick Start Options
+
+```mermaid
+flowchart TD
+    START[Choose Your Path] --> OPTION{What do you want to run?}
+    
+    OPTION -->|Full Platform| FULL[Complete Odysseus Platform<br/>All modules + AI bot]
+    OPTION -->|X402 Only| X402[Odin X402 Module Only<br/>Payment protocol demo]
+    OPTION -->|Trading Only| TRADING[Zeus + Legacy Modules<br/>Trading without payments]
+    
+    FULL --> FULL_STEPS[1. Docker Compose<br/>2. Configure .env<br/>3. Access multiple ports]
+    X402 --> X402_STEPS[1. Navigate to apps/odin<br/>2. npm install & start<br/>3. Test payment flow]
+    TRADING --> TRADING_STEPS[1. Configure Python + Node<br/>2. Set up API keys<br/>3. Run individual modules]
+    
+    style FULL fill:#e8f5e8
+    style X402 fill:#e1f5fe
+    style TRADING fill:#fff3e0
+```
+
+### 🚀 Full Platform Deployment
+
+```bash
+# Clone the repository
+git clone https://github.com/jconstantine627752-maker/Odysseus.git
+cd Odysseus
+
+# Configure environment
 cp .env.example .env
+# Edit .env with your API keys and wallet addresses
 
+# Start all services
+docker-compose up --build
 
-Run simulation mode (no TX):
+# Access points:
+# Odysseus Bot: http://localhost:3000
+# Zeus API: http://localhost:9999  
+# Odin X402: http://localhost:9999
+# Legacy Solana: http://localhost:8000
+```
 
-python -m src.main --paper
+### 🔱 Odin X402 Module Only
 
+Perfect for testing the X402 payment protocol:
 
-Run live (requires WALLET_PRIVATE_KEY):
+```bash
+# Navigate to Odin module
+cd apps/odin
 
-python -m src.main --live
-
-
-Dockerized
-
-docker compose up --build solana
-
-
-Configuration
-
-SOLANA_RPC_URL=...
-RUGCHECK_API_KEY=...
-TEST_BUY_USD=10
-MAX_POSITION_USD=100
-MIN_LIQ_SOL=5
-MAX_TOP5_PCT=40
-
-
-Safety Gates
-
- Authorities revoked
-
- RugCheck ≤ medium risk
-
- Liquidity and top-holder thresholds
-
- Simulated buy→sell test
-
- Local key signing
-
- 3. Odysseus BNB Module
-
-A standalone Node.js microservice that performs quotes and swaps on BNB Chain using PancakeSwap/UniswapV2 routers.
-It’s chain-agnostic and callable from any backend or chatbot.
-
- Quick Start
-cd odysseus-bnb
-cp .env.example .env
+# Install dependencies
 npm install
-npm run build
-npm start
 
+# Configure environment
+cp .env.example .env
+# Add your blockchain RPC URLs and payment recipient address
 
-Or via Docker:
+# Start the server
+npm run build && npm start
 
-docker build -t odysseus-bnb .
-docker run --rm -it --env-file .env -p 8787:8787 odysseus-bnb
+# Open demo at: http://localhost:9999
+```
 
- API Endpoints
+### 📋 Environment Configuration
 
-Health
+#### For X402 Payment Protocol:
+```env
+# Payment Configuration
+PAYMENT_RECIPIENT_ADDRESS=0x742d35Cc6634C0532925a3b8D6Ac0d449Fc30819
+DEFAULT_PAYMENT_NETWORK=base
 
-GET /health
+# Blockchain RPC URLs (for payment verification)
+ETHEREUM_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/your-api-key
+POLYGON_RPC_URL=https://polygon-mainnet.g.alchemy.com/v2/your-api-key
+BASE_RPC_URL=https://base-mainnet.g.alchemy.com/v2/your-api-key
+ARBITRUM_RPC_URL=https://arb-mainnet.g.alchemy.com/v2/your-api-key
+```
 
+#### For Trading Modules:
+```env
+# Solana Configuration
+SOLANA_RPC_URL=https://api.mainnet-beta.solana.com
+WALLET_PRIVATE_KEY=your_solana_private_key
 
-Quote
-
-GET /quote?base=<erc20>&quote=<erc20>&amount=<human>
-
-
-Swap Tokens
-
-POST /swap/tokens
-{
-  "base": "0x...",
-  "quote": "0x...",
-  "amount": "1.0",
-  "slippageBps": 50
-}
-
-
-Swap BNB
-
-POST /swap/eth
-{
-  "quote": "0x...",
-  "amountInEth": "0.05",
-  "slippageBps": 50
-}
-
-
-Sample .env
-
+# BNB Chain Configuration  
 BSC_RPC_URL=https://bsc-dataseed.binance.org
-PRIVATE_KEY=0xYOUR_BURNER_KEY
-ROUTER_ADDRESS=0x10ED43C718714eb63d5aA57B78B54704E256024E
-WBNB_ADDRESS=0xBB4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c
-PORT=8787
-SLIPPAGE_BPS_DEFAULT=50
+BNB_PRIVATE_KEY=your_bnb_private_key
 
- 4. Integrating Odysseus with Your Chatbot
+# API Keys
+PUMPPORTAL_API_KEY=your_api_key
+BITQUERY_API_KEY=your_api_key
+RUGCHECK_API_KEY=your_api_key
+```
 
-Your chatbot or backend can invoke Odysseus services directly over HTTP.
+## X402 Use Cases & Demo
 
-Example (Python):
+### 🎯 Available Services
 
+| Service | Price | Description |
+|---------|-------|-------------|
+| **Premium Market Data** | $0.10 USDC | Real-time BTC/ETH data with arbitrage opportunities |
+| **AI Market Analysis** | $0.25 USDC | AI-powered price predictions and trading signals |
+| **Price Alerts** | $0.05 USDC | Real-time notifications with sub-second latency |
+| **MEV Protection** | $0.15 USDC | Transaction analysis and protection strategies |
+| **Bridge Rates** | $0.02 USDC | Cross-chain transfer costs and time estimates |
+
+### 💡 How to Test X402
+
+1. **Start Odin server**: `cd apps/odin && npm start`
+2. **Open demo UI**: http://localhost:9999
+3. **Try a service**: Click any "Try" button
+4. **Get 402 response**: Server returns payment details
+5. **Send USDC**: Transfer to the provided address
+6. **Verify payment**: Paste transaction hash
+7. **Receive service**: Data delivered automatically
+
+### 🔧 Integration Examples
+
+#### Python Client
+```python
 import requests
 
-resp = requests.get(
-    "http://localhost:8787/quote",
-    params={
-        "base": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
-        "quote": "0xe9e7cea3dedca5984780bafc599bd69add087d56",
-        "amount": "1"
+# Request premium data
+response = requests.get('http://localhost:9999/x402/premium-data')
+
+if response.status_code == 402:
+    payment_info = response.json()['paymentRequest']
+    print(f"Payment required: {payment_info['amount']} USDC")
+    print(f"Send to: {payment_info['recipient']}")
+    
+    # After sending payment...
+    tx_hash = input("Enter transaction hash: ")
+    
+    # Retry with payment proof
+    headers = {
+        'x-payment-id': payment_info['paymentId'],
+        'x-payment-proof': json.dumps({
+            'transactionHash': tx_hash,
+            'network': payment_info['network']
+        })
     }
-)
-print(resp.json())
+    
+    data_response = requests.get('http://localhost:9999/x402/premium-data', headers=headers)
+    print(data_response.json())
+```
 
+#### JavaScript/Node.js Client
+```javascript
+const axios = require('axios');
 
-Solana Paper Mode:
+async function getPremiumData() {
+    try {
+        const response = await axios.get('http://localhost:9999/x402/premium-data');
+        return response.data;
+    } catch (error) {
+        if (error.response?.status === 402) {
+            const paymentRequest = error.response.data.paymentRequest;
+            console.log(`Payment required: ${paymentRequest.amount} USDC`);
+            console.log(`Send to: ${paymentRequest.recipient}`);
+            
+            // After payment, retry with proof
+            const txHash = prompt('Enter transaction hash:');
+            
+            const retryResponse = await axios.get('http://localhost:9999/x402/premium-data', {
+                headers: {
+                    'x-payment-id': paymentRequest.paymentId,
+                    'x-payment-proof': JSON.stringify({
+                        transactionHash: txHash,
+                        network: paymentRequest.network
+                    })
+                }
+            });
+            
+            return retryResponse.data;
+        }
+        throw error;
+    }
+}
+```
 
-python -m src.main --paper
+## Architecture Deep Dive
 
- Architecture
-odysseus/
-├── agents/                # Chat + orchestration
-├── solana-bot/            # Pump.fun trading bot
-├── odysseus-bnb/          # BNB microservice
-└── docker-compose.yml     # Unified deployment
+### 🏗️ System Architecture
 
-Service	Port	Description
-agent	8080	Chat/LLM API
-solana	5174	Solana Trader
-bnb	8787	BNB Trader
-Security Checklist
+```mermaid
+graph TB
+    subgraph "Frontend Layer"
+        WEB[Web UI<br/>React Dashboard]
+        CLI[CLI Tools<br/>Trading Scripts]
+        API_CLIENTS[API Clients<br/>Python/JS/cURL]
+    end
+    
+    subgraph "Application Layer"
+        ODYSSEUS[Odysseus Bot<br/>Natural Language AI]
+        ZEUS[Zeus Engine<br/>Trading Strategies]
+        ODIN[Odin Module<br/>X402 Payments]
+    end
+    
+    subgraph "Protocol Layer"
+        HTTP402[HTTP 402 Protocol<br/>Payment Required]
+        USDC_VERIFY[USDC Verification<br/>Multi-chain Support]
+        BLOCKCHAIN[Blockchain Integration<br/>ETH/POLY/BASE/ARB]
+    end
+    
+    subgraph "Data Layer"
+        CACHE[Redis Cache<br/>Payment Tracking]
+        LOGS[Transaction Logs<br/>Audit Trail]
+        METRICS[Performance Metrics<br/>Success Rates]
+    end
+    
+    WEB --> ODYSSEUS
+    CLI --> ZEUS
+    API_CLIENTS --> ODIN
+    
+    ODYSSEUS --> ZEUS
+    ZEUS --> ODIN
+    ODIN --> HTTP402
+    
+    HTTP402 --> USDC_VERIFY
+    USDC_VERIFY --> BLOCKCHAIN
+    
+    ODIN --> CACHE
+    CACHE --> LOGS
+    LOGS --> METRICS
+    
+    style ODIN fill:#e8f5e8
+    style HTTP402 fill:#e1f5fe
+    style BLOCKCHAIN fill:#fff3e0
+```
 
-Use burner wallets for all chains
+### 🔐 Security Features
 
-Verify router and wrapped-token addresses
+```mermaid
+graph LR
+    subgraph "Security Layers"
+        AUTH[Payment Authentication<br/>Transaction Verification]
+        ENCRYPT[Data Encryption<br/>Sensitive Information]
+        RATE[Rate Limiting<br/>API Protection]
+        AUDIT[Audit Logging<br/>Full Transaction Trail]
+    end
+    
+    subgraph "Blockchain Security"
+        MULTI[Multi-sig Support<br/>Enhanced Wallet Security]
+        TIME[Time-locked Payments<br/>Dispute Resolution]
+        VERIFY[On-chain Verification<br/>Tamper-proof Receipts]
+    end
+    
+    AUTH --> MULTI
+    ENCRYPT --> TIME
+    RATE --> VERIFY
+    AUDIT --> VERIFY
+    
+    style AUTH fill:#ffebee
+    style VERIFY fill:#e8f5e8
+```
 
-Keep .env private (never commit keys)
+## Development & Deployment
 
-Monitor TXs for gas and slippage
+### 🐳 Docker Deployment
 
-Implement global circuit breakers
+The platform includes comprehensive Docker support:
 
- License
+```yaml
+# docker-compose.yml structure
+services:
+  odysseus-bot:     # AI Trading Assistant
+  zeus-engine:      # Trading Strategies  
+  odin-x402:        # Payment Protocol
+  solana-bot:       # Legacy Solana Module
+  bnb-service:      # Legacy BNB Module
+  redis:            # Caching Layer
+```
+
+### 🧪 Testing
+
+```bash
+# Test X402 payment protocol
+cd apps/odin
+npm test
+
+# Test trading modules
+python -m pytest tests/
+
+# Integration testing
+./test-integration.sh
+```
+
+### 📊 Monitoring
+
+Built-in monitoring for all components:
+
+- **Payment Success Rates**: Track X402 transaction verification
+- **Trading Performance**: Monitor strategy profitability  
+- **System Health**: API response times and error rates
+- **Blockchain Status**: Network congestion and gas prices
+
+## Contributing
+
+We welcome contributions to the Odysseus platform:
+
+1. **Fork the repository**
+2. **Create a feature branch**: `git checkout -b feature/new-x402-service`
+3. **Make your changes** and add tests
+4. **Submit a pull request** with detailed description
+
+### 🎯 Areas for Contribution
+
+- **New X402 Services**: Add more pay-per-use API endpoints
+- **Trading Strategies**: Implement new Zeus trading algorithms
+- **Blockchain Support**: Add more networks to X402 payment verification
+- **UI Improvements**: Enhance the demo interface and dashboards
+- **Documentation**: Improve guides and API documentation
+
+## License
 
 MIT License © 2025 Odysseus Collective
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the “Software”), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+The Odysseus platform is open-source software that enables the future of AI-driven trading with blockchain-native payments. Build upon it, extend it, and contribute back to the ecosystem.
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+---
 
-THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+**🚀 Ready to start?** Choose your deployment option above and join the future of AI trading with X402 payments!
