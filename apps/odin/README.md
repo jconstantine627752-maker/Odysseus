@@ -1,8 +1,31 @@
-# 🔱 Odin X402 Protocol Module
+# Odin X402 Protocol Module
 
 > Advanced X402 blockchain integration with Zeus trading engine and Odysseus bot intelligence
 
-## 🌐 What is X402 Integration?
+```mermaid
+graph TD
+    subgraph "Odin X402 Architecture"
+        X402[X402 Protocol<br/>Chain ID: 402]
+        BRIDGE[Cross-Chain Bridge<br/>Multi-Network Support]
+        ORACLE[Oracle Aggregation<br/>Sub-second Updates]
+        MEV[MEV Protection<br/>Anti-Front-running]
+        ZEUS[Zeus Trading Engine<br/>Advanced Strategies]
+    end
+    
+    X402 --> BRIDGE
+    X402 --> ORACLE
+    X402 --> MEV
+    BRIDGE --> ZEUS
+    ORACLE --> ZEUS
+    MEV --> ZEUS
+    
+    style X402 fill:#1e3a8a
+    style ZEUS fill:#dc2626
+    style MEV fill:#059669
+    style ORACLE fill:#ea580c
+```
+
+## What is X402 Integration?
 
 **X402** is a next-generation blockchain protocol (Chain ID: 402) designed for high-performance DeFi operations with built-in MEV protection and cross-chain interoperability. The Odin module provides comprehensive integration with the X402 ecosystem:
 
@@ -17,22 +40,84 @@
 ### Why X402?
 X402 represents the evolution of DeFi infrastructure, combining the security of Ethereum with the speed of modern Layer-2 solutions while introducing novel MEV protection mechanisms that make it ideal for automated trading strategies.
 
-## 🤖 Meet the Odysseus Ecosystem
+## Meet the Odysseus Ecosystem
+
+```mermaid
+graph LR
+    subgraph "Odysseus Ecosystem"
+        ODIN[Odin<br/>X402 Protocol<br/>Integration Layer]
+        ZEUS[Zeus<br/>Advanced Trading<br/>Engine]
+        ODYSSEUS[Odysseus Bot<br/>AI Trading<br/>Intelligence]
+    end
+    
+    subgraph "Data Flow"
+        X402_DATA[X402 Protocol Data]
+        MARKET_DATA[Market Intelligence]
+        TRADE_EXEC[Trade Execution]
+    end
+    
+    X402_DATA --> ODIN
+    ODIN --> ZEUS
+    ZEUS --> TRADE_EXEC
+    MARKET_DATA --> ODYSSEUS
+    ODYSSEUS --> ZEUS
+    
+    style ODIN fill:#1e3a8a
+    style ZEUS fill:#dc2626
+    style ODYSSEUS fill:#059669
+```
 
 The **Odysseus** platform consists of three primary components working in harmony:
 
-### 🔱 **Odin** - X402 Protocol Integration Layer
+### **Odin** - X402 Protocol Integration Layer
 The technical foundation that interfaces with X402 blockchain, handles cross-chain operations, and manages protocol-level integrations.
 
-### ⚡ **Zeus** - Advanced Trading Engine  
+### **Zeus** - Advanced Trading Engine  
 The high-performance trading engine that executes arbitrage, flash loans, options strategies, and portfolio management with military-grade precision.
 
-### 🧠 **Odysseus Bot** - AI Trading Intelligence
+### **Odysseus Bot** - AI Trading Intelligence
 Your conversational AI trading assistant that speaks to you in natural language, interprets market conditions, executes complex strategies, and provides real-time insights. Odysseus is the intelligent interface that makes advanced DeFi trading accessible through simple conversations.
 
 *"Talk to Odysseus, trade with Zeus, powered by Odin's X402 integration."*
 
-## 🌟 Features
+## Features
+
+```mermaid
+graph TD
+    subgraph "Core X402 Capabilities"
+        BRIDGE[Cross-Chain Bridge<br/>Multi-Network Transfers]
+        ORACLE[Oracle Integration<br/>Real-time Price Feeds]
+        MEV[MEV Protection<br/>Anti-Front-running]
+        ARB[Arbitrage Engine<br/>Cross-exchange Opportunities]
+        LIQ[Liquidity Analysis<br/>Deep Pool Scanning]
+        AUDIT[Smart Contract Auditing<br/>Security Assessment]
+    end
+    
+    subgraph "Zeus Trading Strategies"
+        DELTA[Delta-Neutral<br/>Market-Neutral Positions]
+        YIELD[Yield Farming<br/>LP Optimization]
+        FLASH[Flash Loan Arbitrage<br/>Zero-Capital Trades]
+        OPTIONS[Options Strategies<br/>Automated Trading]
+        CROSS[Cross-Chain Arbitrage<br/>Price Differences]
+        PROTECTED[MEV-Protected Trading<br/>Front-run Protection]
+    end
+    
+    subgraph "Risk Management"
+        PORTFOLIO[Portfolio Diversification<br/>Risk Distribution]
+        STOPS[Stop-Loss & Take-Profit<br/>Order Management]
+        SLIPPAGE[Slippage Protection<br/>Dynamic Adjustment]
+        GAS[Gas Optimization<br/>Intelligent Pricing]
+    end
+    
+    BRIDGE --> CROSS
+    ORACLE --> ARB
+    MEV --> PROTECTED
+    ARB --> FLASH
+    
+    style BRIDGE fill:#e1f5fe
+    style ZEUS fill:#fff3e0
+    style PROTECTED fill:#e8f5e8
+```
 
 ### Core X402 Capabilities
 - **Cross-Chain Bridge Operations** - Seamless asset transfers across multiple chains
@@ -56,7 +141,19 @@ Your conversational AI trading assistant that speaks to you in natural language,
 - **Slippage Protection** - Dynamic slippage adjustment
 - **Gas Optimization** - Intelligent gas price management
 
-## 🚀 Quick Start
+## Quick Start
+
+```mermaid
+graph LR
+    A[Navigate to apps/odin] --> B[Install Dependencies<br/>npm install]
+    B --> C[Copy Environment<br/>cp .env.example .env]
+    C --> D[Build Project<br/>npm run build]
+    D --> E[Start Service<br/>npm start]
+    E --> F[Service Running<br/>:9999]
+    
+    style A fill:#e8f5e8
+    style F fill:#fff3e0
+```
 
 ```bash
 cd apps/odin
@@ -66,7 +163,7 @@ npm run build
 npm start
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ```env
 # X402 Protocol Configuration
@@ -89,7 +186,7 @@ STOP_LOSS_PCT=5.0
 TAKE_PROFIT_PCT=15.0
 ```
 
-## 🔌 API Endpoints
+## API Endpoints
 
 ### Health & Status
 - `GET /health` - Service health check
@@ -115,7 +212,7 @@ TAKE_PROFIT_PCT=15.0
 - `POST /risk/stop-loss` - Set stop-loss orders
 - `GET /risk/exposure` - Current portfolio exposure
 
-## 🧪 Testing
+## Testing
 
 ```bash
 npm test                    # Run all tests
@@ -125,14 +222,33 @@ npm run test:risk          # Test risk management
 ./test-odin.sh             # Comprehensive integration testing
 ```
 
-## 🐳 Docker
+## Docker
 
 ```bash
 docker build -t odysseus-odin .
 docker run -p 9999:9999 --env-file .env odysseus-odin
 ```
 
-## 🔐 Security Features
+## Security Features
+
+```mermaid
+graph TD
+    subgraph "Security Layer"
+        MULTISIG[Multi-signature Support<br/>Enhanced Wallet Security]
+        TIMELOCK[Time-locked Transactions<br/>Delayed Large Trades]
+        WHITELIST[Whitelist Management<br/>Approved Protocols]
+        EMERGENCY[Emergency Shutdown<br/>Circuit Breakers]
+        ENCRYPTION[Encrypted Key Storage<br/>Secure Private Keys]
+    end
+    
+    MULTISIG --> TIMELOCK
+    WHITELIST --> EMERGENCY
+    ENCRYPTION --> MULTISIG
+    
+    style MULTISIG fill:#dc2626
+    style EMERGENCY fill:#ea580c
+    style ENCRYPTION fill:#059669
+```
 
 - **Multi-signature Support** - Enhanced wallet security
 - **Time-locked Transactions** - Delayed execution for large trades
@@ -140,7 +256,27 @@ docker run -p 9999:9999 --env-file .env odysseus-odin
 - **Emergency Shutdown** - Circuit breakers for system protection
 - **Encrypted Key Storage** - Secure private key management
 
-## 📊 Monitoring
+## Monitoring
+
+```mermaid
+graph LR
+    subgraph "Monitoring Dashboard"
+        PNL[Real-time P&L<br/>Profit & Loss Tracking]
+        ANALYTICS[Trade Analytics<br/>Execution Performance]
+        GAS[Gas Usage<br/>Optimization Metrics]
+        SLIPPAGE[Slippage Monitor<br/>Real-time Tracking]
+        RISK[Risk Metrics<br/>Portfolio Health]
+    end
+    
+    PNL --> ANALYTICS
+    ANALYTICS --> GAS
+    GAS --> SLIPPAGE
+    SLIPPAGE --> RISK
+    
+    style PNL fill:#059669
+    style RISK fill:#dc2626
+    style ANALYTICS fill:#1e3a8a
+```
 
 - Real-time P&L tracking
 - Trade execution analytics

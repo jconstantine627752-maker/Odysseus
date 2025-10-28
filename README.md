@@ -1,71 +1,145 @@
-# 🔱 Odysseus Collective
+# Odysseus Collective
 
 **Next-Generation AI & X402 Blockchain Trading Platform**
 *Combining Odysseus AI Bot, Zeus Trading Engine, and Odin X402 Protocol Integration*
 
-## 🌟 Overview
+## Overview
 
 Odysseus is a comprehensive trading platform that bridges conversational AI with advanced DeFi protocols. The platform integrates with the revolutionary **X402 blockchain** to provide MEV-protected trading, cross-chain arbitrage, and institutional-grade portfolio management through natural language interactions.
 
-### 🏛️ Platform Architecture:
+### Platform Architecture
 
-**🧠 Odysseus Bot** – Your AI trading assistant with natural language interface
+```mermaid
+graph TB
+    subgraph "Odysseus Ecosystem"
+        OB[Odysseus Bot<br/>AI Trading Assistant]
+        ZE[Zeus Trading Engine<br/>DeFi Execution Layer]
+        OD[Odin X402 Integration<br/>Blockchain Protocol Interface]
+        LM[Legacy Modules<br/>Solana & BNB Trading]
+    end
+    
+    subgraph "External Services"
+        X402[X402 Blockchain<br/>Chain ID: 402]
+        CHAINS[Multi-Chain Networks<br/>ETH, POLY, BSC, ARB]
+        ORACLES[Oracle Networks<br/>Price Feeds]
+    end
+    
+    USER[User] --> OB
+    OB --> ZE
+    ZE --> OD
+    OD --> X402
+    OD --> CHAINS
+    OD --> ORACLES
+    ZE --> LM
+    
+    style OB fill:#e1f5fe
+    style ZE fill:#fff3e0
+    style OD fill:#f3e5f5
+    style X402 fill:#e8f5e8
+```
+
+### Platform Components:
+
+**Odysseus Bot** – Your AI trading assistant with natural language interface
 - OpenAI-compatible chat API for complex strategy discussions
 - Intelligent trade execution based on market analysis
 - Real-time portfolio monitoring and risk alerts
 - Multi-chain strategy coordination
 
-**⚡ Zeus Trading Engine** – High-performance DeFi execution layer  
+**Zeus Trading Engine** – High-performance DeFi execution layer  
 - Advanced arbitrage detection and execution
 - Flash loan strategies with zero capital requirements
 - Options trading and complex derivatives strategies
 - Cross-chain portfolio rebalancing
 
-**🔱 Odin X402 Integration** – Next-gen blockchain protocol interface
+**Odin X402 Integration** – Next-gen blockchain protocol interface
 - Native X402 protocol integration with Chain ID 402
 - Cross-chain bridge operations to 15+ networks
 - Built-in MEV protection and oracle aggregation
 - Smart contract security analysis and liquidity monitoring
 
-**🌐 Legacy Modules** – Battle-tested trading systems
+**Legacy Modules** – Battle-tested trading systems
 - Solana Bot for Pump.fun token strategies
 - BNB Chain microservice for BSC trading
 - Unified Docker deployment across all environments
 
-## 🚀 What is X402 Integration?
+## What is X402 Integration?
 
 **X402** (Chain ID: 402) is a revolutionary blockchain protocol designed specifically for advanced DeFi operations. Unlike traditional blockchains, X402 provides native infrastructure for professional trading:
 
-### 🛡️ **MEV Protection Layer**
+```mermaid
+graph LR
+    subgraph "X402 Protocol Features"
+        MEV[MEV Protection Layer<br/>Anti-Front-Running<br/>Fair Ordering]
+        BRIDGE[Universal Bridge Network<br/>15+ Chains<br/>Sub-second Transfers]
+        ORACLE[Integrated Oracle System<br/>Real-time Feeds<br/>Multi-source Data]
+        INTEL[Smart Contract Intelligence<br/>Security Assessment<br/>Risk Scoring]
+        INFRA[High-Performance Infrastructure<br/>1000+ TPS<br/>Gas Optimization]
+    end
+    
+    MEV --> BRIDGE
+    BRIDGE --> ORACLE  
+    ORACLE --> INTEL
+    INTEL --> INFRA
+    
+    style MEV fill:#ffebee
+    style BRIDGE fill:#e8f5e8
+    style ORACLE fill:#e3f2fd
+    style INTEL fill:#fff3e0
+    style INFRA fill:#f3e5f5
+```
+
+### MEV Protection Layer
 - Built-in protection against front-running and sandwich attacks
 - Fair ordering mechanisms for all transactions
 - Trader-first design philosophy
 
-### 🌉 **Universal Bridge Network**
+### Universal Bridge Network
 - Native bridges to 15+ major blockchains (Ethereum, Polygon, BSC, Arbitrum, etc.)
 - Sub-second cross-chain transfers with minimal fees
 - Automated liquidity routing across networks
 
-### 📊 **Integrated Oracle System**
+### Integrated Oracle System
 - Decentralized price feeds with sub-second updates
 - Multi-source price aggregation for maximum accuracy
 - Built-in volatility and liquidity metrics
 
-### 🔍 **Smart Contract Intelligence**
+### Smart Contract Intelligence
 - Automated security assessment for new protocols
 - Real-time liquidity analysis across all X402 DeFi protocols
 - Risk scoring and safety recommendations
 
-### ⚡ **High-Performance Infrastructure**
+### High-Performance Infrastructure
 - 1000+ TPS with deterministic finality
 - Intelligent gas optimization and transaction batching
 - Purpose-built for algorithmic trading strategies
 
 **Why X402 Matters**: Traditional blockchains were built for general use. X402 is purpose-built for DeFi, providing the infrastructure that professional traders and institutions need to compete in modern markets.
 
-## 📱 Getting Started
+## Getting Started
 
-### 🚀 **Quick Start - Full Platform**
+```mermaid
+flowchart TD
+    A[Choose Deployment Option] --> B{Full Platform or Single Module?}
+    B -->|Full Platform| C[Docker Compose Deployment]
+    B -->|Single Module| D[Odin X402 Only]
+    
+    C --> C1[Clone Repository]
+    C1 --> C2[Configure Environment]
+    C2 --> C3[Run docker-compose up --build]
+    C3 --> C4[Access Services<br/>Bot: :3000<br/>Zeus: :9999<br/>Solana: :8000]
+    
+    D --> D1[Navigate to apps/odin]
+    D1 --> D2[Install Dependencies]
+    D2 --> D3[Configure .env File]
+    D3 --> D4[Run npm start]
+    D4 --> D5[Test with ./test-odin.sh]
+    
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
+```
+
+### Quick Start - Full Platform
 ```bash
 # Clone and start the entire Odysseus ecosystem
 git clone <repository>
@@ -79,7 +153,7 @@ docker-compose up --build
 # Legacy Solana Bot: http://localhost:8000
 ```
 
-### 🔱 **Odin X402 Module Only**
+### Odin X402 Module Only
 ```bash
 cd apps/odin
 npm install
@@ -93,24 +167,66 @@ npm start
 
 ---
 
-## 🧠 1. Odysseus AI Bot
+## 1. Odysseus AI Bot
 
 Your conversational AI trading assistant that makes complex DeFi strategies accessible through natural language.
 
-### 🌟 **Features**
+```mermaid
+graph TD
+    subgraph "Odysseus AI Bot Architecture"
+        UI[Web UI Interface]
+        API[OpenAI-Compatible API]
+        NLP[Natural Language Processing]
+        STRAT[Strategy Coordination]
+        RISK[Risk Management]
+        EXEC[Execution Engine]
+    end
+    
+    subgraph "Backend Integrations"
+        OPENAI[OpenAI GPT]
+        LOCAL[Local LLMs]
+        HOSTED[Hosted Models]
+    end
+    
+    subgraph "Trading Systems"
+        ZEUS[Zeus Trading Engine]
+        ODIN[Odin X402 Module]
+        LEGACY[Legacy Modules]
+    end
+    
+    USER[User Input<br/>"Buy $1000 X402"] --> UI
+    UI --> API
+    API --> NLP
+    NLP --> STRAT
+    STRAT --> RISK
+    RISK --> EXEC
+    
+    API --> OPENAI
+    API --> LOCAL
+    API --> HOSTED
+    
+    EXEC --> ZEUS
+    EXEC --> ODIN
+    EXEC --> LEGACY
+    
+    style UI fill:#e1f5fe
+    style EXEC fill:#fff3e0
+```
+
+### Features
 - **Natural Language Trading**: "Buy $1000 of X402 when it breaks resistance"
 - **Intelligent Strategy Coordination**: Manages Zeus trading engine and Odin X402 integration
 - **Real-time Market Analysis**: Continuous monitoring with AI-powered insights
 - **Risk Management Conversations**: "What's my portfolio risk if X402 drops 20%?"
 - **Cross-chain Coordination**: Seamlessly manage positions across multiple networks
 
-### 🔌 **API Integration**
+### API Integration
 - OpenAI-compatible chat API for easy integration
 - Pluggable backends (OpenAI, local LLMs, hosted models)
 - Direct integration with Zeus trading engine and Odin X402 module
 - RESTful endpoints for programmatic access
 
-### 🚀 **Quick Start**
+### Quick Start
 ```bash
 cp .env.example .env
 docker compose up --build
@@ -120,9 +236,41 @@ docker compose up --build
 
 ---
 
-## 🏛️ 2. Legacy Trading Modules
+## 2. Legacy Trading Modules
 
-### 📈 **Solana Bot** - Pump.fun Strategy Engine
+```mermaid
+graph LR
+    subgraph "Legacy Trading Pipeline"
+        DISCOVER[Token Discovery<br/>PumpPortal & Bitquery]
+        ANALYZE[Analysis Pipeline<br/>RugCheck & Liquidity Gates]
+        SIMULATE[Simulation<br/>Jupiter Buy/Sell Test]
+        EXECUTE[Live Execution<br/>Safety-Gated Trading]
+    end
+    
+    subgraph "Data Sources"
+        PP[PumpPortal API]
+        BQ[Bitquery GraphQL]
+        RC[RugCheck API]
+        JUP[Jupiter Aggregator]
+    end
+    
+    DISCOVER --> ANALYZE
+    ANALYZE --> SIMULATE
+    SIMULATE --> EXECUTE
+    
+    PP --> DISCOVER
+    BQ --> DISCOVER
+    RC --> ANALYZE
+    JUP --> SIMULATE
+    JUP --> EXECUTE
+    
+    style DISCOVER fill:#e8f5e8
+    style ANALYZE fill:#fff3e0
+    style SIMULATE fill:#e3f2fd
+    style EXECUTE fill:#ffebee
+```
+
+### Solana Bot - Pump.fun Strategy Engine
 
 A deterministic, safety-gated trading framework for Pump.fun tokens.
 LLM sentiment is optional — all executions follow strict, rule-based checks.
