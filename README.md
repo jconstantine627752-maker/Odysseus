@@ -1,9 +1,9 @@
-🧭 Odysseus Suite
+ Odysseus Collective
 
 Unified AI & On-Chain Trading Platform
 Combining Odysseus Agents, Odysseus Solana Bot, and Odysseus BNB Module
 
-🌌 Overview
+Overview
 
 Odysseus is a modular monorepo that unifies conversational AI agents with deterministic, rule-based trading systems.
 It’s designed for transparency, safety, and full local control — deployable anywhere via Docker.
@@ -18,7 +18,7 @@ Odysseus BNB Module – HTTP microservice for live swaps on BNB Chain
 
 Unified Docker workflow for local and cloud environments (Render, Fly.io, etc.)
 
-🧠 1. Odysseus Agents
+ 1. Odysseus Agents
 
 A lightweight chat system exposing an OpenAI-compatible API to orchestrate reasoning, trade decisions, or custom commands.
 
@@ -39,12 +39,12 @@ docker compose up --build
 # Web UI:
 # API:  
 
-🪙 2. Odysseus Solana Bot
+ 2. Odysseus Solana Bot
 
 A deterministic, safety-gated trading framework for Pump.fun tokens.
 LLM sentiment is optional — all executions follow strict, rule-based checks.
 
-🧩 Pipeline
+ Pipeline
 
 Discover new tokens from PumpPortal or Bitquery
 
@@ -54,7 +54,7 @@ Simulate buy→sell via Jupiter
 
 Execute live trade only if all gates pass
 
-⚙️ Setup
+ Setup
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
@@ -87,22 +87,22 @@ MAX_TOP5_PCT=40
 
 Safety Gates
 
-✅ Authorities revoked
+ Authorities revoked
 
-✅ RugCheck ≤ medium risk
+ RugCheck ≤ medium risk
 
-✅ Liquidity and top-holder thresholds
+ Liquidity and top-holder thresholds
 
-✅ Simulated buy→sell test
+ Simulated buy→sell test
 
-✅ Local key signing
+ Local key signing
 
-🐍 3. Odysseus BNB Module
+ 3. Odysseus BNB Module
 
 A standalone Node.js microservice that performs quotes and swaps on BNB Chain using PancakeSwap/UniswapV2 routers.
 It’s chain-agnostic and callable from any backend or chatbot.
 
-🚀 Quick Start
+ Quick Start
 cd odysseus-bnb
 cp .env.example .env
 npm install
@@ -115,7 +115,7 @@ Or via Docker:
 docker build -t odysseus-bnb .
 docker run --rm -it --env-file .env -p 8787:8787 odysseus-bnb
 
-🔌 API Endpoints
+ API Endpoints
 
 Health
 
@@ -157,7 +157,7 @@ WBNB_ADDRESS=0xBB4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c
 PORT=8787
 SLIPPAGE_BPS_DEFAULT=50
 
-🔗 4. Integrating Odysseus with Your Chatbot
+ 4. Integrating Odysseus with Your Chatbot
 
 Your chatbot or backend can invoke Odysseus services directly over HTTP.
 
@@ -180,7 +180,7 @@ Solana Paper Mode:
 
 python -m src.main --paper
 
-🧱 Architecture
+ Architecture
 odysseus/
 ├── agents/                # Chat + orchestration
 ├── solana-bot/            # Pump.fun trading bot
@@ -191,7 +191,7 @@ Service	Port	Description
 agent	8080	Chat/LLM API
 solana	5174	Solana Trader
 bnb	8787	BNB Trader
-🛡️ Security Checklist
+Security Checklist
 
 Use burner wallets for all chains
 
@@ -203,7 +203,7 @@ Monitor TXs for gas and slippage
 
 Implement global circuit breakers
 
-📄 License
+ License
 
 MIT License © 2025 Odysseus Collective
 
