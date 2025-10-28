@@ -3,12 +3,10 @@ import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import { createLogger } from './utils/logger';
-import { x402Router } from './routes/x402';
-import { zeusRouter } from './routes/zeus';
-import { riskRouter } from './routes/risk';
-import { healthRouter } from './routes/health';
+import { ZeusRouter } from './routes/zeus';
+import { RiskRouter } from './routes/risk';
+import { HealthRouter } from './routes/health';
 import { OdinConfig } from './config/config';
-import { paymentService } from './services/x402';
 // import { initializeRedis } from './utils/cache';
 // import { startBackgroundServices } from './services/background';
 
@@ -20,10 +18,16 @@ const logger = createLogger('OdinServer');
 class OdinServer {
     private app: express.Application;
     private config: OdinConfig;
+    private zeusRouter: ZeusRouter;
+    private riskRouter: RiskRouter;
+    private healthRouter: HealthRouter;
 
     constructor() {
         this.app = express();
         this.config = new OdinConfig();
+        this.zeusRouter = new ZeusRouter();
+        this.riskRouter = new RiskRouter();
+        this.healthRouter = new HealthRouter();
         this.setupMiddleware();
         this.setupRoutes();
     }
@@ -62,10 +66,9 @@ class OdinServer {
         this.app.use('/static', express.static('src/public'));
 
         // API routes
-        this.app.use('/health', healthRouter);
-        this.app.use('/x402', x402Router);
-        this.app.use('/zeus', zeusRouter);
-        this.app.use('/risk', riskRouter);
+        this.app.use('/health', this.healthRouter.router);
+        this.app.use('/zeus', this.zeusRouter.router);
+        this.app.use('/risk', this.riskRouter.router);
 
         // Demo UI route
         this.app.get('/', (req, res) => {
@@ -75,13 +78,12 @@ class OdinServer {
         // API info endpoint
         this.app.get('/api', (req, res) => {
             res.json({
-                service: 'Odin X402 Protocol Module',
+                service: 'Odin Zeus Trading Engine',
                 version: '1.0.0',
                 status: 'operational',
                 timestamp: new Date().toISOString(),
                 endpoints: {
                     health: '/health',
-                    x402: '/x402',
                     zeus: '/zeus',
                     risk: '/risk'
                 }
@@ -115,9 +117,8 @@ class OdinServer {
             // await initializeRedis();
             logger.info('✓ Redis cache initialized (simulated)');
 
-            // Initialize X402 payment service
-            this.app.locals.paymentService = paymentService;
-            logger.info('✓ X402 payment service initialized');
+            // Initialize Zeus trading engine
+            logger.info('✓ Zeus trading engine initialized');
 
             // Start background services (commented out for demo)
             // await startBackgroundServices();
@@ -140,7 +141,7 @@ class OdinServer {
             const host = this.config.host;
 
             this.app.listen(port, host, () => {
-                logger.info(`🔱 Odin X402 server running on http://${host}:${port}`);
+                logger.info(`⚡ Odin Zeus Trading Engine running on http://${host}:${port}`);
                 logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
                 logger.info(`Paper trading: ${process.env.PAPER_TRADING === 'true' ? 'ENABLED' : 'DISABLED'}`);
                 logger.info(`MEV protection: ${process.env.ENABLE_MEV_PROTECTION === 'true' ? 'ENABLED' : 'DISABLED'}`);

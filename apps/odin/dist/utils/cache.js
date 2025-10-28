@@ -19,8 +19,7 @@ async function initializeRedis() {
             url: redisUrl,
             password: redisPassword || undefined,
             socket: {
-                connectTimeout: 5000,
-                lazyConnect: true
+                connectTimeout: 5000
             }
         });
         redisClient.on('error', (err) => {
