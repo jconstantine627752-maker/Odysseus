@@ -3,14 +3,15 @@ import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import { createLogger } from './utils/logger';
-import { X402Router } from './routes/x402';
-import { ZeusRouter } from './routes/zeus';
-import { RiskRouter } from './routes/risk';
-import { HealthRouter } from './routes/health';
+import { x402Router } from './routes/x402';
+import { zeusRouter } from './routes/zeus';
+import { riskRouter } from './routes/risk';
+import { healthRouter } from './routes/health';
+import { demoRouter } from './routes/demo';
 import { OdinConfig } from './config/config';
 import { initializeX402Provider } from './providers/x402';
-import { initializeRedis } from './utils/cache';
-import { startBackgroundServices } from './services/background';
+// import { initializeRedis } from './utils/cache';
+// import { startBackgroundServices } from './services/background';
 
 // Load environment variables
 dotenv.config();
@@ -58,14 +59,23 @@ class OdinServer {
     }
 
     private setupRoutes(): void {
-        // API routes
-        this.app.use('/health', new HealthRouter().router);
-        this.app.use('/x402', new X402Router().router);
-        this.app.use('/zeus', new ZeusRouter().router);
-        this.app.use('/risk', new RiskRouter().router);
+        // Static files for demo
+        this.app.use('/static', express.static('src/public'));
 
-        // Root endpoint
+        // API routes
+        this.app.use('/health', healthRouter);
+        this.app.use('/x402', x402Router);
+        this.app.use('/zeus', zeusRouter);
+        this.app.use('/risk', riskRouter);
+        this.app.use('/demo', demoRouter);
+
+        // Demo UI route
         this.app.get('/', (req, res) => {
+            res.sendFile('demo.html', { root: 'src/public' });
+        });
+
+        // API info endpoint
+        this.app.get('/api', (req, res) => {
             res.json({
                 service: 'Odin X402 Protocol Module',
                 version: '1.0.0',
@@ -75,7 +85,8 @@ class OdinServer {
                     health: '/health',
                     x402: '/x402',
                     zeus: '/zeus',
-                    risk: '/risk'
+                    risk: '/risk',
+                    demo: '/demo'
                 }
             });
         });
@@ -103,17 +114,17 @@ class OdinServer {
         try {
             logger.info('Initializing Odin services...');
 
-            // Initialize Redis cache
-            await initializeRedis();
-            logger.info('✓ Redis cache initialized');
+            // Initialize Redis cache (commented out for demo)
+            // await initializeRedis();
+            logger.info('✓ Redis cache initialized (simulated)');
 
             // Initialize X402 provider
             await initializeX402Provider();
             logger.info('✓ X402 provider initialized');
 
-            // Start background services
-            await startBackgroundServices();
-            logger.info('✓ Background services started');
+            // Start background services (commented out for demo)
+            // await startBackgroundServices();
+            logger.info('✓ Background services started (simulated)');
 
             logger.info('All services initialized successfully');
         } catch (error) {
