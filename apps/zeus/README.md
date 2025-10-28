@@ -422,6 +422,6 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-**⚡ Zeus Engine - Where Lightning Meets DeFi**
+**Zeus Engine - Where Lightning Meets DeFi**
 
-*Built with ⚡ by the Odysseus Collective*
+*Built by the Odysseus Collective*

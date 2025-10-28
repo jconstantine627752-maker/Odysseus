@@ -1,8 +1,8 @@
-# 🔱 X402 Protocol Simulation Demo
+# X402 Protocol Simulation Demo
 
 > **Live interactive demonstration of Odysseus X402 cross-chain trading capabilities**
 
-## 🎯 What This Demo Shows
+## What This Demo Shows
 
 This simulation demonstrates the full X402 protocol stack without requiring real blockchain connections or API keys:
 
@@ -15,7 +15,7 @@ This simulation demonstrates the full X402 protocol stack without requiring real
 - **Portfolio Management** - Risk-adjusted position sizing
 - **Real-time Analytics** - Live P&L and performance metrics
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Option 1: Direct Start (Windows)
 ```bash
@@ -40,7 +40,7 @@ npm start
 
 Then open your browser to: **http://localhost:9999**
 
-## 🎮 Demo Features
+## Demo Features
 
 ### Interactive Dashboard
 - **Real-time Portfolio Tracking** - Watch your simulated portfolio grow
@@ -83,7 +83,7 @@ The demo generates realistic market data including:
 - **Gas Price Optimization** - Dynamic fee management
 - **Slippage Modeling** - Real-world execution impacts
 
-## 📊 Demo Controls
+## Demo Controls
 
 | Control | Function |
 |---------|----------|
@@ -91,7 +91,7 @@ The demo generates realistic market data including:
 | **Stop Demo** | Pause all trading activity and simulation |
 | **Reset** | Return to initial state and clear all metrics |
 
-## 🔍 What to Watch For
+## What to Watch For
 
 ### High-Frequency Events (Every 3-5 seconds)
 - Arbitrage opportunity detection
@@ -111,7 +111,7 @@ The demo generates realistic market data including:
 - Bridge availability changes
 - System health checks
 
-## 🎯 Expected Demo Results
+## Expected Demo Results
 
 In a typical 5-minute demo session, you should see:
 
@@ -122,7 +122,7 @@ In a typical 5-minute demo session, you should see:
 - **1-2 options strategies** deployed
 - **5-15% portfolio growth** (simulated)
 
-## 🔧 Technical Architecture
+## Technical Architecture
 
 ### Simulation Components
 ```
@@ -147,7 +147,7 @@ X402Simulator
 - **Risk Limits** - Maximum position sizing and drawdown protection
 - **Circuit Breakers** - Automatic shutdown on unusual conditions
 
-## 🎓 Educational Value
+## Educational Value
 
 This demo teaches:
 - **DeFi Arbitrage Mechanics** - How cross-exchange price differences are exploited
@@ -157,7 +157,7 @@ This demo teaches:
 - **Risk Management** - Portfolio protection in volatile markets
 - **Performance Analytics** - Key metrics for trading system evaluation
 
-## 🔗 Next Steps
+## Next Steps
 
 After exploring the demo:
 
@@ -169,4 +169,4 @@ After exploring the demo:
 
 ---
 
-**⚠️ Important Note:** This is a simulation for demonstration and educational purposes. Real trading involves significant financial risk. Always use appropriate risk management and start with small amounts when transitioning to live trading.
+**Important Note:** This is a simulation for demonstration and educational purposes. Real trading involves significant financial risk. Always use appropriate risk management and start with small amounts when transitioning to live trading.
