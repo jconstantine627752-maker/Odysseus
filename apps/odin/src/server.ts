@@ -4,9 +4,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import { createLogger } from './utils/logger';
 import { x402Router } from './routes/x402';
-import { zeusRouter } from './routes/zeus';
-import { riskRouter } from './routes/risk';
-import { healthRouter } from './routes/health';
+import { HealthRouter } from './routes/health';
 import { OdinConfig } from './config/config';
 import { paymentService } from './services/x402';
 // import { initializeRedis } from './utils/cache';
@@ -20,10 +18,12 @@ const logger = createLogger('OdinServer');
 class OdinServer {
     private app: express.Application;
     private config: OdinConfig;
+    private healthRouter: HealthRouter;
 
     constructor() {
         this.app = express();
         this.config = new OdinConfig();
+        this.healthRouter = new HealthRouter();
         this.setupMiddleware();
         this.setupRoutes();
     }
@@ -62,10 +62,8 @@ class OdinServer {
         this.app.use('/static', express.static('src/public'));
 
         // API routes
-        this.app.use('/health', healthRouter);
+        this.app.use('/health', this.healthRouter.router);
         this.app.use('/x402', x402Router);
-        this.app.use('/zeus', zeusRouter);
-        this.app.use('/risk', riskRouter);
 
         // Demo UI route
         this.app.get('/', (req, res) => {
@@ -81,9 +79,7 @@ class OdinServer {
                 timestamp: new Date().toISOString(),
                 endpoints: {
                     health: '/health',
-                    x402: '/x402',
-                    zeus: '/zeus',
-                    risk: '/risk'
+                    x402: '/x402'
                 }
             });
         });
@@ -140,7 +136,7 @@ class OdinServer {
             const host = this.config.host;
 
             this.app.listen(port, host, () => {
-                logger.info(`🔱 Odin X402 server running on http://${host}:${port}`);
+                                logger.info(`🔱 Odin X402 Protocol Module running on http://${host}:${port}`);
                 logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
                 logger.info(`Paper trading: ${process.env.PAPER_TRADING === 'true' ? 'ENABLED' : 'DISABLED'}`);
                 logger.info(`MEV protection: ${process.env.ENABLE_MEV_PROTECTION === 'true' ? 'ENABLED' : 'DISABLED'}`);

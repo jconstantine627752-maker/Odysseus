@@ -1,6 +1,7 @@
 declare class OdinServer {
     private app;
     private config;
+    private healthRouter;
     constructor();
     private setupMiddleware;
     private setupRoutes;
