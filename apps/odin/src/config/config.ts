@@ -5,12 +5,8 @@ export class OdinConfig {
     public readonly nodeEnv: string;
     public readonly logLevel: string;
 
-    // X402 Protocol Configuration
-    public readonly x402RpcUrl: string;
-    public readonly x402ChainId: number;
-    public readonly x402BridgeContract: string;
-    public readonly x402OracleAggregator: string;
-    public readonly x402GovernanceToken: string;
+    // Payment Protocol Configuration
+    public readonly paymentProtocolEnabled: boolean;
 
     // Cross-Chain Configuration
     public readonly ethereumRpcUrl: string;
@@ -77,12 +73,8 @@ export class OdinConfig {
         this.nodeEnv = process.env.NODE_ENV || 'development';
         this.logLevel = process.env.LOG_LEVEL || 'info';
 
-        // X402 Protocol Configuration
-        this.x402RpcUrl = process.env.X402_RPC_URL || 'https://x402-mainnet-rpc.com';
-        this.x402ChainId = parseInt(process.env.X402_CHAIN_ID || '402');
-        this.x402BridgeContract = process.env.X402_BRIDGE_CONTRACT || '';
-        this.x402OracleAggregator = process.env.X402_ORACLE_AGGREGATOR || '';
-        this.x402GovernanceToken = process.env.X402_GOVERNANCE_TOKEN || '';
+        // Payment Protocol Configuration
+        this.paymentProtocolEnabled = process.env.PAYMENT_PROTOCOL_ENABLED === 'true' || true;
 
         // Cross-Chain Configuration
         this.ethereumRpcUrl = process.env.ETHEREUM_RPC_URL || '';
@@ -157,9 +149,7 @@ export class OdinConfig {
             errors.push('WALLET_PRIVATE_KEY is required for live trading');
         }
 
-        if (!this.x402RpcUrl) {
-            errors.push('X402_RPC_URL is required');
-        }
+
 
         if (this.enableMevProtection && !this.flashbotsRelayUrl) {
             errors.push('FLASHBOTS_RELAY_URL is required when MEV protection is enabled');
@@ -189,7 +179,7 @@ export class OdinConfig {
             137: { rpcUrl: this.polygonRpcUrl, name: 'Polygon' },
             42161: { rpcUrl: this.arbitrumRpcUrl, name: 'Arbitrum' },
             10: { rpcUrl: this.optimismRpcUrl, name: 'Optimism' },
-            [this.x402ChainId]: { rpcUrl: this.x402RpcUrl, name: 'X402' }
+
         };
 
         return chains[chainId] || null;
@@ -207,11 +197,8 @@ export class OdinConfig {
                 nodeEnv: this.nodeEnv,
                 logLevel: this.logLevel
             },
-            x402: {
-                chainId: this.x402ChainId,
-                rpcUrl: this.x402RpcUrl.replace(/\/[^\/]*$/, '/***'), // Hide API keys
-                bridgeContract: this.x402BridgeContract,
-                oracleAggregator: this.x402OracleAggregator
+            payment: {
+                protocolEnabled: this.paymentProtocolEnabled
             },
             trading: {
                 enableMevProtection: this.enableMevProtection,

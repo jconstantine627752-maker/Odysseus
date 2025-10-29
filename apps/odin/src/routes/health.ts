@@ -22,7 +22,7 @@ export class HealthRouter {
         try {
             res.json({
                 status: 'healthy',
-                service: 'Odin X402 Protocol Module',
+                service: 'Odin HTTP 402 Payment Module',
                 version: '1.0.0',
                 timestamp: new Date().toISOString(),
                 uptime: process.uptime()
@@ -39,14 +39,14 @@ export class HealthRouter {
     private async getDetailedStatus(req: Request, res: Response): Promise<void> {
         try {
             const status = {
-                service: 'Odin X402 Protocol Module',
+                service: 'Odin HTTP 402 Payment Module',
                 version: '1.0.0',
                 timestamp: new Date().toISOString(),
                 uptime: process.uptime(),
                 environment: this.config.nodeEnv,
                 configuration: this.config.toJSON(),
                 features: {
-                    x402Protocol: true,
+                    http402Protocol: true,
                     mevProtection: this.config.enableMevProtection,
                     arbitrage: this.config.enableArbitrage,
                     flashLoans: this.config.enableFlashLoans,

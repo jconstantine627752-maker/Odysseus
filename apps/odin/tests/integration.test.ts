@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { OdinServer } from '../src/server';
 
-describe('Odin X402 Integration Tests', () => {
+describe('Odin HTTP 402 Integration Tests', () => {
     let app: any;
     let server: OdinServer;
 
@@ -25,7 +25,7 @@ describe('Odin X402 Integration Tests', () => {
                 .expect(200);
 
             expect(response.body).toHaveProperty('status', 'healthy');
-            expect(response.body).toHaveProperty('service', 'Odin X402 Protocol Module');
+            expect(response.body).toHaveProperty('service', 'Odin HTTP 402 Payment Module');
             expect(response.body).toHaveProperty('uptime');
         });
 

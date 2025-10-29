@@ -3,7 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import { createLogger } from './utils/logger';
-import { x402Router } from './routes/x402';
+import { x402Router } from './routes/http402';
 import { HealthRouter } from './routes/health';
 import { OdinConfig } from './config/config';
 import { paymentService } from './services/x402';

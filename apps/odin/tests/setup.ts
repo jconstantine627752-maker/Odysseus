@@ -5,8 +5,7 @@ process.env.NODE_ENV = 'test';
 process.env.ODIN_PORT = '9998';
 process.env.PAPER_TRADING = 'true';
 process.env.LOG_LEVEL = 'silent';
-process.env.X402_RPC_URL = 'http://localhost:8545';
-process.env.X402_CHAIN_ID = '402';
+process.env.PAYMENT_PROTOCOL_ENABLED = 'true';
 process.env.REDIS_URL = 'redis://localhost:6379/1';
 
 // Global test setup

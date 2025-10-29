@@ -68,7 +68,7 @@ export class StopLossManager {
             for (let i = 0; i < 5; i++) {
                 stopLosses.push({
                     id: `sl_hist_${i}`,
-                    token: ['X402', 'WETH', 'USDC'][Math.floor(Math.random() * 3)],
+                    token: ['ETH', 'WETH', 'USDC'][Math.floor(Math.random() * 3)],
                     triggerPrice: (Math.random() * 100).toFixed(4),
                     amount: (Math.random() * 1000).toFixed(2),
                     type: Math.random() > 0.5 ? 'percentage' : 'absolute',
@@ -162,7 +162,7 @@ export class StopLossManager {
     private async getCurrentPrice(token: string): Promise<number> {
         // Mock price feed - integrate with real price oracle
         const mockPrices: Record<string, number> = {
-            'X402': 25.50 + (Math.random() - 0.5) * 2,
+            'ETH': 2634.50 + (Math.random() - 0.5) * 50,
             'WETH': 2350 + (Math.random() - 0.5) * 100,
             'WBTC': 43500 + (Math.random() - 0.5) * 1000,
             'USDC': 1.00,

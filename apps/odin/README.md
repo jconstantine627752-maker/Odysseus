@@ -1,6 +1,6 @@
-# Odin X402 Protocol Module
+# Odin HTTP 402 Payment Module
 
-> Advanced X402 blockchain integration with Zeus trading engine and Odysseus bot intelligence
+> Advanced HTTP 402 payment protocol integration for AI agents and automated micropayments
 
 ```mermaid
 graph TD
@@ -25,11 +25,11 @@ graph TD
     style VERIFY fill:#ea580c
 ```
 
-## What is X402 Integration?
+## What is HTTP 402 Payment Protocol?
 
-**X402** is Coinbase's open-source, internet-native payment protocol that uses the dormant **HTTP 402 "Payment Required"** status code to enable programmatic and automatic payments. The Odin module provides comprehensive integration with the X402 payment protocol for AI agents and automated systems.
+**HTTP 402** is the standard "Payment Required" status code that enables internet-native micropayments. The Odin module provides comprehensive integration with HTTP 402 payment flows for AI agents and automated systems, using modern blockchain payments.
 
-### X402 Protocol Features:
+### HTTP 402 Protocol Features:
 - **HTTP 402 Payment Required**: Uses standard HTTP status code for payment requests
 - **Stablecoin Payments**: Direct USDC payments on Ethereum, Polygon, Base, and Arbitrum
 - **Machine-to-Machine Payments**: AI agents can autonomously pay for services
@@ -37,26 +37,26 @@ graph TD
 - **Blockchain Verification**: On-chain transaction verification for payment proof
 - **No Intermediaries**: Direct payments to recipient wallets without third parties
 
-### Why X402?
-X402 enables a modern economy of machine-to-machine payments where AI agents can autonomously pay for web services using stablecoins directly within the web request flow, bypassing traditional payment processors and complex setups.
+### Why HTTP 402?
+HTTP 402 enables a modern economy of machine-to-machine payments where AI agents can autonomously pay for web services using stablecoins directly within the web request flow, bypassing traditional payment processors and complex setups.
 
 ## Meet the Odysseus Ecosystem
 
 ```mermaid
 graph LR
     subgraph "Odysseus Ecosystem"
-        ODIN[Odin<br/>X402 Protocol<br/>Integration Layer]
+        ODIN[Odin<br/>HTTP 402 Payment<br/>Integration Layer]
         ZEUS[Zeus<br/>Advanced Trading<br/>Engine]
         ODYSSEUS[Odysseus Bot<br/>AI Trading<br/>Intelligence]
     end
     
     subgraph "Data Flow"
-        X402_DATA[X402 Protocol Data]
+        PAYMENT_DATA[Payment Protocol Data]
         MARKET_DATA[Market Intelligence]
         TRADE_EXEC[Trade Execution]
     end
     
-    X402_DATA --> ODIN
+    PAYMENT_DATA --> ODIN
     ODIN --> ZEUS
     ZEUS --> TRADE_EXEC
     MARKET_DATA --> ODYSSEUS
@@ -69,8 +69,8 @@ graph LR
 
 The **Odysseus** platform consists of three primary components working in harmony:
 
-### **Odin** - X402 Protocol Integration Layer
-The technical foundation that interfaces with X402 blockchain, handles cross-chain operations, and manages protocol-level integrations.
+### **Odin** - HTTP 402 Payment Integration Layer
+The technical foundation that handles HTTP 402 payment flows, cross-chain verification, and manages blockchain payment integrations.
 
 ### **Zeus** - Advanced Trading Engine  
 The high-performance trading engine that executes arbitrage, flash loans, options strategies, and portfolio management with military-grade precision.
