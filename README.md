@@ -1,4 +1,4 @@
-#The Odysseus Collective
+#The Odysseus Collective#
 
 **AI-Powered Trading with X402 Payment Protocol Integration**
 
