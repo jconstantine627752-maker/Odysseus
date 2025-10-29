@@ -19,45 +19,12 @@ class OdinConfig {
         this.odinApiKey = process.env.ODIN_API_KEY || '';
         this.jwtSecret = process.env.JWT_SECRET || '';
         this.encryptionKey = process.env.ENCRYPTION_KEY || '';
-        // Trading Configuration
-        this.enableMevProtection = process.env.ENABLE_MEV_PROTECTION === 'true';
-        this.enableArbitrage = process.env.ENABLE_ARBITRAGE === 'true';
-        this.enableFlashLoans = process.env.ENABLE_FLASH_LOANS === 'true';
-        this.enableOptionsTrading = process.env.ENABLE_OPTIONS_TRADING === 'true';
-        this.maxSlippageBps = parseInt(process.env.MAX_SLIPPAGE_BPS || '100');
-        this.minProfitThresholdUsd = parseFloat(process.env.MIN_PROFIT_THRESHOLD_USD || '5.0');
-        // Risk Management
-        this.maxPositionSizeUsd = parseInt(process.env.MAX_POSITION_SIZE_USD || '50000');
-        this.maxDailyTrades = parseInt(process.env.MAX_DAILY_TRADES || '100');
-        this.maxConcurrentTrades = parseInt(process.env.MAX_CONCURRENT_TRADES || '5');
-        this.stopLossPct = parseFloat(process.env.STOP_LOSS_PCT || '5.0');
-        this.takeProfitPct = parseFloat(process.env.TAKE_PROFIT_PCT || '15.0');
-        this.maxDrawdownPct = parseFloat(process.env.MAX_DRAWDOWN_PCT || '10.0');
-        // Wallet Configuration
-        this.walletPrivateKey = process.env.WALLET_PRIVATE_KEY || '';
-        this.walletAddress = process.env.WALLET_ADDRESS || '';
-        // Oracle & Data Feeds
-        this.chainlinkNodeUrl = process.env.CHAINLINK_NODE_URL || '';
-        this.bandProtocolApi = process.env.BAND_PROTOCOL_API || '';
-        this.pythNetworkWs = process.env.PYTH_NETWORK_WS || '';
-        // MEV Protection
-        this.flashbotsRelayUrl = process.env.FLASHBOTS_RELAY_URL || '';
-        this.edenNetworkRpc = process.env.EDEN_NETWORK_RPC || '';
-        this.privateMempoolEnabled = process.env.PRIVATE_MEMPOOL_ENABLED === 'true';
-        // Cache & Storage
+        // HTTP 402 Payment Configuration
+        this.paymentRecipientAddress = process.env.PAYMENT_RECIPIENT_ADDRESS || '';
+        this.paymentCallbackUrl = process.env.PAYMENT_CALLBACK_URL || '';
+        // Cache & Storage (for payment tracking)
         this.redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
-        this.redisPassword = process.env.REDIS_PASSWORD || '';
         this.cacheTtlSeconds = parseInt(process.env.CACHE_TTL_SECONDS || '300');
-        // Monitoring & Alerts
-        this.discordWebhookUrl = process.env.DISCORD_WEBHOOK_URL || '';
-        this.telegramBotToken = process.env.TELEGRAM_BOT_TOKEN || '';
-        this.telegramChatId = process.env.TELEGRAM_CHAT_ID || '';
-        this.enableAlerts = process.env.ENABLE_ALERTS === 'true';
-        // Development/Testing
-        this.paperTrading = process.env.PAPER_TRADING === 'true';
-        this.testNetwork = process.env.TEST_NETWORK === 'true';
-        this.debugMode = process.env.DEBUG_MODE === 'true';
-        this.verboseLogging = process.env.VERBOSE_LOGGING === 'true';
         this.validateConfig();
     }
     validateConfig() {
@@ -66,21 +33,9 @@ class OdinConfig {
         if (!this.odinApiKey && this.nodeEnv === 'production') {
             errors.push('ODIN_API_KEY is required in production');
         }
-        if (!this.walletPrivateKey && !this.paperTrading) {
-            errors.push('WALLET_PRIVATE_KEY is required for live trading');
-        }
-        if (this.enableMevProtection && !this.flashbotsRelayUrl) {
-            errors.push('FLASHBOTS_RELAY_URL is required when MEV protection is enabled');
-        }
-        // Validate numeric ranges
-        if (this.maxSlippageBps < 1 || this.maxSlippageBps > 10000) {
-            errors.push('MAX_SLIPPAGE_BPS must be between 1 and 10000');
-        }
-        if (this.stopLossPct < 0 || this.stopLossPct > 100) {
-            errors.push('STOP_LOSS_PCT must be between 0 and 100');
-        }
-        if (this.takeProfitPct < 0 || this.takeProfitPct > 1000) {
-            errors.push('TAKE_PROFIT_PCT must be between 0 and 1000');
+        // Validate payment configuration
+        if (this.paymentProtocolEnabled && !this.paymentRecipientAddress) {
+            errors.push('PAYMENT_RECIPIENT_ADDRESS is required when payment protocol is enabled');
         }
         if (errors.length > 0) {
             throw new Error(`Configuration validation failed:\n${errors.join('\n')}`);
@@ -107,28 +62,15 @@ class OdinConfig {
                 logLevel: this.logLevel
             },
             payment: {
-                protocolEnabled: this.paymentProtocolEnabled
+                protocolEnabled: this.paymentProtocolEnabled,
+                recipientAddress: this.paymentRecipientAddress?.replace(/^(.{6}).*(.{4})$/, '$1...$2') || '', // Hide most of address
+                callbackUrl: this.paymentCallbackUrl
             },
-            trading: {
-                enableMevProtection: this.enableMevProtection,
-                enableArbitrage: this.enableArbitrage,
-                enableFlashLoans: this.enableFlashLoans,
-                enableOptionsTrading: this.enableOptionsTrading,
-                maxSlippageBps: this.maxSlippageBps,
-                minProfitThresholdUsd: this.minProfitThresholdUsd
-            },
-            risk: {
-                maxPositionSizeUsd: this.maxPositionSizeUsd,
-                maxDailyTrades: this.maxDailyTrades,
-                maxConcurrentTrades: this.maxConcurrentTrades,
-                stopLossPct: this.stopLossPct,
-                takeProfitPct: this.takeProfitPct,
-                maxDrawdownPct: this.maxDrawdownPct
-            },
-            development: {
-                paperTrading: this.paperTrading,
-                testNetwork: this.testNetwork,
-                debugMode: this.debugMode
+            chains: {
+                ethereum: !!this.ethereumRpcUrl,
+                polygon: !!this.polygonRpcUrl,
+                arbitrum: !!this.arbitrumRpcUrl,
+                optimism: !!this.optimismRpcUrl
             }
         };
     }

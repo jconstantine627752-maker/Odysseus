@@ -138,8 +138,8 @@ class OdinServer {
             this.app.listen(port, host, () => {
                                 logger.info(`Odin HTTP 402 Payment Module running on http://${host}:${port}`);
                 logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
-                logger.info(`Paper trading: ${process.env.PAPER_TRADING === 'true' ? 'ENABLED' : 'DISABLED'}`);
-                logger.info(`MEV protection: ${process.env.ENABLE_MEV_PROTECTION === 'true' ? 'ENABLED' : 'DISABLED'}`);
+                logger.info(`HTTP 402 Protocol: ${this.config.paymentProtocolEnabled ? 'ENABLED' : 'DISABLED'}`);
+                logger.info(`Payment Tracking: ENABLED`);
             });
 
             // Graceful shutdown handling

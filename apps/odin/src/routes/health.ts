@@ -46,12 +46,9 @@ export class HealthRouter {
                 environment: this.config.nodeEnv,
                 configuration: this.config.toJSON(),
                 features: {
-                    http402Protocol: true,
-                    mevProtection: this.config.enableMevProtection,
-                    arbitrage: this.config.enableArbitrage,
-                    flashLoans: this.config.enableFlashLoans,
-                    optionsTrading: this.config.enableOptionsTrading,
-                    paperTrading: this.config.paperTrading
+                    http402Protocol: this.config.paymentProtocolEnabled,
+                    paymentTracking: true,
+                    multiChainSupport: true
                 },
                 chains: {
                     ethereum: { chainId: 1, enabled: !!this.config.ethereumRpcUrl },
