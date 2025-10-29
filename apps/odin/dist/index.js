@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 /**
- * Odin X402 Protocol Module
+ * Odin HTTP 402 Payment Module
  * Startup script for the Odysseus trading platform
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -9,7 +9,7 @@ const logger_1 = require("./utils/logger");
 const server_1 = require("./server");
 async function main() {
     try {
-        logger_1.logger.info('🔱 Starting Odin X402 Protocol Module...');
+        logger_1.logger.info('Starting Odin HTTP 402 Payment Module...');
         const server = new server_1.OdinServer();
         await server.start();
         // Handle graceful shutdown

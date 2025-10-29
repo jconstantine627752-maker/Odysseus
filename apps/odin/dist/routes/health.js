@@ -19,7 +19,7 @@ class HealthRouter {
         try {
             res.json({
                 status: 'healthy',
-                service: 'Odin X402 Protocol Module',
+                service: 'Odin HTTP 402 Payment Module',
                 version: '1.0.0',
                 timestamp: new Date().toISOString(),
                 uptime: process.uptime()
@@ -36,14 +36,14 @@ class HealthRouter {
     async getDetailedStatus(req, res) {
         try {
             const status = {
-                service: 'Odin X402 Protocol Module',
+                service: 'Odin HTTP 402 Payment Module',
                 version: '1.0.0',
                 timestamp: new Date().toISOString(),
                 uptime: process.uptime(),
                 environment: this.config.nodeEnv,
                 configuration: this.config.toJSON(),
                 features: {
-                    x402Protocol: true,
+                    http402Protocol: true,
                     mevProtection: this.config.enableMevProtection,
                     arbitrage: this.config.enableArbitrage,
                     flashLoans: this.config.enableFlashLoans,
@@ -51,7 +51,6 @@ class HealthRouter {
                     paperTrading: this.config.paperTrading
                 },
                 chains: {
-                    x402: { chainId: this.config.x402ChainId, enabled: true },
                     ethereum: { chainId: 1, enabled: !!this.config.ethereumRpcUrl },
                     polygon: { chainId: 137, enabled: !!this.config.polygonRpcUrl },
                     arbitrum: { chainId: 42161, enabled: !!this.config.arbitrumRpcUrl },

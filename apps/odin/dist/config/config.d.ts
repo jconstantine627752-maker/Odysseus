@@ -3,11 +3,7 @@ export declare class OdinConfig {
     readonly host: string;
     readonly nodeEnv: string;
     readonly logLevel: string;
-    readonly x402RpcUrl: string;
-    readonly x402ChainId: number;
-    readonly x402BridgeContract: string;
-    readonly x402OracleAggregator: string;
-    readonly x402GovernanceToken: string;
+    readonly paymentProtocolEnabled: boolean;
     readonly ethereumRpcUrl: string;
     readonly polygonRpcUrl: string;
     readonly arbitrumRpcUrl: string;
@@ -60,11 +56,8 @@ export declare class OdinConfig {
             nodeEnv: string;
             logLevel: string;
         };
-        x402: {
-            chainId: number;
-            rpcUrl: string;
-            bridgeContract: string;
-            oracleAggregator: string;
+        payment: {
+            protocolEnabled: boolean;
         };
         trading: {
             enableMevProtection: boolean;

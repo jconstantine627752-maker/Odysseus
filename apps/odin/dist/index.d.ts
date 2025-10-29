@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Odin X402 Protocol Module
+ * Odin HTTP 402 Payment Module
  * Startup script for the Odysseus trading platform
  */
 export {};

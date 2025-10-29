@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Odin X402 Protocol Module
+ * Odin HTTP 402 Payment Module
  * Startup script for the Odysseus trading platform
  */
 
@@ -10,7 +10,7 @@ import { OdinServer } from './server';
 
 async function main() {
     try {
-        logger.info('🔱 Starting Odin X402 Protocol Module...');
+        logger.info('Starting Odin HTTP 402 Payment Module...');
         
         const server = new OdinServer();
         await server.start();

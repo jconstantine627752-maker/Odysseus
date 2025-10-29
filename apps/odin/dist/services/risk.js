@@ -7,7 +7,7 @@ class RiskAssessment {
     constructor() {
         this.config = new config_1.OdinConfig();
     }
-    async assessToken(token, chain = 'x402') {
+    async assessToken(token, chain = 'ethereum') {
         try {
             const assessment = await this.performTokenAnalysis(token, chain);
             logger_1.logger.info(`Completed risk assessment for ${token} on ${chain}: ${assessment.riskLevel} risk`);
@@ -18,7 +18,7 @@ class RiskAssessment {
             throw error;
         }
     }
-    async assessProtocol(address, chain = 'x402') {
+    async assessProtocol(address, chain = 'ethereum') {
         try {
             const assessment = await this.performProtocolAnalysis(address, chain);
             logger_1.logger.info(`Completed protocol risk assessment for ${address}`);
@@ -334,16 +334,16 @@ class RiskAssessment {
                 'Other': Math.random() * 10
             },
             correlationMatrix: {
-                'X402': { 'USDC': 0.1, 'WETH': 0.7, 'WBTC': 0.6 },
-                'USDC': { 'X402': 0.1, 'WETH': 0.0, 'WBTC': 0.0 },
-                'WETH': { 'X402': 0.7, 'USDC': 0.0, 'WBTC': 0.8 },
-                'WBTC': { 'X402': 0.6, 'USDC': 0.0, 'WETH': 0.8 }
+                'ETH': { 'USDC': 0.1, 'WETH': 0.7, 'WBTC': 0.6 },
+                'USDC': { 'ETH': 0.1, 'WETH': 0.0, 'WBTC': 0.0 },
+                'WETH': { 'ETH': 0.7, 'USDC': 0.0, 'WBTC': 0.8 },
+                'WBTC': { 'ETH': 0.6, 'USDC': 0.0, 'WETH': 0.8 }
             },
             stressTests: [
                 {
                     scenario: 'Market Crash (-50%)',
                     portfolioImpact: '-35.2%',
-                    worstPosition: 'X402 (-45%)',
+                    worstPosition: 'ETH (-45%)',
                     recoveryTime: '120 days'
                 },
                 {

@@ -73,7 +73,7 @@ class OdinServer {
         // API info endpoint
         this.app.get('/api', (req, res) => {
             res.json({
-                service: 'Odin X402 Protocol Module',
+                service: 'Odin HTTP 402 Payment Module',
                 version: '1.0.0',
                 status: 'operational',
                 timestamp: new Date().toISOString(),
@@ -136,7 +136,7 @@ class OdinServer {
             const host = this.config.host;
 
             this.app.listen(port, host, () => {
-                                logger.info(`🔱 Odin X402 Protocol Module running on http://${host}:${port}`);
+                                logger.info(`Odin HTTP 402 Payment Module running on http://${host}:${port}`);
                 logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
                 logger.info(`Paper trading: ${process.env.PAPER_TRADING === 'true' ? 'ENABLED' : 'DISABLED'}`);
                 logger.info(`MEV protection: ${process.env.ENABLE_MEV_PROTECTION === 'true' ? 'ENABLED' : 'DISABLED'}`);

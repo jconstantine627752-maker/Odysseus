@@ -54,7 +54,6 @@ export class HealthRouter {
                     paperTrading: this.config.paperTrading
                 },
                 chains: {
-                    x402: { chainId: this.config.x402ChainId, enabled: true },
                     ethereum: { chainId: 1, enabled: !!this.config.ethereumRpcUrl },
                     polygon: { chainId: 137, enabled: !!this.config.polygonRpcUrl },
                     arbitrum: { chainId: 42161, enabled: !!this.config.arbitrumRpcUrl },

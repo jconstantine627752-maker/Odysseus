@@ -94,7 +94,7 @@ class PortfolioManager {
                 orders.push({
                     id: `order_${Date.now() - i * 1000}`,
                     type: Math.random() > 0.5 ? 'buy' : 'sell',
-                    token: ['X402', 'USDC', 'WETH'][Math.floor(Math.random() * 3)],
+                    token: ['ETH', 'USDC', 'WETH'][Math.floor(Math.random() * 3)],
                     amount: (Math.random() * 1000 + 100).toFixed(2),
                     price: (Math.random() * 100 + 10).toFixed(4),
                     status,
@@ -134,7 +134,7 @@ class PortfolioManager {
     async getPositions() {
         // Mock positions data
         const tokens = [
-            { symbol: 'X402', name: 'X402 Token' },
+            { symbol: 'ETH', name: 'Ethereum' },
             { symbol: 'USDC', name: 'USD Coin' },
             { symbol: 'WETH', name: 'Wrapped Ethereum' },
             { symbol: 'WBTC', name: 'Wrapped Bitcoin' }

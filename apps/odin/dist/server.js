@@ -9,10 +9,10 @@ const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const logger_1 = require("./utils/logger");
-const x402_1 = require("./routes/x402");
+const http402_1 = require("./routes/http402");
 const health_1 = require("./routes/health");
 const config_1 = require("./config/config");
-const x402_2 = require("./services/x402");
+const x402_1 = require("./services/x402");
 // import { initializeRedis } from './utils/cache';
 // import { startBackgroundServices } from './services/background';
 // Load environment variables
@@ -56,7 +56,7 @@ class OdinServer {
         this.app.use('/static', express_1.default.static('src/public'));
         // API routes
         this.app.use('/health', this.healthRouter.router);
-        this.app.use('/x402', x402_1.x402Router);
+        this.app.use('/x402', http402_1.x402Router);
         // Demo UI route
         this.app.get('/', (req, res) => {
             res.sendFile('demo.html', { root: 'src/public' });
@@ -64,7 +64,7 @@ class OdinServer {
         // API info endpoint
         this.app.get('/api', (req, res) => {
             res.json({
-                service: 'Odin X402 Protocol Module',
+                service: 'Odin HTTP 402 Payment Module',
                 version: '1.0.0',
                 status: 'operational',
                 timestamp: new Date().toISOString(),
@@ -98,7 +98,7 @@ class OdinServer {
             // await initializeRedis();
             logger.info('✓ Redis cache initialized (simulated)');
             // Initialize X402 payment service
-            this.app.locals.paymentService = x402_2.paymentService;
+            this.app.locals.paymentService = x402_1.paymentService;
             logger.info('✓ X402 payment service initialized');
             // Start background services (commented out for demo)
             // await startBackgroundServices();
@@ -118,7 +118,7 @@ class OdinServer {
             const port = this.config.port;
             const host = this.config.host;
             this.app.listen(port, host, () => {
-                logger.info(`🔱 Odin X402 Protocol Module running on http://${host}:${port}`);
+                logger.info(`Odin HTTP 402 Payment Module running on http://${host}:${port}`);
                 logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
                 logger.info(`Paper trading: ${process.env.PAPER_TRADING === 'true' ? 'ENABLED' : 'DISABLED'}`);
                 logger.info(`MEV protection: ${process.env.ENABLE_MEV_PROTECTION === 'true' ? 'ENABLED' : 'DISABLED'}`);
