@@ -6,7 +6,7 @@
 
 ## Platform Overview
 
-Odysseus is a comprehensive AI trading platform that integrates Coinbase's X402 payment protocol for next-generation machine-to-machine payments. The platform enables AI agents to autonomously pay for premium trading services using USDC micropayments across multiple blockchain networks.
+Odysseus is a comprehensive AI trading platform that integrates Coinbase's X402 payment protocol for next-generation machine-to-machine payments. The platform enables AI agents to autonomously pay for premium trading services using USDC micropayments across multiple blockchain networks. Think of a exchange, this can also be used to run experiments on AI behavior. If a certain type of LLM is greedy. 
 
 ```mermaid
 graph TB
