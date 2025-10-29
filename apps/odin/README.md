@@ -165,12 +165,19 @@ npm start
 
 ## Configuration
 
+Set up your payment configuration in `.env`:
+
 ```env
-# X402 Protocol Configuration
-X402_RPC_URL=https://x402-mainnet-rpc.com
-X402_CHAIN_ID=402
-X402_BRIDGE_CONTRACT=0x...
-X402_ORACLE_AGGREGATOR=0x...
+# HTTP 402 Payment Configuration
+PAYMENT_PROTOCOL_ENABLED=true
+PAYMENT_RECIPIENT_ADDRESS=0x742d35Cc6634C0532925a3b8D6Ac0d449Fc30819
+PAYMENT_CALLBACK_URL=https://your-domain.com/x402/callback
+
+# Blockchain RPC Configuration (for payment verification)
+ETHEREUM_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/your-api-key
+POLYGON_RPC_URL=https://polygon-mainnet.g.alchemy.com/v2/your-api-key
+BASE_RPC_URL=https://base-mainnet.g.alchemy.com/v2/your-api-key
+ARBITRUM_RPC_URL=https://arb-mainnet.g.alchemy.com/v2/your-api-key
 
 # Trading Configuration
 ODIN_PORT=9999
