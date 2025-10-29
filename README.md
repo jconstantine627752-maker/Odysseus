@@ -133,7 +133,7 @@ graph TD
     style VERIFY fill:#e1f5fe
 ```
 
-**Live Demo**: http://localhost:9999 (when running)
+**Interactive Demo**: Available when running locally
 
 ### Zeus Trading Engine
 
@@ -272,11 +272,11 @@ cp .env.example .env
 # Start all services
 docker-compose up --build
 
-# Access points:
-# Odysseus Bot: http://localhost:3000
-# Zeus API: http://localhost:9999  
-# Odin X402: http://localhost:9999
-# Legacy Solana: http://localhost:8000
+# Services will be available on standard ports:
+# Odysseus Bot: Port 3000
+# Odin Payment Module: Port 9999  
+# Legacy Solana Module: Port 8000
+# Redis Cache: Port 6379
 ```
 
 ### Odin X402 Module Only
@@ -297,39 +297,21 @@ cp .env.example .env
 # Start the server
 npm run build && npm start
 
-# Open demo at: http://localhost:9999
+# Access demo interface on configured port
 ```
 
 ### Environment Configuration
 
-#### For X402 Payment Protocol:
-```env
-# Payment Configuration
-PAYMENT_RECIPIENT_ADDRESS=0x742d35Cc6634C0532925a3b8D6Ac0d449Fc30819
-DEFAULT_PAYMENT_NETWORK=base
+The platform requires configuration of API keys and network endpoints. Copy the provided `.env.example` files and configure with your credentials:
 
-# Blockchain RPC URLs (for payment verification)
-ETHEREUM_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/your-api-key
-POLYGON_RPC_URL=https://polygon-mainnet.g.alchemy.com/v2/your-api-key
-BASE_RPC_URL=https://base-mainnet.g.alchemy.com/v2/your-api-key
-ARBITRUM_RPC_URL=https://arb-mainnet.g.alchemy.com/v2/your-api-key
-```
+**Required Configuration:**
+- Payment recipient addresses for USDC transactions
+- RPC endpoints for Ethereum, Polygon, Base, and Arbitrum networks  
+- Solana and BNB Chain RPC URLs for legacy trading modules
+- API keys for data providers (PumpPortal, Bitquery, RugCheck)
+- Private keys for trading wallets (keep secure)
 
-#### For Trading Modules:
-```env
-# Solana Configuration
-SOLANA_RPC_URL=https://api.mainnet-beta.solana.com
-WALLET_PRIVATE_KEY=your_solana_private_key
-
-# BNB Chain Configuration  
-BSC_RPC_URL=https://bsc-dataseed.binance.org
-BNB_PRIVATE_KEY=your_bnb_private_key
-
-# API Keys
-PUMPPORTAL_API_KEY=your_api_key
-BITQUERY_API_KEY=your_api_key
-RUGCHECK_API_KEY=your_api_key
-```
+Detailed configuration examples are provided in the `.env.example` files within each module directory.
 
 ## X402 Use Cases & Demo
 
@@ -345,8 +327,8 @@ RUGCHECK_API_KEY=your_api_key
 
 ### How to Test X402
 
-1. **Start Odin server**: `cd apps/odin && npm start`
-2. **Open demo UI**: http://localhost:9999
+1. **Start Odin server**: Navigate to apps/odin and run npm start
+2. **Open demo UI**: Access via web interface
 3. **Try a service**: Click any "Try" button
 4. **Get 402 response**: Server returns payment details
 5. **Send USDC**: Transfer to the provided address
@@ -360,7 +342,7 @@ RUGCHECK_API_KEY=your_api_key
 import requests
 
 # Request premium data
-response = requests.get('http://localhost:9999/x402/premium-data')
+response = requests.get('http://your-server/x402/premium-data')
 
 if response.status_code == 402:
     payment_info = response.json()['paymentRequest']
@@ -379,7 +361,7 @@ if response.status_code == 402:
         })
     }
     
-    data_response = requests.get('http://localhost:9999/x402/premium-data', headers=headers)
+    data_response = requests.get('http://your-server/x402/premium-data', headers=headers)
     print(data_response.json())
 ```
 
@@ -389,7 +371,7 @@ const axios = require('axios');
 
 async function getPremiumData() {
     try {
-        const response = await axios.get('http://localhost:9999/x402/premium-data');
+        const response = await axios.get('http://your-server/x402/premium-data');
         return response.data;
     } catch (error) {
         if (error.response?.status === 402) {
@@ -400,7 +382,7 @@ async function getPremiumData() {
             // After payment, retry with proof
             const txHash = prompt('Enter transaction hash:');
             
-            const retryResponse = await axios.get('http://localhost:9999/x402/premium-data', {
+            const retryResponse = await axios.get('http://your-server/x402/premium-data', {
                 headers: {
                     'x-payment-id': paymentRequest.paymentId,
                     'x-payment-proof': JSON.stringify({
