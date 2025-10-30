@@ -256,15 +256,14 @@ class ColosseumServer {
         logger.info(`Environment: ${this.config.getConfig().nodeEnv}`);
         logger.info(`Payment Protocol: ${this.config.paymentProtocolEnabled ? 'ENABLED' : 'DISABLED'}`);
         
-        // 🚨 CRITICAL WARNING FOR LIVE STREAM
         if (!this.config.mockPayments) {
-          logger.warn('🚨 ========================================');
-          logger.warn('🚨   REAL MONEY MODE - LIVE TRANSACTIONS');
-          logger.warn('🚨 ========================================');
+          logger.warn('� ========================================');
+          logger.warn('�   REAL MONEY MODE - MAINNET TRANSACTIONS');
+          logger.warn('� ========================================');
           logger.warn('💰 Mock Payments: DISABLED - USING REAL USDC');
           logger.warn('⛓️  Network: SOLANA MAINNET');
           logger.warn('👀 Transparency: https://solscan.io');
-          logger.warn('🚨 ========================================');
+          logger.warn('� ========================================');
         } else {
           logger.info(`Mock Payments: ENABLED (for testing)`);
         }
