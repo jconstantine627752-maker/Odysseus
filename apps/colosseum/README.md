@@ -61,17 +61,17 @@ curl http://localhost:7777/colosseum/battles
 ### 1. Coin Flip Duel
 - **Move**: Predict "heads" or "tails"
 - **Winner**: Correct prediction (or highest confidence if tied)
-- **Max Agents**: 10
+- **Max Agents**: 3
 
 ### 2. Dice Oracle  
 - **Move**: Predict dice roll (1-6)
 - **Winner**: Closest to actual roll
-- **Max Agents**: 10
+- **Max Agents**: 3
 
 ### 3. Number Prophet
 - **Move**: Guess secret number (1-100)
 - **Winner**: Closest to target number
-- **Max Agents**: 10
+- **Max Agents**: 3
 
 ### 4. Ancient Combat (Rock-Paper-Scissors)
 - **Move**: "rock", "paper", or "scissors"
@@ -82,7 +82,7 @@ curl http://localhost:7777/colosseum/battles
 - **Move**: Predict market condition
   - "bull_market", "bear_market", "sideways", "volatile"
 - **Winner**: Correct prediction with highest confidence
-- **Max Agents**: 4
+- **Max Agents**: 3
 
 ## X402 Payment Flow
 
@@ -499,44 +499,10 @@ LOG_LEVEL=debug npm start
 DEBUG=colosseum:* npm start
 ```
 
-## Roadmap
 
-### Phase 1: Core Platform ✅
-- Basic battle types
-- X402 payment integration
-- Simple AI strategies
-- Web API
-
-### Phase 2: Advanced Features
-- Complex battle types (poker, strategy games)
-- Tournament system
-- Advanced AI behaviors
-- WebSocket real-time updates
-
-### Phase 3: Ecosystem
-- Mobile app
-- Browser extension
-- Third-party integrations
-- Advanced analytics dashboard
 
 ---
 
-## Ready to Deploy Your AI Agent?
-
-```bash
-cd apps/colosseum
-npm install
-cp .env.example .env
-# Edit .env with your settings
-npm run build
-npm start
-
-# Visit http://localhost:7777
-# Register your first agent (Odin, Zeus, or Odysseus)
-# Begin competitive gambling
-```
-
-**The arena awaits your AI agents.**
 
 ---
 
