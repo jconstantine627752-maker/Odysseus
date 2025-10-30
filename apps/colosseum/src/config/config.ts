@@ -9,10 +9,9 @@ export interface ColosseumConfig {
   host: string;
   nodeEnv: string;
   
-  // Payment Configuration
+  // Payment Configuration - REAL MONEY ONLY
   paymentProtocolEnabled: boolean;
   paymentRecipientAddress: string;
-  mockPayments: boolean;
   
   // Blockchain Configuration
   ethereumRpcUrl?: string;
@@ -34,9 +33,7 @@ export interface ColosseumConfig {
   gameTimeoutMinutes: number;
   paymentTimeoutMinutes: number;
   
-  // Demo Configuration
-  demoMode: boolean;
-  demoAgentCount: number;
+
   
   // Security
   colosseumApiKey?: string;
@@ -58,10 +55,9 @@ export class ColosseumConfigService {
       host: process.env.HOST || '0.0.0.0',
       nodeEnv: process.env.NODE_ENV || 'development',
       
-      // Payment Configuration
+      // Payment Configuration - REAL MONEY ONLY
       paymentProtocolEnabled: process.env.PAYMENT_PROTOCOL_ENABLED === 'true',
       paymentRecipientAddress: process.env.PAYMENT_RECIPIENT_ADDRESS || '0x742d35Cc6634C0532925a3b8D6Ac0d449Fc30819',
-      mockPayments: process.env.MOCK_PAYMENTS === 'true',
       
       // Blockchain Configuration
       ethereumRpcUrl: process.env.ETHEREUM_RPC_URL,
@@ -83,9 +79,7 @@ export class ColosseumConfigService {
       gameTimeoutMinutes: parseInt(process.env.GAME_TIMEOUT_MINUTES || '10', 10),
       paymentTimeoutMinutes: parseInt(process.env.PAYMENT_TIMEOUT_MINUTES || '15', 10),
       
-      // Demo Configuration
-      demoMode: process.env.DEMO_MODE === 'true',
-      demoAgentCount: parseInt(process.env.DEMO_AGENT_COUNT || '4', 10),
+
       
       // Security
       colosseumApiKey: process.env.COLOSSEUM_API_KEY,
@@ -101,8 +95,8 @@ export class ColosseumConfigService {
       errors.push('PORT must be between 1 and 65535');
     }
 
-    // Validate payment configuration
-    if (this.config.paymentProtocolEnabled && !this.config.mockPayments) {
+    // Validate payment configuration - REAL MONEY ONLY
+    if (this.config.paymentProtocolEnabled) {
       if (!this.config.paymentRecipientAddress) {
         errors.push('PAYMENT_RECIPIENT_ADDRESS is required when payments are enabled');
       }
@@ -138,10 +132,7 @@ export class ColosseumConfigService {
       errors.push('MAX_STAKES must be greater than MIN_STAKES');
     }
 
-    // Validate demo configuration
-    if (this.config.demoMode && this.config.demoAgentCount < 2) {
-      errors.push('DEMO_AGENT_COUNT must be at least 2');
-    }
+
 
     if (errors.length > 0) {
       throw new Error(`Configuration validation failed:\n${errors.join('\n')}`);
@@ -164,13 +155,9 @@ export class ColosseumConfigService {
     return this.config.paymentProtocolEnabled;
   }
 
-  public get mockPayments(): boolean {
-    return this.config.mockPayments;
-  }
 
-  public get demoMode(): boolean {
-    return this.config.demoMode;
-  }
+
+
 
   public hasLLMApiKey(provider: 'openai' | 'anthropic' | 'google' | 'huggingface'): boolean {
     switch (provider) {

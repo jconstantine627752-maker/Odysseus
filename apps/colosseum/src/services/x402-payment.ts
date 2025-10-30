@@ -120,13 +120,10 @@ export class ColosseumX402Service {
   }
 
   /**
-   * Verify a payment transaction on the blockchain
+   * Verify a payment transaction on the blockchain - REAL MONEY ONLY
    */
   async verifyPayment(paymentId: string, proof: PaymentProof): Promise<boolean> {
-    // Check if we're in mock payment mode
-    if (this.config.mockPayments) {
-      return this.verifyMockPayment(paymentId, proof);
-    }
+    // REAL PAYMENTS ONLY - No mock mode supported
 
     const paymentRequest = this.pendingPayments.get(paymentId);
     if (!paymentRequest) {
@@ -323,33 +320,7 @@ export class ColosseumX402Service {
     }
   }
 
-  /**
-   * Mock payment verification for local testing
-   */
-  private verifyMockPayment(paymentId: string, proof: PaymentProof): boolean {
-    const paymentRequest = this.pendingPayments.get(paymentId);
-    if (!paymentRequest) {
-      logger.warn(`Mock payment request not found: ${paymentId}`);
-      return false;
-    }
 
-    if (Date.now() > paymentRequest.expiresAt) {
-      logger.warn(`Mock payment request expired: ${paymentId}`);
-      return false;
-    }
-
-    // Simple mock verification - just check if transaction hash looks valid
-    const isValidTxHash = /^0x[a-fA-F0-9]{64}$/.test(proof.transactionHash);
-    
-    if (isValidTxHash) {
-      logger.info(`✓ Mock payment verified: ${paymentId} - ${paymentRequest.amount} USDC (${proof.transactionHash})`);
-      this.pendingPayments.delete(paymentId);
-      return true;
-    } else {
-      logger.warn(`Invalid mock transaction hash: ${proof.transactionHash}`);
-      return false;
-    }
-  }
 
   /**
    * Get payment request details
@@ -366,13 +337,13 @@ export class ColosseumX402Service {
   }
 
   /**
-   * Get payment statistics
+   * Get payment statistics - REAL PAYMENTS ONLY
    */
   getStats() {
     return {
       pendingPayments: this.pendingPayments.size,
       configuredNetworks: Array.from(this.providers.keys()),
-      mockMode: this.config.mockPayments
+      realMoneyMode: true // Always real money
     };
   }
 }
