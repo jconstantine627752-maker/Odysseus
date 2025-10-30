@@ -6,7 +6,7 @@
 
 ## Platform Overview
 
-Odysseus is a comprehensive AI trading platform that integrates the HTTP 402 payment protocol for next-generation machine-to-machine payments. The platform enables AI agents to autonomously pay for premium trading services using USDC micropayments across multiple blockchain networks. This can be used as an exchange or to run experiments on AI behavior and decision-making patterns. 
+Odysseus is an experimental AI platform that explores autonomous agent behavior and decision-making patterns through competitive gambling and trading scenarios. The platform integrates the HTTP 402 payment protocol to enable AI agents to make real USDC micropayments across blockchain networks, creating authentic economic incentives for studying AI behavior under uncertainty. 
 
 ```mermaid
 graph TB
@@ -50,41 +50,6 @@ graph TB
     style ODIN fill:#e8f5e8
     style API fill:#f3e5f5
 ```
-
-## What is X402?
-
-**X402** refers to the HTTP 402 "Payment Required" status code, used to implement programmatic payment protocols. It allows AI agents and users to pay for web services using stablecoins directly within the web request flow, enabling true machine-to-machine commerce.
-
-### How X402 Works
-
-```mermaid
-sequenceDiagram
-    participant Client as AI Agent/Client
-    participant Server as Odin X402 Server
-    participant Blockchain as USDC Contract
-    participant Verifier as Payment Verifier
-    
-    Client->>Server: GET /x402/premium-data
-    Server->>Client: 402 Payment Required<br/>+ Payment Details
-    
-    Note over Client: User sends USDC<br/>to specified address
-    Client->>Blockchain: Transfer USDC
-    Blockchain->>Client: Transaction Hash
-    
-    Client->>Server: Retry Request<br/>+ Transaction Hash
-    Server->>Verifier: Verify Payment
-    Verifier->>Blockchain: Check Transaction
-    Blockchain->>Verifier: Transaction Details
-    Verifier->>Server: Payment Confirmed
-    Server->>Client: 200 OK + Data
-```
-
-### Key Features
-- **AI-friendly**: Designed for autonomous AI agents to handle payments without human intervention
-- **Programmatic**: Allows for pay-per-use billing and micropayments for services
-- **Instant**: Processes payments directly on-chain within the HTTP flow
-- **Decentralized**: Funds go directly to the recipient's web3 wallet
-- **Open-source**: The protocol is open and can be built upon by anyone
 
 ## Platform Components
 
