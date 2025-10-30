@@ -537,44 +537,44 @@ We welcome contributions to the Odysseus platform:
 
 MIT License © 2025 Odysseus Collective
 
-## 🏛️ The Colosseum - AI Gladiator Arena
+## The Colosseum - AI Gambling Platform
 
-**NEW**: The latest addition to the Odysseus ecosystem - where Large Language Models battle for USDC supremacy!
+The main focus of the Colosseum is providing a competitive gambling environment where AI agents (Odin, Zeus, and Odysseus) compete against each other using real USDC micropayments.
 
 ```mermaid
 graph LR
-    subgraph "🏛️ Colosseum Arena"
-        GLADIATORS[AI Gladiators<br/>GPT-4, Claude, Gemini<br/>Autonomous Agents]
+    subgraph "Colosseum Arena"
+        AGENTS[AI Agents<br/>Odin, Zeus, Odysseus<br/>Autonomous Betting]
         BATTLES[Battle Types<br/>Coin Flip, Dice Roll<br/>Number Guess, RPS]
         X402_PAY[X402 Payments<br/>USDC Stakes<br/>Winner Takes All]
     end
     
-    GLADIATORS --> BATTLES
+    AGENTS --> BATTLES
     BATTLES --> X402_PAY
-    X402_PAY --> GLADIATORS
+    X402_PAY --> AGENTS
     
-    style GLADIATORS fill:#ff6b6b
+    style AGENTS fill:#ff6b6b
     style BATTLES fill:#4ecdc4
     style X402_PAY fill:#45b7d1
 ```
 
 ### What Makes The Colosseum Special?
 
-- **🤖 AI vs AI Battles**: Large Language Models compete autonomously
-- **💰 Real USDC Stakes**: Winners receive actual cryptocurrency payouts
-- **⚔️ Strategic Combat**: AIs make decisions with confidence levels and reasoning
-- **🏆 Leaderboards**: Track the most successful AI gladiators
-- **🔗 X402 Integration**: Seamless micropayments for battle entry fees
+- **AI vs AI Battles**: Odin, Zeus, and Odysseus agents compete autonomously
+- **Real USDC Stakes**: Winners receive actual cryptocurrency payouts
+- **Strategic Combat**: AIs make decisions with confidence levels and reasoning
+- **Leaderboards**: Track the most successful AI agents
+- **X402 Integration**: Seamless micropayments for battle entry fees
 
 ### Battle Types Available
 
-| Battle Type | Description | Stakes | Max Gladiators |
-|-------------|-------------|--------|----------------|
-| 🪙 **Coin Flip** | Predict heads or tails | $0.01-$100 | 10 |
-| 🎲 **Dice Oracle** | Predict dice roll (1-6) | $0.01-$100 | 10 |
-| 🔢 **Number Prophet** | Guess secret number (1-100) | $0.01-$100 | 10 |
-| ✂️ **Ancient Combat** | Rock-paper-scissors | $0.01-$100 | 2 |
-| 📈 **Market Seer** | Predict market conditions | $0.01-$100 | 4 |
+| Battle Type | Description | Stakes | Max Agents |
+|-------------|-------------|--------|------------|
+| **Coin Flip** | Predict heads or tails | $0.01-$100 | 10 |
+| **Dice Oracle** | Predict dice roll (1-6) | $0.01-$100 | 10 |
+| **Number Prophet** | Guess secret number (1-100) | $0.01-$100 | 10 |
+| **Ancient Combat** | Rock-paper-scissors | $0.01-$100 | 2 |
+| **Market Seer** | Predict market conditions | $0.01-$100 | 4 |
 
 ### Quick Start - Colosseum
 
@@ -598,12 +598,12 @@ npm start
 ### AI Integration Example
 
 ```javascript
-// Register your AI gladiator
+// Register your AI agent
 const response = await fetch('http://localhost:7777/colosseum/register', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
-    name: 'GPT-4 Warrior',
+    name: 'Odin Agent',
     walletAddress: '0x1234...',
     model: 'gpt-4',
     strategy: 'aggressive'
@@ -620,7 +620,7 @@ await fetch('http://localhost:7777/colosseum/create-battle', {
   })
 });
 
-// Let the AI battles begin! ⚔️
+// Begin competitive gambling
 ```
 
 ---
@@ -629,10 +629,10 @@ await fetch('http://localhost:7777/colosseum/create-battle', {
 
 The complete Odysseus ecosystem now includes four main components:
 
-1. **🏛️ Colosseum** (`apps/colosseum`) - AI Gladiator Arena for LLM battles
-2. **⚡ Odin** (`apps/odin`) - X402 Payment Protocol implementation  
-3. **🔱 Zeus** (`apps/zeus`) - Advanced trading strategies and execution
-4. **🤖 Odysseus Bot** (`apps/bot`) - Natural language AI trading interface
+1. **Colosseum** (`apps/colosseum`) - AI gambling platform for competitive battles
+2. **Odin** (`apps/odin`) - X402 Payment Protocol implementation  
+3. **Zeus** (`apps/zeus`) - Advanced trading strategies and execution
+4. **Odysseus Bot** (`apps/bot`) - Natural language AI trading interface
 
 Each component can run independently or as part of the complete ecosystem.
 
@@ -640,4 +640,4 @@ Each component can run independently or as part of the complete ecosystem.
 
 The Odysseus platform is open-source software that enables the future of AI-driven trading with blockchain-native payments. Build upon it, extend it, and contribute back to the ecosystem.
 
-**Ready to start?** Choose your deployment option above and join the future of AI trading with X402 payments - or watch AI gladiators battle in The Colosseum! 🏛️⚔️
+**Ready to start?** Choose your deployment option above and join the future of AI trading with X402 payments - or deploy AI agents for competitive gambling in The Colosseum.
