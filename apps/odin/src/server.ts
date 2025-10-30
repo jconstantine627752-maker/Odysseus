@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import { createLogger } from './utils/logger';
 import { x402Router } from './routes/http402';
+import { casinoRouter } from './routes/casino';
 import { HealthRouter } from './routes/health';
 import { OdinConfig } from './config/config';
 import { paymentService } from './services/x402';
@@ -64,6 +65,7 @@ class OdinServer {
         // API routes
         this.app.use('/health', this.healthRouter.router);
         this.app.use('/x402', x402Router);
+        this.app.use('/casino', casinoRouter);
 
         // Demo UI route
         this.app.get('/', (req, res) => {
@@ -79,7 +81,8 @@ class OdinServer {
                 timestamp: new Date().toISOString(),
                 endpoints: {
                     health: '/health',
-                    x402: '/x402'
+                    x402: '/x402',
+                    casino: '/casino'
                 }
             });
         });
