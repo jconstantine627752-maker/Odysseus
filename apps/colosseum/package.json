@@ -7,6 +7,7 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "dev": "ts-node src/server.ts",
+    "ai-bot": "node ai-agent-bot.js",
     "test": "ts-node tests/colosseum.test.ts",
     "test:jest": "jest",
     "test:watch": "jest --watch",

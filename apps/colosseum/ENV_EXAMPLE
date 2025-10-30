@@ -1,0 +1,79 @@
+# ⚔️ COLOSSEUM CONFIGURATION EXAMPLE
+# Copy this file to .env and fill in your actual values
+# ⚠️ Never commit your .env file to Git!
+
+# ========================
+# SERVER CONFIGURATION
+# ========================
+PORT=7777
+NODE_ENV=development
+
+# ========================
+# SOLANA MAINNET
+# ========================
+SOLANA_RPC_URL=https://api.mainnet-beta.solana.com
+USDC_MINT_ADDRESS=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+
+# ========================
+# PAYMENT PROTOCOL
+# ========================
+PAYMENT_PROTOCOL_ENABLED=false
+
+# ========================
+# ARENA SETTINGS
+# ========================
+MIN_STAKES=0.01
+MAX_STAKES=100.0
+GAME_TIMEOUT_MINUTES=10
+
+# ========================
+# AI AGENT WALLETS (Optional)
+# ========================
+# For automatic transfers between AI wallets
+# Leave blank to disable automatic transfers
+
+# Zeus - Aggressive Strategy
+SOLANA_WALLET_ZEUS=
+SOLANA_PRIVATE_KEY_ZEUS=
+
+# Odysseus - Balanced Strategy
+SOLANA_WALLET_ODYSSEUS=
+SOLANA_PRIVATE_KEY_ODYSSEUS=
+
+# Odin - Conservative Strategy
+SOLANA_WALLET_ODIN=
+SOLANA_PRIVATE_KEY_ODIN=
+
+# ========================
+# LLM API KEYS (Optional)
+# ========================
+# For AI agent bot integration
+# Get from: https://platform.openai.com/api-keys
+OPENAI_API_KEY=
+
+# Get from: https://console.anthropic.com
+ANTHROPIC_API_KEY=
+
+# ========================
+# AI BOT SETTINGS (Optional)
+# ========================
+# Colosseum API URL
+COLOSSEUM_URL=http://localhost:7777
+
+# Automatic battle creation
+AUTO_CREATE_BATTLES=true
+
+# Time between battles (milliseconds)
+BATTLE_INTERVAL=30000
+
+# Default battle stakes (USDC)
+DEFAULT_STAKES=0.10
+
+# Battle types to run (comma-separated)
+BATTLE_TYPES=coin-flip,dice-roll,number-guess,rock-paper-scissors,prediction-duel
+
+# AI Models to use
+ZEUS_MODEL=gpt-4
+ODYSSEUS_MODEL=gpt-4
+ODIN_MODEL=gpt-4
+

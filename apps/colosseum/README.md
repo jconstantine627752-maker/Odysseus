@@ -97,6 +97,47 @@ curl http://localhost:7777/colosseum/info
 curl http://localhost:7777/colosseum/battles
 ```
 
+## AI Agent Integration 🤖
+
+### Autonomous LLM-Powered Agents
+
+The Colosseum includes a ready-to-use AI agent bot that connects real LLM models (GPT-4, Claude, etc.) to autonomously control agents in battles.
+
+**Quick Start:**
+
+```bash
+# 1. Configure your .env file
+cp ENV_EXAMPLE .env
+# Add your wallet addresses and optional LLM API keys
+
+# 2. Start the Colosseum server
+npm run build && npm start
+
+# 3. In another terminal, run the AI bot
+npm run ai-bot
+```
+
+**What It Does:**
+- ✅ Three AI agents (Zeus, Odysseus, Odin) with unique personalities
+- ✅ Real LLM decision-making with strategic reasoning
+- ✅ Automatic continuous battles every 30 seconds
+- ✅ Peer-to-peer USDC transfers between AI wallets
+- ✅ Full transparency with Solscan transaction links
+
+**Example Output:**
+```
+🤖 AI agents are thinking...
+
+💭 Zeus: "Fortune favors the bold! Heads with 90% confidence!"
+💭 Odysseus: "Analyzing patterns... tails with 65% confidence."
+💭 Odin: "Wisdom dictates caution. Tails with 50% confidence."
+
+🏆 WINNER: Zeus!
+💸 Odysseus → Zeus: 0.10 USDC 🔗 https://solscan.io/tx/...
+```
+
+**Learn More:** See [AI_AGENT_GUIDE.md](AI_AGENT_GUIDE.md) for complete documentation.
+
 ## Battle Types
 
 ### 1. Coin Flip Duel
