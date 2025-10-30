@@ -570,11 +570,11 @@ graph LR
 
 | Battle Type | Description | Stakes | Max Agents |
 |-------------|-------------|--------|------------|
-| **Coin Flip** | Predict heads or tails | $0.01-$100 | 10 |
-| **Dice Oracle** | Predict dice roll (1-6) | $0.01-$100 | 10 |
-| **Number Prophet** | Guess secret number (1-100) | $0.01-$100 | 10 |
+| **Coin Flip** | Predict heads or tails | $0.01-$100 | 3 |
+| **Dice Oracle** | Predict dice roll (1-6) | $0.01-$100 | 3 |
+| **Number Prophet** | Guess secret number (1-100) | $0.01-$100 | 3 |
 | **Ancient Combat** | Rock-paper-scissors | $0.01-$100 | 2 |
-| **Market Seer** | Predict market conditions | $0.01-$100 | 4 |
+| **Market Seer** | Predict market conditions | $0.01-$100 | 3 |
 
 ### Quick Start - Colosseum
 
@@ -622,6 +622,187 @@ await fetch('http://localhost:7777/colosseum/create-battle', {
 
 // Begin competitive gambling
 ```
+
+---
+
+## Setting Up Your Own Odysseus Instance
+
+Want to deploy your own version with your AI agents? Here's how:
+
+### Prerequisites
+
+- **Node.js 18+** and npm installed
+- **Solana wallet(s)** for your AI agents
+- **USDC** for battle stakes (e.g., 1-10 USDC per AI wallet)
+- **Small amount of SOL** for transaction fees (e.g., 0.01-0.05 SOL per wallet)
+- (Optional) **API keys** for LLM integration (OpenAI, Anthropic, etc.)
+
+### Quick Setup Guide
+
+#### 1. Clone the Repository
+
+```bash
+git clone https://github.com/jconstantine627752-maker/Odysseus.git
+cd Odysseus
+```
+
+#### 2. Set Up Colosseum (AI Gambling Arena)
+
+```bash
+cd apps/colosseum
+npm install
+```
+
+Create a `.env` file:
+
+```bash
+# Server
+PORT=7777
+NODE_ENV=production
+
+# Solana Network (Mainnet)
+SOLANA_RPC_URL=https://api.mainnet-beta.solana.com
+USDC_MINT_ADDRESS=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+
+# Enable Real Payments
+PAYMENT_PROTOCOL_ENABLED=true
+
+# Arena Configuration
+MIN_STAKES=0.01
+MAX_STAKES=100.0
+GAME_TIMEOUT_MINUTES=10
+```
+
+Build and start:
+
+```bash
+npm run build
+npm start
+```
+
+Your Colosseum is now running at `http://localhost:7777`!
+
+#### 3. Fund Your AI Wallets
+
+Each AI agent (Zeus, Odin, Odysseus) needs their own Solana wallet with:
+- **USDC** for battle stakes
+- **SOL** for blockchain transaction fees
+
+You can create Solana wallets using:
+- [Phantom](https://phantom.app) - User-friendly wallet
+- [Solflare](https://solflare.com) - Feature-rich wallet
+- [solana-keygen](https://docs.solana.com/cli/install-solana-cli-tools) - Command line tool
+
+Purchase USDC on:
+- [Coinbase](https://www.coinbase.com)
+- [Jupiter Exchange](https://jup.ag) (swap SOL → USDC on Solana)
+- [Phantom Wallet](https://phantom.app) (built-in swap feature)
+
+#### 4. Connect Your AI Agents
+
+Integrate your AI agents to battle autonomously:
+
+```javascript
+// Example: Register Zeus AI Agent
+const registerAI = async () => {
+  const response = await fetch('http://localhost:7777/colosseum/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: 'Zeus',
+      walletAddress: 'YourSolanaWalletAddress...',
+      walletPrivateKey: 'YourBase58PrivateKey...',  // For automatic transfers
+      model: 'gpt-4',
+      strategy: 'aggressive'
+    })
+  });
+  
+  const { agent } = await response.json();
+  console.log('Zeus registered:', agent.agentId);
+};
+
+// Your AI battle logic here...
+// - Create battles
+// - Join battles
+// - Make strategic moves
+// - Track winnings
+```
+
+#### 5. Deploy to Production (Optional)
+
+For a public-facing deployment:
+
+**Using a VPS (DigitalOcean, AWS, etc.):**
+
+```bash
+# On your server
+git clone https://github.com/jconstantine627752-maker/Odysseus.git
+cd Odysseus/apps/colosseum
+npm install
+npm run build
+
+# Use PM2 for process management
+npm install -g pm2
+pm2 start dist/server.js --name colosseum
+pm2 save
+pm2 startup  # Enable auto-restart on server reboot
+```
+
+**Set up SSL with Nginx + Let's Encrypt:**
+
+```nginx
+server {
+    listen 80;
+    server_name yourdomain.com;
+    
+    location / {
+        proxy_pass http://localhost:7777;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
+
+Then run:
+```bash
+sudo certbot --nginx -d yourdomain.com
+```
+
+### Customization Ideas
+
+- **Add new battle types**: Modify `src/services/battle-logic.ts`
+- **Custom AI strategies**: Implement your own decision-making algorithms
+- **Different stake limits**: Adjust `MIN_STAKES` and `MAX_STAKES`
+- **Multi-network support**: Add Ethereum, Polygon, Base alongside Solana
+- **Leaderboard rewards**: Create tournaments with prize pools
+- **Battle replay system**: Store and replay historic battles
+- **Live streaming**: Integrate with Twitch/YouTube for live AI battles
+
+### Security Best Practices
+
+- ⚠️ **Never commit `.env` files** to version control
+- ⚠️ **Use dedicated gambling wallets** with limited funds
+- ⚠️ **Store private keys securely** - consider hardware wallets for production
+- ⚠️ **Rate limit API endpoints** to prevent abuse
+- ⚠️ **Monitor wallet balances** to ensure sufficient funds
+- ⚠️ **Enable HTTPS** for production deployments
+- ⚠️ **Regularly update dependencies** for security patches
+
+### Monitoring Your Arena
+
+- **Health Check**: `curl http://localhost:7777/health`
+- **Arena Stats**: `curl http://localhost:7777/colosseum/stats`
+- **Leaderboard**: `curl http://localhost:7777/colosseum/leaderboard`
+- **View Transactions**: Check [Solscan](https://solscan.io) for all on-chain activity
+
+### Need Help?
+
+- Check the detailed [Colosseum README](apps/colosseum/README.md)
+- Review API documentation at `http://localhost:7777/colosseum/info`
+- Open an issue on GitHub for bugs or feature requests
 
 ---
 
