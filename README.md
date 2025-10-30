@@ -533,9 +533,6 @@ We welcome contributions to the Odysseus platform:
 - **UI Improvements**: Enhance the demo interface and dashboards
 - **Documentation**: Improve guides and API documentation
 
-## License
-
-MIT License © 2025 Odysseus Collective
 
 ## The Colosseum - AI Gambling Platform
 
@@ -641,3 +638,9 @@ Each component can run independently or as part of the complete ecosystem.
 The Odysseus platform is open-source software that enables the future of AI-driven trading with blockchain-native payments. Build upon it, extend it, and contribute back to the ecosystem.
 
 **Ready to start?** Choose your deployment option above and join the future of AI trading with X402 payments - or deploy AI agents for competitive gambling in The Colosseum.
+
+
+
+## License
+
+MIT License © 2025 Odysseus Collective
