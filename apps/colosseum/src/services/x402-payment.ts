@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { ethers } from 'ethers';
+import { Connection, PublicKey, ParsedTransactionWithMeta, ParsedInstruction } from '@solana/web3.js';
 import { logger } from '../utils/logger';
 import { ColosseumConfigService } from '../config/config';
 
@@ -11,15 +12,19 @@ const USDC_CONTRACTS = {
   arbitrum: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831'
 };
 
+// Solana USDC mint address on mainnet
+const SOLANA_USDC_MINT = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
+
 export interface PaymentRequest {
   paymentId: string;
   amount: string; // Amount in USDC (e.g., "1.50")
   currency: 'USDC';
-  network: 'ethereum' | 'polygon' | 'base' | 'arbitrum';
+  network: 'ethereum' | 'polygon' | 'base' | 'arbitrum' | 'solana';
   recipient: string; // Wallet address to receive payment
   description: string;
   expiresAt: number; // Unix timestamp
   callbackUrl?: string;
+  solscanUrl?: string; // For Solana transactions
 }
 
 export interface PaymentProof {
@@ -31,6 +36,7 @@ export interface PaymentProof {
 
 export class ColosseumX402Service {
   private providers: Map<string, ethers.JsonRpcProvider> = new Map();
+  private solanaConnection: Connection | null = null;
   private pendingPayments: Map<string, PaymentRequest> = new Map();
   private config: ColosseumConfigService;
 
@@ -60,7 +66,19 @@ export class ColosseumX402Service {
       logger.info('✓ Arbitrum provider initialized');
     }
 
-    if (this.providers.size === 0) {
+    // Initialize Solana connection
+    if (configData.solanaRpcUrl) {
+      try {
+        this.solanaConnection = new Connection(configData.solanaRpcUrl, 'confirmed');
+        logger.info('✓ Solana mainnet connection initialized');
+        logger.info(`📊 Solana transactions viewable at: https://solscan.io`);
+      } catch (error) {
+        logger.error('Failed to initialize Solana connection:', error);
+        this.solanaConnection = null;
+      }
+    }
+
+    if (this.providers.size === 0 && !this.solanaConnection) {
       logger.warn('⚠️  No blockchain providers configured - only mock payments will work');
     }
   }
@@ -71,7 +89,7 @@ export class ColosseumX402Service {
   createPaymentRequest(
     amount: string,
     description: string,
-    network: 'ethereum' | 'polygon' | 'base' | 'arbitrum' = 'base',
+    network: 'ethereum' | 'polygon' | 'base' | 'arbitrum' | 'solana' = 'solana',
     expirationMinutes?: number
   ): PaymentRequest {
     const configData = this.config.getConfig();
@@ -86,7 +104,8 @@ export class ColosseumX402Service {
       network,
       recipient,
       description,
-      expiresAt: Date.now() + (timeout * 60 * 1000)
+      expiresAt: Date.now() + (timeout * 60 * 1000),
+      solscanUrl: network === 'solana' ? 'https://solscan.io/tx/' : undefined
     };
 
     this.pendingPayments.set(paymentId, paymentRequest);
@@ -120,6 +139,12 @@ export class ColosseumX402Service {
       return false;
     }
 
+    // Handle Solana verification
+    if (proof.network === 'solana') {
+      return this.verifySolanaPayment(paymentRequest, proof);
+    }
+
+    // Handle Ethereum-based networks
     const provider = this.providers.get(proof.network);
     if (!provider) {
       logger.error(`No provider configured for network: ${proof.network}`);
@@ -216,6 +241,89 @@ export class ColosseumX402Service {
   }
 
   /**
+   * Verify Solana USDC payment
+   */
+  private async verifySolanaPayment(paymentRequest: PaymentRequest, proof: PaymentProof): Promise<boolean> {
+    if (!this.solanaConnection) {
+      logger.error('Solana connection not initialized');
+      return false;
+    }
+
+    try {
+      // Get transaction details
+      const transaction = await this.solanaConnection.getParsedTransaction(proof.transactionHash);
+      if (!transaction) {
+        logger.warn(`Solana transaction not found: ${proof.transactionHash}`);
+        return false;
+      }
+
+      if (transaction.meta?.err) {
+        logger.warn(`Solana transaction failed: ${proof.transactionHash}`, transaction.meta.err);
+        return false;
+      }
+
+      // Check for USDC transfer
+      const usdcMint = new PublicKey(SOLANA_USDC_MINT);
+      const expectedRecipient = new PublicKey(paymentRequest.recipient);
+      const expectedAmount = parseFloat(paymentRequest.amount);
+
+      let transferFound = false;
+      let actualAmount = 0;
+      let actualRecipient: PublicKey | null = null;
+
+      // Parse transaction instructions
+      for (const instruction of transaction.transaction.message.instructions) {
+        const parsedInstruction = instruction as ParsedInstruction;
+        
+        if (parsedInstruction.parsed && 
+            parsedInstruction.program === 'spl-token' && 
+            parsedInstruction.parsed.type === 'transfer') {
+          
+          const info = parsedInstruction.parsed.info;
+          
+          // Check if this is a USDC transfer
+          if (info.mint === SOLANA_USDC_MINT) {
+            actualRecipient = new PublicKey(info.destination);
+            actualAmount = parseFloat(info.amount) / 1_000_000; // USDC has 6 decimals
+            transferFound = true;
+            break;
+          }
+        }
+      }
+
+      if (!transferFound) {
+        logger.warn(`No USDC transfer found in Solana transaction: ${proof.transactionHash}`);
+        return false;
+      }
+
+      // Verify recipient
+      if (!actualRecipient || !actualRecipient.equals(expectedRecipient)) {
+        logger.warn(`Solana payment sent to wrong recipient. Expected: ${expectedRecipient.toBase58()}, Got: ${actualRecipient?.toBase58()}`);
+        return false;
+      }
+
+      // Verify amount (with tolerance)
+      const tolerance = 0.01; // 1 cent tolerance
+      if (Math.abs(actualAmount - expectedAmount) > tolerance) {
+        logger.warn(`Solana payment amount mismatch. Expected: ${expectedAmount}, Got: ${actualAmount}`);
+        return false;
+      }
+
+      logger.info(`✓ Solana payment verified: ${paymentRequest.paymentId} - ${actualAmount} USDC`);
+      logger.info(`📊 Solscan: https://solscan.io/tx/${proof.transactionHash}`);
+
+      // Remove from pending payments
+      this.pendingPayments.delete(paymentRequest.paymentId);
+
+      return true;
+
+    } catch (error) {
+      logger.error(`Error verifying Solana payment ${paymentRequest.paymentId}:`, error);
+      return false;
+    }
+  }
+
+  /**
    * Mock payment verification for local testing
    */
   private verifyMockPayment(paymentId: string, proof: PaymentProof): boolean {
@@ -276,7 +384,7 @@ export function requirePayment(
   x402Service: ColosseumX402Service,
   amount: string,
   description: string,
-  network: 'ethereum' | 'polygon' | 'base' | 'arbitrum' = 'base'
+  network: 'ethereum' | 'polygon' | 'base' | 'arbitrum' | 'solana' = 'solana'
 ) {
   return async (req: Request, res: Response, next: NextFunction) => {
     // Check if payment proof is provided

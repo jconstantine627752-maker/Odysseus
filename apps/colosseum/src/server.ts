@@ -255,7 +255,20 @@ class ColosseumServer {
         logger.info('🏛️  ========================================');
         logger.info(`Environment: ${this.config.getConfig().nodeEnv}`);
         logger.info(`Payment Protocol: ${this.config.paymentProtocolEnabled ? 'ENABLED' : 'DISABLED'}`);
-        logger.info(`Mock Payments: ${this.config.mockPayments ? 'ENABLED (for testing)' : 'DISABLED'}`);
+        
+        // 🚨 CRITICAL WARNING FOR LIVE STREAM
+        if (!this.config.mockPayments) {
+          logger.warn('🚨 ========================================');
+          logger.warn('🚨   REAL MONEY MODE - LIVE TRANSACTIONS');
+          logger.warn('🚨 ========================================');
+          logger.warn('💰 Mock Payments: DISABLED - USING REAL USDC');
+          logger.warn('⛓️  Network: SOLANA MAINNET');
+          logger.warn('👀 Transparency: https://solscan.io');
+          logger.warn('🚨 ========================================');
+        } else {
+          logger.info(`Mock Payments: ENABLED (for testing)`);
+        }
+        
         logger.info(`Demo Mode: ${this.config.demoMode ? 'ENABLED' : 'DISABLED'}`);
         logger.info('🏛️  Let the battles begin! ⚔️');
       });

@@ -212,7 +212,7 @@ export class ColosseumArenaService {
     const paymentRequest = this.x402Service.createPaymentRequest(
       battle.stakes.toString(),
       `Colosseum battle entry: ${battle.battleType} #${battleId}`,
-      'base' // Default to Base for lower fees
+      'solana' // Default to Solana mainnet - visible on Solscan
     );
 
     battle.paymentIds[gladiatorId] = paymentRequest.paymentId;

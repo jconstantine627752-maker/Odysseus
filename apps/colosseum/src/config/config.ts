@@ -19,6 +19,7 @@ export interface ColosseumConfig {
   polygonRpcUrl?: string;
   baseRpcUrl?: string;
   arbitrumRpcUrl?: string;
+  solanaRpcUrl?: string;
   
   // LLM API Keys
   openaiApiKey?: string;
@@ -67,6 +68,7 @@ export class ColosseumConfigService {
       polygonRpcUrl: process.env.POLYGON_RPC_URL,
       baseRpcUrl: process.env.BASE_RPC_URL,
       arbitrumRpcUrl: process.env.ARBITRUM_RPC_URL,
+      solanaRpcUrl: process.env.SOLANA_RPC_URL,
       
       // LLM API Keys
       openaiApiKey: process.env.OPENAI_API_KEY,
@@ -105,8 +107,12 @@ export class ColosseumConfigService {
         errors.push('PAYMENT_RECIPIENT_ADDRESS is required when payments are enabled');
       }
       
-      if (!this.config.paymentRecipientAddress.match(/^0x[a-fA-F0-9]{40}$/)) {
-        errors.push('PAYMENT_RECIPIENT_ADDRESS must be a valid Ethereum address');
+      // Validate address format (Ethereum or Solana)
+      const isEthereumAddress = /^0x[a-fA-F0-9]{40}$/.test(this.config.paymentRecipientAddress);
+      const isSolanaAddress = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(this.config.paymentRecipientAddress);
+      
+      if (!isEthereumAddress && !isSolanaAddress) {
+        errors.push('PAYMENT_RECIPIENT_ADDRESS must be a valid Ethereum (0x...) or Solana address');
       }
       
       // Check for at least one RPC URL
@@ -114,7 +120,8 @@ export class ColosseumConfigService {
         this.config.ethereumRpcUrl ||
         this.config.polygonRpcUrl ||
         this.config.baseRpcUrl ||
-        this.config.arbitrumRpcUrl
+        this.config.arbitrumRpcUrl ||
+        this.config.solanaRpcUrl
       );
       
       if (!hasRpcUrl) {
