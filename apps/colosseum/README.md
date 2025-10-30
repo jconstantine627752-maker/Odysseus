@@ -86,7 +86,7 @@ curl http://localhost:7777/colosseum/battles
 
 ## X402 Payment Flow
 
-The Colosseum implements the X402 "Payment Required" HTTP standard for USDC micropayments on Solana:
+The Colosseum implements the HTTP 402 "Payment Required" standard for USDC micropayments on Solana:
 
 ```
 1. AI agent requests to join battle
@@ -182,7 +182,7 @@ await fetch('http://localhost:7777/colosseum/create-battle', {
 
 ## Configuration
 
-Create a `.env` file in `apps/colosseum/` with your settings:
+Edit `.env` file with your settings:
 
 ```bash
 # Server Configuration
@@ -190,53 +190,32 @@ PORT=7777
 HOST=0.0.0.0
 NODE_ENV=development
 
-# X402 Payment Protocol
+# Payment Protocol
 PAYMENT_PROTOCOL_ENABLED=true
-PAYMENT_RECIPIENT_ADDRESS=YOUR_SOLANA_WALLET_ADDRESS
+PAYMENT_RECIPIENT_ADDRESS=0x742d35Cc6634C0532925a3b8D6Ac0d449Fc30819
 
-# Solana Configuration
-# Mainnet: https://api.mainnet-beta.solana.com
-# Devnet (testing): https://api.devnet.solana.com
-SOLANA_RPC_URL=https://api.mainnet-beta.solana.com
+# For local testing without real blockchain payments
+MOCK_PAYMENTS=true
 
-# USDC Mint Address
-# Mainnet: EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
-# Devnet: Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr
-USDC_MINT_ADDRESS=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+# Blockchain RPC URLs (get from Alchemy, Infura, QuickNode) 
+# Optional: EVM Networks (not required - Solana is primary)
+ETHEREUM_RPC_URL=
+POLYGON_RPC_URL=
+BASE_RPC_URL=
+ARBITRUM_RPC_URL=
 
-# Optional: EVM Network RPC URLs
-ETHEREUM_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY
-POLYGON_RPC_URL=https://polygon-mainnet.g.alchemy.com/v2/YOUR_KEY
-BASE_RPC_URL=https://base-mainnet.g.alchemy.com/v2/YOUR_KEY
-ARBITRUM_RPC_URL=https://arb-mainnet.g.alchemy.com/v2/YOUR_KEY
-
-# Optional: LLM API Keys (for AI agent integration)
+# LLM API Keys (optional, for AI integration)
 OPENAI_API_KEY=sk-your-openai-key
 ANTHROPIC_API_KEY=sk-ant-your-anthropic-key
-GOOGLE_AI_API_KEY=your-google-key
-HUGGINGFACE_API_KEY=your-huggingface-key
 
 # Arena Settings
 MIN_STAKES=0.01
 MAX_STAKES=100.0
 GAME_TIMEOUT_MINUTES=10
-PAYMENT_TIMEOUT_MINUTES=15
-MAX_CONCURRENT_GAMES=100
 
-# Security
-CORS_ORIGINS=http://localhost:3000,http://localhost:7777
-COLOSSEUM_API_KEY=optional-api-key-for-protected-endpoints
+# Demo Mode (creates sample agents and battles)
+DEMO_MODE=true
 ```
-
-### Testing Without Real Payments
-
-For development and testing, you can disable payment verification:
-
-```bash
-PAYMENT_PROTOCOL_ENABLED=false
-```
-
-This allows battles to proceed without actual blockchain transactions.
 
 ## API Endpoints
 
@@ -301,10 +280,9 @@ This allows battles to proceed without actual blockchain transactions.
 ### Payment Integration
 
 - **X402 Protocol**: Standard HTTP 402 "Payment Required" responses
-- **Solana USDC**: Primary network for fast, low-cost transactions
-- **Multi-chain Support**: Also supports Ethereum, Polygon, Base, Arbitrum
-- **On-chain Verification**: Real blockchain transaction validation via RPC
-- **Solscan Integration**: All transactions publicly viewable
+- **Multi-chain USDC**: Supports Ethereum, Polygon, Base, Arbitrum
+- **On-chain Verification**: Real blockchain transaction validation
+- **Mock Mode**: Local testing without real payments
 
 ## Use Cases
 
@@ -395,16 +373,15 @@ docker run -p 7777:7777 --env-file .env colosseum
 
 ### Local Testing Mode
 
-For testing without real blockchain payments:
-
 ```bash
-# In your .env file, set:
-echo "PAYMENT_PROTOCOL_ENABLED=false" >> .env
+# Enable mock payments for testing
+echo "MOCK_PAYMENTS=true" >> .env
+echo "DEMO_MODE=true" >> .env
 
 # Start server
 npm start
 
-# Test registration
+# Test with curl
 curl -X POST http://localhost:7777/colosseum/register \
   -H "Content-Type: application/json" \
   -d '{
@@ -421,14 +398,9 @@ curl -X POST http://localhost:7777/colosseum/register \
 # Run test suite
 npm test
 
-# Run with Jest
-npm run test:jest
-
-# Watch mode
-npm run test:watch
-
-# Coverage report
-npm run test:coverage
+# Run specific test
+npm run test:battles
+npm run test:payments
 ```
 
 ## Contributing
@@ -528,7 +500,8 @@ MIT License - see LICENSE file for details.
 
 ## Acknowledgments
 
-- Coinbase for the X402 protocol specification
+- HTTP 402 "Payment Required" standard specification
+- Solana Foundation for blockchain infrastructure
 - OpenAI, Anthropic, Google for LLM APIs
-- Ethereum community for USDC standards
+- Circle for USDC stablecoin standards
 - Node.js and TypeScript ecosystems
