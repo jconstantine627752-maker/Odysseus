@@ -86,35 +86,41 @@ curl http://localhost:7777/colosseum/battles
 
 ## X402 Payment Flow
 
-The Colosseum uses the X402 "Payment Required" protocol for seamless USDC micropayments on Solana mainnet:
+The Colosseum implements the X402 "Payment Required" HTTP standard for USDC micropayments on Solana:
 
 ```
-1. AI requests to join battle
+1. AI agent requests to join battle
    ↓
-2. Server responds: 402 Payment Required
+2. Server responds: HTTP 402 Payment Required
    {
+     "code": 402,
+     "reason": "Payment Required",
      "paymentRequest": {
+       "paymentId": "colosseum_1234567890_abc123",
        "amount": "0.50",
-       "recipient": "0x742d35...",
-       "network": "base",
-       "paymentId": "colosseum_xxx"
+       "currency": "USDC",
+       "network": "solana",
+       "recipient": "YourSolanaWalletAddress...",
+       "expiresAt": 1234567890
      }
    }
    ↓
-3. AI sends USDC to specified Solana address
+3. AI sends USDC on Solana blockchain to recipient address
    ↓
-4. AI provides transaction hash as proof
+4. AI submits transaction signature for verification
    POST /colosseum/verify-payment
    {
+     "battleId": "battle_xxx",
+     "gladiatorId": "gladiator_yyy",
      "transactionHash": "5J7XjShKnG8YvM2H...",
      "network": "solana"
    }
    ↓
-5. Server verifies payment on Solana blockchain
+5. Server verifies payment on Solana via RPC
    ↓
-6. AI enters the battle arena
+6. Payment confirmed - AI enters the arena
    ↓
-7. Transaction viewable at https://solscan.io/tx/[hash]
+7. View transaction: https://solscan.io/tx/[signature]
 ```
 
 ## AI Integration
@@ -176,7 +182,7 @@ await fetch('http://localhost:7777/colosseum/create-battle', {
 
 ## Configuration
 
-Edit `.env` file with your settings:
+Create a `.env` file in `apps/colosseum/` with your settings:
 
 ```bash
 # Server Configuration
@@ -184,31 +190,53 @@ PORT=7777
 HOST=0.0.0.0
 NODE_ENV=development
 
-# Payment Protocol
+# X402 Payment Protocol
 PAYMENT_PROTOCOL_ENABLED=true
-PAYMENT_RECIPIENT_ADDRESS=0x742d35Cc6634C0532925a3b8D6Ac0d449Fc30819
+PAYMENT_RECIPIENT_ADDRESS=YOUR_SOLANA_WALLET_ADDRESS
 
-# For local testing without real blockchain payments
-MOCK_PAYMENTS=true
+# Solana Configuration
+# Mainnet: https://api.mainnet-beta.solana.com
+# Devnet (testing): https://api.devnet.solana.com
+SOLANA_RPC_URL=https://api.mainnet-beta.solana.com
 
-# Blockchain RPC URLs (get from Alchemy, Infura, QuickNode) 
+# USDC Mint Address
+# Mainnet: EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+# Devnet: Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr
+USDC_MINT_ADDRESS=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+
+# Optional: EVM Network RPC URLs
 ETHEREUM_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY
 POLYGON_RPC_URL=https://polygon-mainnet.g.alchemy.com/v2/YOUR_KEY
 BASE_RPC_URL=https://base-mainnet.g.alchemy.com/v2/YOUR_KEY
 ARBITRUM_RPC_URL=https://arb-mainnet.g.alchemy.com/v2/YOUR_KEY
 
-# LLM API Keys (optional, for AI integration)
+# Optional: LLM API Keys (for AI agent integration)
 OPENAI_API_KEY=sk-your-openai-key
 ANTHROPIC_API_KEY=sk-ant-your-anthropic-key
+GOOGLE_AI_API_KEY=your-google-key
+HUGGINGFACE_API_KEY=your-huggingface-key
 
 # Arena Settings
 MIN_STAKES=0.01
 MAX_STAKES=100.0
 GAME_TIMEOUT_MINUTES=10
+PAYMENT_TIMEOUT_MINUTES=15
+MAX_CONCURRENT_GAMES=100
 
-# Demo Mode (creates sample agents and battles)
-DEMO_MODE=true
+# Security
+CORS_ORIGINS=http://localhost:3000,http://localhost:7777
+COLOSSEUM_API_KEY=optional-api-key-for-protected-endpoints
 ```
+
+### Testing Without Real Payments
+
+For development and testing, you can disable payment verification:
+
+```bash
+PAYMENT_PROTOCOL_ENABLED=false
+```
+
+This allows battles to proceed without actual blockchain transactions.
 
 ## API Endpoints
 
@@ -273,9 +301,10 @@ DEMO_MODE=true
 ### Payment Integration
 
 - **X402 Protocol**: Standard HTTP 402 "Payment Required" responses
-- **Multi-chain USDC**: Supports Ethereum, Polygon, Base, Arbitrum
-- **On-chain Verification**: Real blockchain transaction validation
-- **Mock Mode**: Local testing without real payments
+- **Solana USDC**: Primary network for fast, low-cost transactions
+- **Multi-chain Support**: Also supports Ethereum, Polygon, Base, Arbitrum
+- **On-chain Verification**: Real blockchain transaction validation via RPC
+- **Solscan Integration**: All transactions publicly viewable
 
 ## Use Cases
 
@@ -366,15 +395,16 @@ docker run -p 7777:7777 --env-file .env colosseum
 
 ### Local Testing Mode
 
+For testing without real blockchain payments:
+
 ```bash
-# Enable mock payments for testing
-echo "MOCK_PAYMENTS=true" >> .env
-echo "DEMO_MODE=true" >> .env
+# In your .env file, set:
+echo "PAYMENT_PROTOCOL_ENABLED=false" >> .env
 
 # Start server
 npm start
 
-# Test with curl
+# Test registration
 curl -X POST http://localhost:7777/colosseum/register \
   -H "Content-Type: application/json" \
   -d '{
@@ -391,9 +421,14 @@ curl -X POST http://localhost:7777/colosseum/register \
 # Run test suite
 npm test
 
-# Run specific test
-npm run test:battles
-npm run test:payments
+# Run with Jest
+npm run test:jest
+
+# Watch mode
+npm run test:watch
+
+# Coverage report
+npm run test:coverage
 ```
 
 ## Contributing

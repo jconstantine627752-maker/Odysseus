@@ -112,3 +112,12 @@ public
 # Temporary folders
 tmp/
 temp/
+
+# Colosseum Livestream - Local Setup Files (keep private)
+apps/colosseum/SETUP.md
+apps/colosseum/LIVESTREAM_SETUP.md
+apps/colosseum/TOMORROW_READY.md
+apps/colosseum/STATUS.md
+apps/colosseum/test-livestream.js
+apps/colosseum/.env.example
+apps/colosseum/src/services/pandorax402-integration.ts

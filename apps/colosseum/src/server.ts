@@ -81,15 +81,14 @@ class ColosseumServer {
         
         payments: {
           protocol: 'X402',
-          mockMode: x402Stats.mockMode,
+          realMoneyMode: x402Stats.realMoneyMode,
           pendingPayments: x402Stats.pendingPayments,
           configuredNetworks: x402Stats.configuredNetworks
         },
         
         configuration: {
-          demoMode: this.config.demoMode,
           paymentProtocolEnabled: this.config.paymentProtocolEnabled,
-          mockPayments: this.config.mockPayments
+          nodeEnv: this.config.getConfig().nodeEnv
         }
       });
     });
@@ -182,21 +181,16 @@ class ColosseumServer {
       logger.info(`✓ Configuration loaded`);
       logger.info(`  - Port: ${configData.port}`);
       logger.info(`  - Payment Protocol: ${configData.paymentProtocolEnabled ? 'ENABLED' : 'DISABLED'}`);
-      logger.info(`  - Mock Payments: ${configData.mockPayments ? 'ENABLED' : 'DISABLED'}`);
-      logger.info(`  - Demo Mode: ${configData.demoMode ? 'ENABLED' : 'DISABLED'}`);
+      logger.info(`  - Environment: ${configData.nodeEnv}`);
 
       // Initialize X402 service
       logger.info('✓ X402 payment service initialized');
       const x402Stats = this.x402Service.getStats();
-      logger.info(`  - Networks: ${x402Stats.configuredNetworks.join(', ') || 'Mock only'}`);
+      logger.info(`  - Real Money Mode: ${x402Stats.realMoneyMode ? 'ENABLED' : 'DISABLED'}`);
+      logger.info(`  - Networks: ${x402Stats.configuredNetworks.join(', ') || 'None configured'}`);
 
       // Initialize Arena service
       logger.info('✓ Arena service initialized');
-
-      // Demo mode setup
-      if (configData.demoMode) {
-        await this.setupDemoMode();
-      }
 
       logger.info('🎉 All Colosseum services initialized successfully!');
       

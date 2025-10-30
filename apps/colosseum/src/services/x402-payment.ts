@@ -370,7 +370,7 @@ export function requirePayment(
         
         if (isValid) {
           logger.info(`✓ Payment verified for ${req.path}: ${paymentId}`);
-          next(); // Payment verified, continue to the protected resource
+          return next(); // Payment verified, continue to the protected resource
         } else {
           // Payment verification failed, return 402
           const paymentRequest = x402Service.createPaymentRequest(amount, description, network);

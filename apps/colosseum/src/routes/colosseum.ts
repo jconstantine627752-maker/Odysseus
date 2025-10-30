@@ -17,7 +17,7 @@ export function createColosseumRoutes(
   router.get('/info', (req, res) => {
     const stats = arenaService.getArenaStats();
     
-    res.json({
+    return res.json({
       name: 'The Colosseum - AI Gladiator Arena',
       description: 'Where Large Language Models battle for USDC supremacy using X402 micropayments',
       version: '1.0.0',
@@ -131,7 +131,7 @@ export function createColosseumRoutes(
         maxStakesPerBattle
       );
 
-      res.json({
+      return res.json({
         success: true,
         gladiator: {
           gladiatorId: gladiator.gladiatorId,
@@ -161,7 +161,7 @@ export function createColosseumRoutes(
 
     } catch (error) {
       logger.error('Gladiator registration error:', error);
-      res.status(500).json({
+      return res.status(500).json({
         error: 'Failed to register gladiator',
         details: error instanceof Error ? error.message : 'Unknown error'
       });
@@ -198,7 +198,7 @@ export function createColosseumRoutes(
     try {
       const battle = arenaService.createBattle(battleType, stakes, creatorId);
 
-      res.json({
+      return res.json({
         success: true,
         battle: {
           battleId: battle.battleId,
@@ -215,7 +215,7 @@ export function createColosseumRoutes(
 
     } catch (error) {
       logger.error('Battle creation error:', error);
-      res.status(500).json({
+      return res.status(500).json({
         error: 'Failed to create battle',
         details: error instanceof Error ? error.message : 'Unknown error'
       });
@@ -239,13 +239,13 @@ export function createColosseumRoutes(
       const result = await arenaService.joinBattle(battleId, gladiatorId);
 
       if (result.success) {
-        res.json({
+        return res.json({
           success: true,
           message: 'Joined battle successfully'
         });
       } else if (result.paymentRequired) {
         // Return 402 Payment Required
-        res.status(402).json({
+        return res.status(402).json({
           error: 'Payment Required to enter the arena',
           paymentRequired: true,
           paymentRequest: result.paymentRequired,
@@ -256,14 +256,14 @@ export function createColosseumRoutes(
           }
         });
       } else {
-        res.status(400).json({
+        return res.status(400).json({
           error: result.error
         });
       }
 
     } catch (error) {
       logger.error('Join battle error:', error);
-      res.status(500).json({
+      return res.status(500).json({
         error: 'Failed to join battle',
         details: error instanceof Error ? error.message : 'Unknown error'
       });
@@ -295,7 +295,7 @@ export function createColosseumRoutes(
         const battle = arenaService.getBattle(battleId);
         const gladiator = arenaService.getGladiator(gladiatorId);
 
-        res.json({
+        return res.json({
           success: true,
           message: 'Payment verified! Gladiator has entered the arena.',
           battleReady: result.battleReady,
@@ -316,14 +316,14 @@ export function createColosseumRoutes(
             'Waiting for more gladiators to join the battle'
         });
       } else {
-        res.status(400).json({
+        return res.status(400).json({
           error: result.error
         });
       }
 
     } catch (error) {
       logger.error('Verify payment error:', error);
-      res.status(500).json({
+      return res.status(500).json({
         error: 'Failed to verify payment',
         details: error instanceof Error ? error.message : 'Unknown error'
       });
@@ -363,7 +363,7 @@ export function createColosseumRoutes(
         const battle = arenaService.getBattle(battleId);
         const gladiator = arenaService.getGladiator(gladiatorId);
 
-        res.json({
+        return res.json({
           success: true,
           message: 'Move recorded successfully!',
           battleFinished: result.battleFinished,
@@ -386,14 +386,14 @@ export function createColosseumRoutes(
             `Waiting for ${battle ? battle.gladiators.length - Object.keys(battle.moves).length : 0} more gladiator(s) to make their moves`
         });
       } else {
-        res.status(400).json({
+        return res.status(400).json({
           error: result.error
         });
       }
 
     } catch (error) {
       logger.error('Make move error:', error);
-      res.status(500).json({
+      return res.status(500).json({
         error: 'Failed to make move',
         details: error instanceof Error ? error.message : 'Unknown error'
       });
@@ -429,7 +429,7 @@ export function createColosseumRoutes(
       } : null;
     }).filter(Boolean);
 
-    res.json({
+    return res.json({
       battleId: battle.battleId,
       battleType: battle.battleType,
       stakes: battle.stakes,
@@ -459,7 +459,7 @@ export function createColosseumRoutes(
       });
     }
 
-    res.json({
+    return res.json({
       gladiatorId: gladiator.gladiatorId,
       name: gladiator.name,
       model: gladiator.model,
@@ -527,7 +527,7 @@ export function createColosseumRoutes(
       return acc;
     }, {});
 
-    res.json({
+    return res.json({
       totalBattles: battleList.length,
       battles: battleList,
       filters: {
@@ -564,7 +564,7 @@ export function createColosseumRoutes(
              index < 10 ? '⚔️ Gladiator' : '🛡️ Warrior'
     }));
 
-    res.json({
+    return res.json({
       title: 'Colosseum Leaderboard - Greatest AI Gladiators',
       lastUpdated: new Date().toISOString(),
       totalGladiators: arenaService.listGladiators().length,
@@ -643,7 +643,7 @@ export function createColosseumRoutes(
         (strategyData.averageWinnings / strategyData.gladiators).toFixed(2) : '0.00';
     });
 
-    res.json({
+    return res.json({
       colosseum: {
         name: 'The Colosseum - AI Gladiator Arena',
         totalGladiators: stats.totalGladiators,
