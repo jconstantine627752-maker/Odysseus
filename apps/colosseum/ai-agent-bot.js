@@ -249,10 +249,10 @@ async function registerAgent(agentConfig) {
       }
     );
     
-    console.log(`✅ ${agentConfig.name} registered: ${response.data.agent.agentId}`);
+    console.log(`[SUCCESS] ${agentConfig.name} registered: ${response.data.agent.agentId}`);
     return response.data.agent;
   } catch (error) {
-    console.error(`❌ Failed to register ${agentConfig.name}:`, error.response?.data || error.message);
+    console.error(`[ERROR] Failed to register ${agentConfig.name}:`, error.response?.data || error.message);
     return null;
   }
 }
@@ -268,10 +268,10 @@ async function createBattle(creatorId, battleType, stakes) {
       }
     );
     
-    console.log(`🎮 Battle created: ${response.data.battle.battleId} (${battleType}, $${stakes})`);
+    console.log(`[BATTLE] Created: ${response.data.battle.battleId} (${battleType}, $${stakes})`);
     return response.data.battle;
   } catch (error) {
-    console.error('❌ Failed to create battle:', error.response?.data || error.message);
+    console.error('[ERROR] Failed to create battle:', error.response?.data || error.message);
     return null;
   }
 }
@@ -286,13 +286,13 @@ async function joinBattle(battleId, agentId) {
       }
     );
     
-    console.log(`✅ Agent joined battle: ${battleId}`);
+    console.log(`[JOIN] Agent joined battle: ${battleId}`);
     return response.data;
   } catch (error) {
     if (error.response?.status === 402) {
-      console.log(`💰 Payment required for ${agentId}`);
+      console.log(`[PAYMENT] Payment required for ${agentId}`);
     } else {
-      console.error('❌ Failed to join battle:', error.response?.data || error.message);
+      console.error('[ERROR] Failed to join battle:', error.response?.data || error.message);
     }
     return null;
   }
@@ -311,10 +311,10 @@ async function makeMove(battleId, agentId, move, confidence, reasoning) {
       }
     );
     
-    console.log(`🎯 ${agentId} made move: ${move} (${Math.round(confidence * 100)}% confidence)`);
+    console.log(`[MOVE] ${agentId} made move: ${move} (${Math.round(confidence * 100)}% confidence)`);
     return response.data;
   } catch (error) {
-    console.error('❌ Failed to make move:', error.response?.data || error.message);
+    console.error('[ERROR] Failed to make move:', error.response?.data || error.message);
     return null;
   }
 }
@@ -326,7 +326,7 @@ async function getBattleStatus(battleId) {
     );
     return response.data.battle;
   } catch (error) {
-    console.error('❌ Failed to get battle status:', error.message);
+    console.error('[ERROR] Failed to get battle status:', error.message);
     return null;
   }
 }
@@ -337,13 +337,13 @@ async function getBattleStatus(battleId) {
 
 async function runBattle() {
   console.log('\n' + '='.repeat(60));
-  console.log('⚔️  STARTING NEW AI BATTLE');
+  console.log('STARTING NEW AI BATTLE');
   console.log('='.repeat(60) + '\n');
   
   const registeredAgents = {};
   for (const [key, agentConfig] of Object.entries(CONFIG.agents)) {
     if (!agentConfig.walletAddress) {
-      console.log(`⚠️  Skipping ${agentConfig.name} - no wallet configured`);
+      console.log(`[SKIP] ${agentConfig.name} - no wallet configured`);
       continue;
     }
     const agent = await registerAgent(agentConfig);
@@ -354,7 +354,7 @@ async function runBattle() {
   
   const agentKeys = Object.keys(registeredAgents);
   if (agentKeys.length < 2) {
-    console.log('❌ Need at least 2 agents to battle');
+    console.log('[ERROR] Need at least 2 agents to battle');
     return;
   }
   
@@ -368,11 +368,11 @@ async function runBattle() {
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
   
-  console.log('\n🤖 AI agents are thinking...\n');
+  console.log('\n[AI] Agents are thinking...\n');
   
   for (const [key, agent] of Object.entries(registeredAgents)) {
     const decision = await getAIDecision(agent, battleType);
-    console.log(`💭 ${agent.name}: "${decision.reasoning}"`);
+    console.log(`[${agent.name}] "${decision.reasoning}"`);
     
     await makeMove(
       battle.battleId,
@@ -385,20 +385,20 @@ async function runBattle() {
     await new Promise(resolve => setTimeout(resolve, 500));
   }
   
-  console.log('\n⏳ Waiting for battle to resolve...\n');
+  console.log('\n[WAIT] Waiting for battle to resolve...\n');
   await new Promise(resolve => setTimeout(resolve, 3000));
   
   const finalStatus = await getBattleStatus(battle.battleId);
   if (finalStatus && finalStatus.winner) {
     console.log('\n' + '='.repeat(60));
-    console.log(`🏆 WINNER: ${finalStatus.winner}!`);
+    console.log(`WINNER: ${finalStatus.winner}!`);
     console.log('='.repeat(60));
     
     if (finalStatus.transactions) {
-      console.log('\n💸 Transactions:');
+      console.log('\n[TRANSACTIONS]:');
       finalStatus.transactions.forEach(tx => {
         console.log(`   ${tx.from} → ${tx.to}: ${tx.amount} USDC`);
-        console.log(`   🔗 https://solscan.io/tx/${tx.txHash}`);
+        console.log(`   https://solscan.io/tx/${tx.txHash}`);
       });
     }
   }
@@ -407,14 +407,14 @@ async function runBattle() {
 }
 
 async function runContinuous() {
-  console.log('🎮 AI Agent Bot Starting...');
-  console.log(`📡 Colosseum: ${CONFIG.colosseumUrl}`);
-  console.log(`🤖 OpenAI: ${CONFIG.openaiApiKey ? '✅ Configured' : '❌ Not configured'}`);
-  console.log(`🤖 Claude: ${CONFIG.anthropicApiKey ? '✅ Configured' : '❌ Not configured'}`);
+  console.log('[STARTUP] AI Agent Bot Starting...');
+  console.log(`[CONFIG] Colosseum: ${CONFIG.colosseumUrl}`);
+  console.log(`[CONFIG] OpenAI: ${CONFIG.openaiApiKey ? 'Configured' : 'Not configured'}`);
+  console.log(`[CONFIG] Claude: ${CONFIG.anthropicApiKey ? 'Configured' : 'Not configured'}`);
   console.log('\n');
   
   if (!CONFIG.openaiApiKey && !CONFIG.anthropicApiKey) {
-    console.log('⚠️  WARNING: No LLM API keys configured!');
+    console.log('[WARNING] No LLM API keys configured!');
     console.log('   Agents will use random decisions as fallback.');
     console.log('   Add OPENAI_API_KEY or ANTHROPIC_API_KEY to .env file.\n');
   }
@@ -423,12 +423,12 @@ async function runContinuous() {
     try {
       await runBattle();
     } catch (error) {
-      console.error('❌ Battle error:', error.message);
+      console.error('[ERROR] Battle error:', error.message);
     }
     
     if (!CONFIG.autoCreateBattles) break;
     
-    console.log(`⏳ Waiting ${CONFIG.battleInterval / 1000}s before next battle...\n`);
+    console.log(`[WAIT] ${CONFIG.battleInterval / 1000}s before next battle...\n`);
     await new Promise(resolve => setTimeout(resolve, CONFIG.battleInterval));
   }
 }

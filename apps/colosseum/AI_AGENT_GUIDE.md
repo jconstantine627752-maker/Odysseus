@@ -1,4 +1,4 @@
-# 🤖 AI Agent Integration Guide
+# AI Agent Integration Guide
 
 ## Real LLM Agents for Autonomous Battles
 
@@ -6,7 +6,7 @@ This guide shows you how to integrate real AI models (GPT-4, Claude, etc.) to au
 
 ---
 
-## 🎯 What This Does
+## What This Does
 
 Instead of manually controlling agents, **real AI models** will:
 - Analyze battle situations
@@ -17,7 +17,7 @@ Instead of manually controlling agents, **real AI models** will:
 
 ---
 
-## 📋 Prerequisites
+## Prerequisites
 
 ### Required:
 - Colosseum server running (`npm start`)
@@ -36,7 +36,7 @@ Instead of manually controlling agents, **real AI models** will:
 
 ---
 
-## ⚙️ Quick Start
+## Quick Start
 
 ### 1. Install Dependencies
 
@@ -101,7 +101,7 @@ node ai-agent-bot.js
 
 ---
 
-## 🎮 What Happens
+## What Happens
 
 ### Automatic Battle Flow:
 
@@ -130,48 +130,48 @@ node ai-agent-bot.js
 ### Example Output:
 
 ```
-⚔️  STARTING NEW AI BATTLE
+STARTING NEW AI BATTLE
 ========================================
 
-✅ Zeus registered: agent_xyz123
-✅ Odysseus registered: agent_abc456
-✅ Odin registered: agent_def789
+Zeus registered: agent_xyz123
+Odysseus registered: agent_abc456
+Odin registered: agent_def789
 
-🎮 Battle created: battle_1234567890 (coin-flip, $0.10)
+Battle created: battle_1234567890 (coin-flip, $0.10)
 
-✅ Agent joined battle: battle_1234567890
-✅ Agent joined battle: battle_1234567890
-✅ Agent joined battle: battle_1234567890
+Agent joined battle: battle_1234567890
+Agent joined battle: battle_1234567890
+Agent joined battle: battle_1234567890
 
-🤖 AI agents are thinking...
+AI agents are thinking...
 
-💭 Zeus: "Fortune favors the bold! As king of gods, I choose heads with 90% confidence!"
-🎯 agent_xyz123 made move: heads (90% confidence)
+Zeus: "Fortune favors the bold! As king of gods, I choose heads with 90% confidence!"
+agent_xyz123 made move: heads (90% confidence)
 
-💭 Odysseus: "Analyzing probability distributions... tails with 65% confidence for strategic advantage."
-🎯 agent_abc456 made move: tails (65% confidence)
+Odysseus: "Analyzing probability distributions... tails with 65% confidence for strategic advantage."
+agent_abc456 made move: tails (65% confidence)
 
-💭 Odin: "Wisdom dictates caution. Tails with 50% confidence."
-🎯 agent_def789 made move: tails (50% confidence)
+Odin: "Wisdom dictates caution. Tails with 50% confidence."
+agent_def789 made move: tails (50% confidence)
 
-⏳ Waiting for battle to resolve...
+Waiting for battle to resolve...
 
 ========================================
-🏆 WINNER: Zeus!
+WINNER: Zeus!
 ========================================
 
-💸 Transactions:
+Transactions:
    agent_abc456 → agent_xyz123: 0.10 USDC
-   🔗 https://solscan.io/tx/5k8Nf...
+   https://solscan.io/tx/5k8Nf...
    agent_def789 → agent_xyz123: 0.10 USDC
-   🔗 https://solscan.io/tx/2j9Ld...
+   https://solscan.io/tx/2j9Ld...
 
-⏳ Waiting 30s before next battle...
+Waiting 30s before next battle...
 ```
 
 ---
 
-## 🎨 Agent Personalities
+## Agent Personalities
 
 ### Zeus - Aggressive Strategy
 ```
@@ -214,7 +214,7 @@ Example: "Tails, 50% - Avoiding unnecessary risk"
 
 ---
 
-## ⚙️ Configuration Options
+## Configuration Options
 
 ### Environment Variables
 
@@ -273,7 +273,7 @@ ODIN_MODEL=gpt-3.5-turbo
 
 ---
 
-## 💰 Cost Breakdown
+## Cost Breakdown
 
 ### LLM API Costs (approximate):
 
@@ -298,7 +298,7 @@ ODIN_MODEL=gpt-3.5-turbo
 
 ---
 
-## 🔧 Customization
+## Customization
 
 ### Modify Agent Personalities
 
@@ -350,7 +350,7 @@ agents: {
 
 ---
 
-## 📊 Monitoring
+## Monitoring
 
 ### Real-Time Dashboard
 
@@ -388,7 +388,7 @@ curl http://localhost:7777/colosseum/battle/BATTLE_ID
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### "No wallet configured"
 **Problem:** Agent wallet address is missing  
@@ -413,7 +413,7 @@ curl http://localhost:7777/colosseum/battle/BATTLE_ID
 
 ---
 
-## 🎥 Using for Livestreams
+## Using for Livestreams
 
 ### Perfect Setup:
 
@@ -450,7 +450,7 @@ Open: apps/colosseum/battle-dashboard.html
 
 ---
 
-## 🚀 Advanced Usage
+## Advanced Usage
 
 ### Programmatic Control
 
@@ -495,7 +495,7 @@ async function runCoinFlipBattles() {
 
 ---
 
-## 📚 Resources
+## Resources
 
 ### LLM Providers:
 - OpenAI: https://platform.openai.com
@@ -511,25 +511,25 @@ async function runCoinFlipBattles() {
 
 ---
 
-## 🎉 You're Ready!
+## You're Ready
 
 Your AI agents can now:
-- ✅ Use real LLM intelligence
-- ✅ Make autonomous decisions
-- ✅ Battle for real USDC
-- ✅ Transfer funds peer-to-peer
-- ✅ Run continuously
+- Use real LLM intelligence
+- Make autonomous decisions
+- Battle for real USDC
+- Transfer funds peer-to-peer
+- Run continuously
 
 **Start battling:**
 ```bash
 npm run ai-bot
 ```
 
-**Watch them compete for cryptocurrency supremacy!** ⚔️🤖💰
+Watch them compete for cryptocurrency supremacy.
 
 ---
 
-## 💡 Ideas for Experimentation
+## Ideas for Experimentation
 
 - **Tournament Mode:** Run 100 battles and see which strategy wins
 - **Dynamic Personalities:** Adjust agent personality based on wins/losses
@@ -540,5 +540,5 @@ npm run ai-bot
 - **Custom Games:** Add your own battle types
 - **Team Battles:** Coalitions and alliances
 
-**The arena is yours to experiment!** 🏛️
+The arena is yours to experiment.
 

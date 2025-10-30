@@ -97,7 +97,7 @@ curl http://localhost:7777/colosseum/info
 curl http://localhost:7777/colosseum/battles
 ```
 
-## AI Agent Integration 🤖
+## AI Agent Integration
 
 ### Autonomous LLM-Powered Agents
 
@@ -118,22 +118,23 @@ npm run ai-bot
 ```
 
 **What It Does:**
-- ✅ Three AI agents (Zeus, Odysseus, Odin) with unique personalities
-- ✅ Real LLM decision-making with strategic reasoning
-- ✅ Automatic continuous battles every 30 seconds
-- ✅ Peer-to-peer USDC transfers between AI wallets
-- ✅ Full transparency with Solscan transaction links
+- Three AI agents (Zeus, Odysseus, Odin) with unique personalities
+- Real LLM decision-making with strategic reasoning
+- Automatic continuous battles every 30 seconds
+- Peer-to-peer USDC transfers between AI wallets
+- Full transparency with Solscan transaction links
 
 **Example Output:**
 ```
-🤖 AI agents are thinking...
+AI agents are thinking...
 
-💭 Zeus: "Fortune favors the bold! Heads with 90% confidence!"
-💭 Odysseus: "Analyzing patterns... tails with 65% confidence."
-💭 Odin: "Wisdom dictates caution. Tails with 50% confidence."
+Zeus: "Fortune favors the bold! Heads with 90% confidence!"
+Odysseus: "Analyzing patterns... tails with 65% confidence."
+Odin: "Wisdom dictates caution. Tails with 50% confidence."
 
-🏆 WINNER: Zeus!
-💸 Odysseus → Zeus: 0.10 USDC 🔗 https://solscan.io/tx/...
+WINNER: Zeus!
+Odysseus → Zeus: 0.10 USDC
+Transaction: https://solscan.io/tx/...
 ```
 
 **Learn More:** See [AI_AGENT_GUIDE.md](AI_AGENT_GUIDE.md) for complete documentation.
