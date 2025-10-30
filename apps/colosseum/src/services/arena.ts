@@ -1,11 +1,13 @@
 import { logger } from '../utils/logger';
 import { ColosseumX402Service } from './x402-payment';
 import { ColosseumConfigService } from '../config/config';
+import { SolanaTransferService } from './solana-transfers';
 
 export interface Gladiator {
   gladiatorId: string;
   name: string;
   walletAddress: string;
+  walletPrivateKey?: string; // For automatic transfers
   model: string; // e.g., "gpt-4", "claude-3", "gemini-pro"
   strategy: 'aggressive' | 'conservative' | 'balanced' | 'random';
   balance: number; // USDC balance tracked by the system
@@ -75,10 +77,24 @@ export class ColosseumArenaService {
   private battles: Map<string, Battle> = new Map();
   private x402Service: ColosseumX402Service;
   private config: ColosseumConfigService;
+  private transferService?: SolanaTransferService;
 
   constructor(x402Service: ColosseumX402Service, config: ColosseumConfigService) {
     this.x402Service = x402Service;
     this.config = config;
+    
+    // Initialize Solana transfer service if configured
+    const configData = config.getConfig();
+    if (configData.solanaRpcUrl) {
+      this.transferService = new SolanaTransferService(
+        configData.solanaRpcUrl,
+        process.env.USDC_MINT_ADDRESS || 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+        configData.nodeEnv === 'production' ? 'mainnet' : 'devnet'
+      );
+      logger.info('✓ Automatic USDC transfers ENABLED');
+    } else {
+      logger.warn('⚠️  No Solana RPC configured - automatic transfers DISABLED');
+    }
   }
 
   /**
@@ -280,13 +296,13 @@ export class ColosseumArenaService {
   /**
    * Make a move in a battle
    */
-  makeMove(
+  async makeMove(
     battleId: string,
     gladiatorId: string,
     move: any,
     confidence: number = 0.5,
     reasoning: string = 'Strategic decision'
-  ): { success: boolean; error?: string; battleFinished?: boolean; result?: BattleResult } {
+  ): Promise<{ success: boolean; error?: string; battleFinished?: boolean; result?: BattleResult }> {
     const battle = this.battles.get(battleId);
     const gladiator = this.gladiators.get(gladiatorId);
 
@@ -330,7 +346,7 @@ export class ColosseumArenaService {
     const allGladiatorsHaveMoved = allGladiatorsMovedCount === battle.gladiators.length;
     
     if (allGladiatorsHaveMoved) {
-      const result = this.resolveBattle(battle);
+      const result = await this.resolveBattle(battle);
       return { success: true, battleFinished: true, result };
     }
 
@@ -340,7 +356,7 @@ export class ColosseumArenaService {
   /**
    * Resolve battle and determine winner
    */
-  private resolveBattle(battle: Battle): BattleResult {
+  private async resolveBattle(battle: Battle): Promise<BattleResult> {
     battle.status = 'finished';
     battle.finishedAt = Date.now();
 
@@ -369,8 +385,8 @@ export class ColosseumArenaService {
     battle.result = result;
     battle.winner = result.winner;
 
-    // Update gladiator statistics
-    this.updateGladiatorStats(battle, result);
+    // Update gladiator statistics and process payouts
+    await this.updateGladiatorStats(battle, result);
 
     logger.info(`🏆 Battle ${battle.battleId} resolved! Winner: ${this.gladiators.get(result.winner)?.name}`);
     return result;
@@ -530,7 +546,7 @@ export class ColosseumArenaService {
     };
   }
 
-  private updateGladiatorStats(battle: Battle, result: BattleResult): void {
+  private async updateGladiatorStats(battle: Battle, result: BattleResult): Promise<void> {
     battle.gladiators.forEach(gladiatorId => {
       const gladiator = this.gladiators.get(gladiatorId);
       if (!gladiator) return;
@@ -547,6 +563,57 @@ export class ColosseumArenaService {
         gladiator.totalLosses += battle.stakes;
       }
     });
+
+    // Automatic USDC payouts between AI wallets
+    await this.processAutomaticPayouts(battle, result);
+  }
+
+  /**
+   * Process automatic USDC transfers from losers to winner
+   */
+  private async processAutomaticPayouts(battle: Battle, result: BattleResult): Promise<void> {
+    if (!this.transferService) {
+      logger.info('ℹ️  Automatic transfers disabled - balances tracked internally only');
+      return;
+    }
+
+    const winner = this.gladiators.get(result.winner);
+    if (!winner) {
+      logger.error('Winner not found for payout');
+      return;
+    }
+
+    logger.info(`💰 Processing automatic payouts for battle ${battle.battleId}`);
+    logger.info(`  Winner: ${winner.name} (${winner.walletAddress})`);
+    logger.info(`  Total pot: ${battle.totalPot} USDC`);
+
+    // Each loser sends their stake to the winner
+    for (const gladiatorId of battle.gladiators) {
+      if (gladiatorId === result.winner) continue; // Skip winner
+
+      const loser = this.gladiators.get(gladiatorId);
+      if (!loser || !loser.walletPrivateKey) {
+        logger.warn(`  ⚠️  Cannot transfer from ${loser?.name || gladiatorId} - no private key`);
+        continue;
+      }
+
+      logger.info(`  📤 ${loser.name} sending ${battle.stakes} USDC to ${winner.name}...`);
+
+      const transferResult = await this.transferService.transferUSDC(
+        loser.walletPrivateKey,
+        winner.walletAddress,
+        battle.stakes
+      );
+
+      if (transferResult.success) {
+        logger.info(`  ✅ Transfer successful!`);
+        logger.info(`     Solscan: ${transferResult.solscanUrl}`);
+      } else {
+        logger.error(`  ❌ Transfer failed: ${transferResult.error}`);
+      }
+    }
+
+    logger.info(`🎉 Payout complete for battle ${battle.battleId}`);
   }
 
   private validateMove(battleType: Battle['battleType'], move: any): boolean {

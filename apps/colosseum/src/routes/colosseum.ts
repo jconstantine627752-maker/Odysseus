@@ -334,7 +334,7 @@ export function createColosseumRoutes(
    * @route POST /colosseum/make-move
    * @desc Make a move in an active battle
    */
-  router.post('/make-move', (req, res) => {
+  router.post('/make-move', async (req, res) => {
     const { battleId, gladiatorId, move, confidence, reasoning } = req.body;
 
     if (!battleId || !gladiatorId || move === undefined) {
@@ -351,7 +351,7 @@ export function createColosseumRoutes(
     }
 
     try {
-      const result = arenaService.makeMove(
+      const result = await arenaService.makeMove(
         battleId,
         gladiatorId,
         move,
